@@ -1,10 +1,17 @@
 :root {
   // basic
-  --gray: #999;
+  --deep-gray: #444;
+  --gray: #666;
+  --light-gray: #999;
   // common
   --primary: #86A873;
+  @primary: #86A873;
   // spec
+  --page-background: var(--off-white);
   --text-title: white;
-  --text-subtitle: var(--text-gray);
-  --text-footer: var(--text-gray);
+  --text-subtitle: var(--gray);
+  --text-footer: var(--light-gray);
+  --article-block-border: lighten(@primary, 7.5%);
+  --article-block-text: var(--deep-gray);
+  --article-block-footer: var(--light-gray);
 }

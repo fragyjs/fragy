@@ -2,6 +2,7 @@
   "name": "fragy",
   "version": "0.1.0",
   "scripts": {
+    "start": "npm run serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "f2elint-scan": "f2elint scan",
@@ -9,6 +10,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "marked": "^1.2.2",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
   },
