@@ -2,7 +2,9 @@
   <div class="page-footer" v-if="showFooter">
     <div class="page-footer-text page-footer-poweredby" v-if="showPoweredBy">
       <span>Powered by Fragy.</span>
-      <GitHub v-if="showGitHub" />
+      <a href="https://github.com/pwp-app/fragy" target="_blank">
+        <GitHub v-if="showGitHub" />
+      </a>
     </div>
     <div class="page-footer-text page-footer-beian" v-if="showBeian">
       <span>{{ beianText }}</span>
@@ -61,6 +63,10 @@ export default {
       fill: var(--text-footer);
       margin-left: 0.375rem;
       transform: translateY(0.0625rem);
+      cursor: pointer;
+    }
+    .icon-github:hover {
+      fill: var(--text-footer-hover);
     }
   }
 }
