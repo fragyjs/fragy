@@ -3,13 +3,11 @@
     <div class="article-block-title">
       <span>{{ title }}</span>
     </div>
-    <div class="article-block-summary">
-      <p>{{ summary }}</p>
-    </div>
+    <div class="article-block-abstract" v-html="renderedAbstract"></div>
     <div class="article-block-footer">
       <div class="article-block-footer-time">
         <Date />
-        <span>{{ time }}</span>
+        <span>{{ date }}</span>
       </div>
       <div class="article-block-footer-controls">
         <a :href="fullUrl" class="button-read-all">阅读全文</a>
@@ -20,17 +18,23 @@
 
 <script>
 import Date from '../icons/Date';
+import marked from '../../utils/marked';
 
 export default {
   name: 'fragy.purity.articles.block',
   props: {
     title: String,
-    summary: String,
-    time: String,
+    abstract: String,
+    date: String,
     fullUrl: String,
   },
   components: {
     Date,
+  },
+  computed: {
+    renderedAbstract() {
+      return marked(this.abstract);
+    },
   },
 };
 </script>
@@ -47,7 +51,7 @@ export default {
     margin-bottom: 1.375rem;
     color: var(--article-block-text);
   }
-  &-summary {
+  &-abstract {
     font-size: 0.95rem;
     line-height: 2rem;
     color: var(--article-block-text);
@@ -89,7 +93,6 @@ export default {
 .article-block:first-child {
   margin-top: 0;
 }
-
 .article-block:last-child {
   padding-bottom: 2.5rem;
   border-bottom: 0.0625rem dashed var(--article-block-border);

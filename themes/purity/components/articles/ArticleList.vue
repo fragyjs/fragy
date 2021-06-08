@@ -1,17 +1,28 @@
 <template>
   <div class="article-list article-list-empty" v-if="showEmpty">
-    <span>这里暂时还没有文章...</span>
+    <span v-if="articlesLoading">文章列表加载中...</span>
+    <span v-if="loadFailed">文章列表加载失败</span>
+    <span v-if="showDefaultEmptyText">这里暂时还没有文章...</span>
   </div>
   <div class="article-list" v-else>
-    <ArticleBlock
-      v-for="item in currentArticles"
-      :key="item.title"
-      :title="item.title"
-      :summary="item.summary"
-      :time="item.time"
-      :fullUrl="`//${host}/article/${item.title}`"
-    />
-    <Paginator :currentPage="currentPage" :pageCount="pageCount" @change="onPageChange" />
+    <div class="article-list__main">
+      <ArticleBlock
+        v-for="item in currentArticles"
+        :key="item.title"
+        :title="item.title"
+        :abstract="item.abstract"
+        :date="item.date"
+        :fullUrl="`//${host}/article/${item.filename}`"
+      />
+    </div>
+    <div class="article-list__footer">
+      <Paginator
+        :currentPage="currentPage"
+        :pageCount="pageCount"
+        @change="onPageChange"
+        v-if="pageCount > 1"
+      />
+    </div>
   </div>
 </template>
 
@@ -21,38 +32,52 @@ import Paginator from '../layout/Paginator';
 
 export default {
   name: 'fragy.purity.articles.list',
-  props: {
-    articles: Array,
-  },
   components: {
     ArticleBlock,
     Paginator,
   },
-  inject: ['articles'],
   data() {
     return {
       currentPage: 1,
       pageSize: 10,
+      articles: [],
+      articlesLoading: true,
+      loadFailed: false,
+      host: window.location.host || '',
     };
+  },
+  created() {
+    this.fetchArticlesList();
   },
   computed: {
     showEmpty() {
       const { articles } = this;
       return articles && Array.isArray(articles) && articles.length < 1;
     },
+    showDefaultEmptyText() {
+      return !this.articlesLoading && !this.loadFailed;
+    },
     currentArticles() {
       const start = (this.currentPage - 1) * 10;
       const end = this.currentPage * 10;
       return this.articles.slice(start, end);
-    },
-    host() {
-      return window.location.host || '';
     },
     pageCount() {
       return Math.floor(this.articles.length / this.pageSize) + 1;
     },
   },
   methods: {
+    async fetchArticlesList() {
+      let res;
+      try {
+        res = await this.$http.get(`${this.$fragy.articleList.infoPath}`);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch article list info.', err);
+        this.loadFailed = true;
+      }
+      this.articles = res.data;
+    },
     onPageChange(page) {
       this.currentPage = page;
     },

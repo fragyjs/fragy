@@ -1,68 +1,108 @@
 <template>
   <div class="article">
     <div class="article-header">
-      <div class="article-header__title" id="article-title">
+      <div class="article-header-title" id="article-title">
         <span>{{ title }}</span>
+      </div>
+      <div class="article-header-meta" v-if="showMeta">
+        <div class="article-header-meta__item" v-if="showDate">
+          <Date /><span>{{ meta.date }}</span>
+        </div>
       </div>
     </div>
     <div
       class="article-content"
       id="article-content"
       v-lazy-container="{ selector: 'img' }"
-      v-html="renderedText"
+      v-html="renderedContent"
     ></div>
   </div>
 </template>
 
 <script>
-import marked from 'marked';
 import pangu from 'pangu.simple';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/base16/github.css';
-
-marked.use({
-  renderer: {
-    image: (href, title, text) => {
-      const cleanedHref = decodeURIComponent(href);
-      let out = `<img data-src="${cleanedHref}"`;
-      if (text) {
-        out += ` alt="${text}"`;
-      }
-      if (title) {
-        out += ` title="${title}"`;
-      }
-      out += '/>';
-      return out;
-    },
-  },
-});
+import marked from '../../utils/marked';
+import Date from '../icons/Date';
 
 export default {
   name: 'fragy.purity.article',
   props: {
     article: String,
   },
+  components: {
+    Date,
+  },
   data() {
     return {
-      renderedText: '',
-      content: ``,
+      meta: null,
+      content: '',
+      contentLoading: true,
+      renderedContent: '',
+      loadFailed: false,
     };
+  },
+  watch: {
+    filename(newValue) {
+      if (!newValue) {
+        return;
+      }
+      this.meta = null;
+      this.content = '';
+      this.contentLoading = true;
+      this.loadFailed = false;
+      this.renderedContent = '';
+      this.fetchArticle();
+    },
+  },
+  async mounted() {
+    await this.fetchArticle();
   },
   computed: {
     title() {
-      return this.$route.params.name;
+      if (this.meta?.title) {
+        return this.meta.title;
+      }
+      const title = this.$route.params.name;
+      if (title.endsWith('.md')) {
+        return title.substr(0, title.length - 3);
+      }
+      return title;
+    },
+    filename() {
+      if (!this.$route.path.includes('article')) {
+        return '';
+      }
+      let filename = this.$route.params.name;
+      if (!filename.endsWith('.md')) {
+        filename = `${filename}.md`;
+      }
+      return filename;
+    },
+    showMeta() {
+      return !!this.meta;
+    },
+    showDate() {
+      return !!this.meta?.date;
     },
   },
-  mounted() {
-    this.renderContent();
-  },
   methods: {
+    async fetchArticle() {
+      let res;
+      try {
+        res = await this.$http.get(`${this.$fragy.articles.base}/${this.filename}`);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch article content.', err);
+        this.loadFailed = true;
+        return;
+      }
+      const parsedArticle = this.$utils.parseArticle(res.data.trim());
+      this.meta = parsedArticle.meta;
+      this.content = parsedArticle.content.trim();
+      this.renderContent();
+    },
     renderContent() {
-      this.renderedText = marked(this.content, {
-        highlight: (code) => {
-          return hljs.highlightAuto(code).value;
-        },
-      });
+      this.renderedContent = marked(this.content);
       this.$nextTick(() => {
         pangu.spacingElementById('article-title');
         pangu.spacingElementById('article-content');
@@ -77,10 +117,27 @@ export default {
   &-header {
     border-bottom: 0.0625rem dashed var(--article-border);
     padding-bottom: 1.5rem;
-    &__title {
+    &-title {
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--article-title);
+    }
+    &-meta {
+      margin-top: 16px;
+      &__item {
+        display: flex;
+        align-items: center;
+        svg {
+          width: 1.125rem;
+          height: 1.125rem;
+          margin-right: 8px;
+          fill: var(--article-meta);
+        }
+        span {
+          color: var(--article-meta);
+          font-size: 0.875rem;
+        }
+      }
     }
   }
   &-content {
@@ -91,6 +148,9 @@ export default {
     p {
       color: var(--article-text);
       margin: 0 0 1.125rem 0;
+    }
+    p:last-child {
+      margin: 0;
     }
     a {
       color: var(--article-text);
