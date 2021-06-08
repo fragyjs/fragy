@@ -1,3 +1,7 @@
 module.exports = {
-  extends: 'eslint-config-ali/vue',
+  extends: [
+    'eslint-config-ali/vue',
+    "prettier",
+    'prettier/vue',
+  ],
 };

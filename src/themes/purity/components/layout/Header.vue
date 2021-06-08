@@ -2,10 +2,10 @@
   <div class="page-header">
     <div class="page-header-title">
       <div class="page-header-title-main">
-        <span>{{title}}</span>
+        <span>{{ title }}</span>
       </div>
       <div class="page-header-title-sub">
-        <span>{{subtitle}}</span>
+        <span>{{ subtitle }}</span>
       </div>
     </div>
   </div>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'fragy.purify.layout.header',
+  name: 'fragy.purity.layout.header',
   data() {
     const { title, subtitle } = this.$fragy;
 

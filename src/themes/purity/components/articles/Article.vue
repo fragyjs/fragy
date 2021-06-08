@@ -1,7 +1,7 @@
 <template>
   <div class="article">
     <div class="article-title">
-      <h1>{{title}}</h1>
+      <h1>{{ title }}</h1>
     </div>
     <div class="article-content" v-html="markedText"></div>
   </div>
@@ -11,17 +11,19 @@
 import marked from 'marked';
 
 export default {
-  name: 'fragy.common.article',
+  name: 'fragy.purity.article',
   props: {
     article: String,
   },
   data() {
     return {
-      title: '',
       content: '',
     };
   },
   computed: {
+    title() {
+      return this.$route.params.name;
+    },
     markedText() {
       return marked(this.content, {
         sanitize: true,

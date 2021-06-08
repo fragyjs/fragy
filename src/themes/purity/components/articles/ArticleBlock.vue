@@ -1,15 +1,15 @@
 <template>
   <div class="article-block">
     <div class="article-block-title">
-      <span>{{title}}</span>
+      <span>{{ title }}</span>
     </div>
     <div class="article-block-summary">
-      <p>{{summary}}</p>
+      <p>{{ summary }}</p>
     </div>
     <div class="article-block-footer">
       <div class="article-block-footer-time">
         <Date />
-        <span>{{time}}</span>
+        <span>{{ time }}</span>
       </div>
       <div class="article-block-footer-controls">
         <a :href="fullUrl" class="button-read-all">阅读全文</a>
@@ -79,6 +79,9 @@ export default {
         color: var(--article-block-footer);
         font-size: 0.875rem;
         text-decoration: none;
+      }
+      a:hover {
+        color: var(--primary);
       }
     }
   }

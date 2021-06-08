@@ -15,7 +15,7 @@ import Header from './Header';
 import Footer from './Footer';
 
 export default {
-  name: 'fragy.purify.layout.page',
+  name: 'fragy.purity.layout.page',
   components: {
     Header,
     Footer,
