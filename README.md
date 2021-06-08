@@ -1,19 +1,7 @@
-# fragy
+# Fragy
 
-## Project setup
-```
-npm install
-```
+Fragy is a Vue-based blog framework that is deployed in a fully static mode and some files can be dynamically refreshed.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## License
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+MIT

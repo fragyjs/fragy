@@ -92,9 +92,9 @@ export default {
   &-item {
     display: flex;
     align-items: center;
-    height: 32px;
-    margin: 0 10px;
-    font-size: 14px;
+    height: 2rem;
+    margin: 0 0.625rem;
+    font-size: 0.875rem;
     user-select: none;
     span {
       color: var(--paginator-back);
@@ -118,7 +118,7 @@ export default {
       color: var(--paginator-front);
       cursor: default;
     }
-    border-bottom: 1px solid var(--paginator-front);
+    border-bottom: 0.0625rem solid var(--paginator-front);
   }
   &-item:first-child {
     margin-left: 0;

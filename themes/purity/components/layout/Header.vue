@@ -1,7 +1,10 @@
 <template>
   <div class="page-header">
     <div class="page-header-title">
-      <div class="page-header-title-main">
+      <div class="page-header-title-main" v-if="$route.path === '/'">
+        <span>{{ title }}</span>
+      </div>
+      <div class="page-header-title-main page-header-title-main--clickable" @click="goHome" v-else>
         <span>{{ title }}</span>
       </div>
       <div class="page-header-title-sub">
@@ -21,6 +24,11 @@ export default {
       title,
       subtitle,
     };
+  },
+  methods: {
+    goHome() {
+      this.$router.push('/');
+    },
   },
 };
 </script>
@@ -47,6 +55,13 @@ export default {
       font-size: 1.2rem;
       font-weight: 600;
       letter-spacing: 0.075rem;
+    }
+    &-main--clickable {
+      transition: 100ms ease-in-out;
+    }
+    &-main--clickable:hover {
+      background: var(--primary-hover);
+      cursor: pointer;
     }
     &-sub {
       color: var(--text-subtitle);

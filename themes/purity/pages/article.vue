@@ -1,5 +1,5 @@
 <template>
-  <Page>
+  <Page class="page-article">
     <Article />
   </Page>
 </template>
