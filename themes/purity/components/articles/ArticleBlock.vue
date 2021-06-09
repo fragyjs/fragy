@@ -50,6 +50,32 @@ export default {
     letter-spacing: 0.05rem;
     margin-bottom: 1.375rem;
     color: var(--article-block-text);
+    span {
+      display: block;
+      max-width: max-content;
+      position: relative;
+    }
+    span:hover {
+      cursor: pointer;
+    }
+    span::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 0.125rem;
+      margin-top: 0.375rem;
+      background: var(--article-block-text);
+      transform: scale3d(0, 0, 1);
+      transition: all 200ms ease-in-out;
+    }
+    span:hover::after {
+      transform: scale3d(1, 1, 1);
+    }
+    p {
+      color: var(--article-text);
+    }
   }
   &-abstract {
     font-size: 0.95rem;
@@ -83,9 +109,27 @@ export default {
         color: var(--article-block-footer);
         font-size: 0.875rem;
         text-decoration: none;
+        display: block;
+        width: max-content;
+        position: relative;
       }
       a:hover {
         color: var(--primary);
+      }
+      a::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 0.125rem;
+        margin-top: 0.25rem;
+        background: var(--primary);
+        transform: scale3d(0, 0, 1);
+        transition: all 200ms ease-in-out;
+      }
+      a:hover::after {
+        transform: scale3d(1, 1, 1);
       }
     }
   }
