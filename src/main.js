@@ -1,12 +1,11 @@
 import Vue from 'vue';
 import VueLazyload from 'vue-lazyload';
 import axios from 'axios';
-import App from './App.vue';
 import router from './router';
 import config from '../fragy.config.js';
 import { parseArticle } from './utils/article';
 import { formatConfig } from './utils/config';
-import store from './store'
+import store from './store';
 
 const { theme } = config;
 const themeConfig = require(`~themes/${theme}/config.js`).default;
@@ -25,8 +24,10 @@ Vue.use(VueLazyload, {
   observer: true,
 });
 
+const entry = require(`~themes/${theme}/entry.vue`).default;
+
 new Vue({
   router,
   store,
-  render: (h) => h(App)
+  render: (h) => h(entry),
 }).$mount('#app');

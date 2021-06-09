@@ -3,7 +3,9 @@
     <div class="page">
       <Header />
       <div class="page-content">
-        <slot></slot>
+        <transition mode="out-in">
+          <slot></slot>
+        </transition>
       </div>
       <Footer />
     </div>
@@ -42,5 +44,15 @@ export default {
       flex: 1 0 auto;
     }
   }
+}
+
+// transition
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 125ms;
+}
+.fade-enter,
+.fade-leave {
+  opacity: 0;
 }
 </style>
