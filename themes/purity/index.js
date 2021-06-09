@@ -1,3 +1,4 @@
+import './styles/anim.less';
 import './styles/color.less';
 import './styles/layout.less';
 

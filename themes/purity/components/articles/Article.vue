@@ -18,7 +18,7 @@
       v-if="showContent"
     ></div>
     <div class="article-content article-content-loading" v-if="contentLoading">
-      <p>文章内容加载中...</p>
+      <span>文章内容加载中...</span><i><Loading /></i>
     </div>
     <div class="article-content article-content-failed" v-if="loadFailed">
       <p>文章内容加载失败</p>
@@ -30,6 +30,7 @@
 import pangu from 'pangu.simple';
 import marked from '../../utils/marked';
 import Date from '../icons/Date';
+import Loading from '../icons/Loading';
 import { mapState } from 'vuex';
 
 export default {
@@ -39,6 +40,7 @@ export default {
   },
   components: {
     Date,
+    Loading,
   },
   data() {
     return {
@@ -213,6 +215,22 @@ export default {
     pre {
       background: var(--article-code-bg);
       padding: 0.75rem 1rem;
+    }
+  }
+  &-content-loading {
+    display: flex;
+    align-items: center;
+    i {
+      display: flex;
+      align-items: center;
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: var(--primary);
+        transform: translateY(-2px);
+        margin-left: 10px;
+        animation: rotate 1.125s ease-in-out infinite;
+      }
     }
   }
 }
