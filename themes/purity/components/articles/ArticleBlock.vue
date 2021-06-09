@@ -1,16 +1,16 @@
 <template>
   <div class="article-block">
     <div class="article-block-title">
-      <span>{{ title }}</span>
+      <a :href="fullUrl" @click.prevent="toArticlePage">{{ displayTitle }}</a>
     </div>
-    <div class="article-block-abstract" v-html="renderedAbstract"></div>
+    <div class="article-block-abstract" ref="abstract" v-html="renderedAbstract"></div>
     <div class="article-block-footer">
       <div class="article-block-footer-time">
         <Date />
         <span>{{ date }}</span>
       </div>
       <div class="article-block-footer-controls">
-        <a :href="fullUrl" class="button-read-all">阅读全文</a>
+        <a :href="fullUrl" class="button-read-all" @click.prevent="toArticlePage">阅读全文</a>
       </div>
     </div>
   </div>
@@ -19,6 +19,7 @@
 <script>
 import Date from '../icons/Date';
 import marked from '../../utils/marked';
+import pangu from 'pangu.simple';
 
 export default {
   name: 'fragy.purity.articles.block',
@@ -26,14 +27,36 @@ export default {
     title: String,
     abstract: String,
     date: String,
-    fullUrl: String,
+    filename: String,
   },
   components: {
     Date,
   },
+  data() {
+    return {
+      renderedAbstract: '',
+    };
+  },
+  mounted() {
+    this.renderAbstract();
+    this.$nextTick(() => {
+      pangu.spacingNode(this.$refs.abstract);
+    });
+  },
   computed: {
-    renderedAbstract() {
-      return marked(this.abstract);
+    displayTitle() {
+      return pangu.spacing(this.title);
+    },
+    fullUrl() {
+      return `//${window.location.host}/article/${this.filename}`;
+    },
+  },
+  methods: {
+    renderAbstract() {
+      this.renderedAbstract = marked(this.abstract);
+    },
+    toArticlePage() {
+      this.$router.push(`/article/${this.filename}`);
     },
   },
 };
@@ -49,16 +72,20 @@ export default {
     font-weight: 600;
     letter-spacing: 0.05rem;
     margin-bottom: 1.375rem;
-    color: var(--article-block-text);
-    span {
+    a {
       display: block;
-      max-width: max-content;
+      width: max-content;
       position: relative;
+      text-decoration: none;
+      color: var(--article-block-text);
     }
-    span:hover {
+    a:hover {
       cursor: pointer;
     }
-    span::after {
+    a:visited {
+      color: var(--article-block-text);
+    }
+    a::after {
       content: '';
       display: block;
       position: absolute;
@@ -70,7 +97,7 @@ export default {
       transform: scale3d(0, 0, 1);
       transition: all 200ms ease-in-out;
     }
-    span:hover::after {
+    a:hover::after {
       transform: scale3d(1, 1, 1);
     }
     p {

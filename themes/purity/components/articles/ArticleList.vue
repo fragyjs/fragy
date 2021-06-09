@@ -12,7 +12,7 @@
         :title="item.title"
         :abstract="item.abstract"
         :date="item.date"
-        :fullUrl="`//${host}/article/${item.filename}`"
+        :filename="item.filename"
       />
     </div>
     <div class="article-list__footer">
@@ -43,7 +43,6 @@ export default {
       articles: [],
       articlesLoading: true,
       loadFailed: false,
-      host: window.location.host || '',
     };
   },
   created() {

@@ -15,7 +15,14 @@
       id="article-content"
       v-lazy-container="{ selector: 'img' }"
       v-html="renderedContent"
+      v-if="showContent"
     ></div>
+    <div class="article-content article-content-loading" v-if="contentLoading">
+      <p>文章内容加载中...</p>
+    </div>
+    <div class="article-content article-content-failed" v-if="loadFailed">
+      <p>文章内容加载失败</p>
+    </div>
   </div>
 </template>
 
@@ -59,14 +66,16 @@ export default {
   },
   computed: {
     title() {
+      let title;
       if (this.meta?.title) {
-        return this.meta.title;
+        title = this.meta.title;
+      } else {
+        title = this.$route.params.name;
+        if (title.endsWith('.md')) {
+          title = title.substr(0, title.length - 3);
+        }
       }
-      const title = this.$route.params.name;
-      if (title.endsWith('.md')) {
-        return title.substr(0, title.length - 3);
-      }
-      return title;
+      return pangu.spacing(title);
     },
     filename() {
       if (!this.$route.path.includes('article')) {
@@ -84,6 +93,9 @@ export default {
     showDate() {
       return !!this.meta?.date;
     },
+    showContent() {
+      return !this.contentLoading && !this.loadFailed;
+    },
   },
   methods: {
     async fetchArticle() {
@@ -93,12 +105,14 @@ export default {
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article content.', err);
+        this.contentLoading = false;
         this.loadFailed = true;
         return;
       }
       const parsedArticle = this.$utils.parseArticle(res.data.trim());
       this.meta = parsedArticle.meta;
       this.content = parsedArticle.content.trim();
+      this.contentLoading = false;
       this.renderContent();
     },
     renderContent() {
