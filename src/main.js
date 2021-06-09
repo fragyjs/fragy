@@ -6,6 +6,7 @@ import router from './router';
 import config from '../fragy.config.js';
 import { parseArticle } from './utils/article';
 import { formatConfig } from './utils/config';
+import store from './store'
 
 const { theme } = config;
 const themeConfig = require(`~themes/${theme}/config.js`).default;
@@ -26,5 +27,6 @@ Vue.use(VueLazyload, {
 
 new Vue({
   router,
-  render: (h) => h(App),
+  store,
+  render: (h) => h(App)
 }).$mount('#app');

@@ -20,6 +20,7 @@
 import Date from '../icons/Date';
 import marked from '../../utils/marked';
 import pangu from 'pangu.simple';
+import { mapMutations } from 'vuex';
 
 export default {
   name: 'fragy.purity.articles.block',
@@ -37,6 +38,9 @@ export default {
       renderedAbstract: '',
     };
   },
+  created() {
+    this.setTitle(null);
+  },
   mounted() {
     this.renderAbstract();
     this.$nextTick(() => {
@@ -52,10 +56,12 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('article', ['setTitle']),
     renderAbstract() {
       this.renderedAbstract = marked(this.abstract);
     },
     toArticlePage() {
+      this.setTitle(this.title);
       this.$router.push(`/article/${this.filename}`);
     },
   },

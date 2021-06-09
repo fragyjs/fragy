@@ -30,6 +30,7 @@
 import pangu from 'pangu.simple';
 import marked from '../../utils/marked';
 import Date from '../icons/Date';
+import { mapState } from 'vuex';
 
 export default {
   name: 'fragy.purity.article',
@@ -65,9 +66,14 @@ export default {
     await this.fetchArticle();
   },
   computed: {
+    ...mapState({
+      storedTitle: (state) => state.article.title,
+    }),
     title() {
       let title;
-      if (this.meta?.title) {
+      if (this.storedTitle) {
+        title = this.storedTitle;
+      } else if (this.meta?.title) {
         title = this.meta.title;
       } else {
         title = this.$route.params.name;
