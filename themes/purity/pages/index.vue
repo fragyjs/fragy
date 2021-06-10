@@ -1,5 +1,5 @@
 <template>
-  <ArticleList />
+  <ArticleList :feed="this.$fragy.articleList.infoPath" />
 </template>
 
 <script>

@@ -32,6 +32,9 @@ import Paginator from '../layout/Paginator';
 
 export default {
   name: 'fragy.purity.articles.list',
+  props: {
+    feed: String,
+  },
   components: {
     ArticleBlock,
     Paginator,
@@ -69,7 +72,7 @@ export default {
     async fetchArticlesList() {
       let res;
       try {
-        res = await this.$http.get(`${this.$fragy.articleList.infoPath}`);
+        res = await this.$http.get(this.feed);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article list info.', err);
