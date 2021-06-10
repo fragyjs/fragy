@@ -2,17 +2,18 @@
   <div class="page-footer" v-if="showFooter">
     <div class="page-footer-text page-footer-poweredby" v-if="showPoweredBy">
       <span>Powered by Fragy.</span>
-      <a href="https://github.com/pwp-app/fragy" target="_blank">
-        <GitHub v-if="showGitHub" />
+      <a href="https://github.com/pwp-app/fragy" target="_blank" v-if="showGitHub">
+        <GitHub />
       </a>
     </div>
-    <div class="page-footer-text page-footer-beian" v-if="showBeian">
-      <span>{{ beianText }}</span>
+    <div class="page-footer-text page-footer-beian" v-if="showBeian && displayBeianText">
+      <a href="https://beian.miit.gov.cn/" target="_blank">{{ displayBeianText }}</a>
     </div>
   </div>
 </template>
 
 <script>
+import pangu from 'pangu.simple';
 import GitHub from '../icons/GitHub';
 
 export default {
@@ -34,6 +35,14 @@ export default {
       showPoweredBy,
       showGitHub,
     };
+  },
+  computed: {
+    displayBeianText() {
+      if (!this.beianText) {
+        return null;
+      }
+      return pangu.spacing(this.beianText);
+    },
   },
 };
 </script>
@@ -67,6 +76,20 @@ export default {
     }
     .icon-github:hover {
       fill: var(--text-footer-hover);
+    }
+  }
+  &-beian {
+    margin-top: 8px;
+    a {
+      font-size: 14px;
+      color: var(--text-footer);
+      text-decoration: none;
+    }
+    a:hover {
+      color: var(--text-footer-hover) !important;
+    }
+    a:visited {
+      color: var(--text-footer);
     }
   }
 }

@@ -1,16 +1,14 @@
 export default {
-  name: 'purity',
-  config: {
-    footer: {
+  // primaryColor: '#2e2e2e',
+  footer: {
+    enable: true,
+    beian: {
+      enable: false,
+      text: '',
+    },
+    poweredby: {
       enable: true,
-      beian: {
-        enable: true,
-        text: '',
-      },
-      poweredby: {
-        enable: true,
-        github: true,
-      },
+      github: true,
     },
   },
 };
