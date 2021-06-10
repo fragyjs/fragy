@@ -13,10 +13,28 @@
 
 <script>
 import Page from './components/layout/Page';
+import Color from 'color';
+
+const ColorTester = /#([a-f0-9]{3}|[a-f0-9]{4}(?:[a-f0-9]{2}){0,2})\b/i;
 
 export default {
   components: {
     Page,
+  },
+  async beforeCreate() {
+    const { primaryColor } = this.$fragy.themeConfig;
+    if (primaryColor && ColorTester.test(primaryColor)) {
+      const color = new Color(primaryColor);
+      const style = document.createElement('style');
+      let lightenRate = 0.05;
+      if (color.red() <= 50 && color.green() <= 50 && color.blue() <= 50) {
+        lightenRate = 0.2;
+      }
+      const hoverColor = color.lighten(lightenRate).hex();
+      const borderColor = color.lighten(lightenRate).hex();
+      style.innerText = `:root {--primary:${primaryColor};--primary-hover:${hoverColor};--article-block-border:${borderColor};--article-border:${borderColor}};`;
+      document.body.append(style);
+    }
   },
   created() {
     document.title = this.$fragy.title;

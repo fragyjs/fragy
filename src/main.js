@@ -15,7 +15,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$http = axios;
 
 Vue.prototype.$fragy = formatConfig(config);
-Vue.prototype.$fragy.theme = themeConfig;
+Vue.prototype.$fragy.themeConfig = themeConfig;
 Vue.prototype.$utils = {
   parseArticle,
 };

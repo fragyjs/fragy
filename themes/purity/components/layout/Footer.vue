@@ -25,7 +25,7 @@ export default {
       enable: showFooter,
       beian: { enable: showBeian, text: beianText },
       poweredby: { enable: showPoweredBy, github: showGitHub },
-    } = this.$fragy.theme.config.footer;
+    } = this.$fragy.themeConfig.footer;
 
     return {
       showFooter,

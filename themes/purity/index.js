@@ -6,6 +6,7 @@ import Article from './pages/article.vue';
 import NotFound from './pages/notFound.vue';
 
 export default {
+  name: 'purity',
   routes: [
     {
       path: '/',
