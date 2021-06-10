@@ -145,14 +145,14 @@ export default {
       color: var(--article-title);
     }
     &-meta {
-      margin-top: 16px;
+      margin-top: 1rem;
       &__item {
         display: flex;
         align-items: center;
         svg {
           width: 1.125rem;
           height: 1.125rem;
-          margin-right: 8px;
+          margin-right: 0.5rem;
           fill: var(--article-meta);
         }
         span {
@@ -227,8 +227,8 @@ export default {
         width: 1.25rem;
         height: 1.25rem;
         fill: var(--primary);
-        transform: translateY(-2px);
-        margin-left: 10px;
+        transform: translateY(-0.125rem);
+        margin-left: 0.625rem;
         animation: rotate 1.125s ease-in-out infinite;
       }
     }
