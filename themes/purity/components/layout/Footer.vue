@@ -9,17 +9,27 @@
     <div class="page-footer-text page-footer-beian" v-if="showBeian && displayBeianText">
       <a href="https://beian.miit.gov.cn/" target="_blank">{{ displayBeianText }}</a>
     </div>
+    <div class="page-footer-text page-footer-theme">
+      <span>
+        <Moon v-if="darkModeEnabled" />
+        <Sun v-else />
+      </span>
+    </div>
   </div>
 </template>
 
 <script>
 import pangu from 'pangu.simple';
 import GitHub from '../icons/GitHub';
+import Sun from '../icons/Sun';
+import Moon from '../icons/Moon';
 
 export default {
   name: 'fragy.purity.layout.footer',
   components: {
     GitHub,
+    Sun,
+    Moon,
   },
   data() {
     const {
@@ -34,6 +44,7 @@ export default {
       beianText,
       showPoweredBy,
       showGitHub,
+      darkModeEnabled: false,
     };
   },
   computed: {
@@ -53,8 +64,30 @@ export default {
   justify-self: flex-end;
   user-select: none;
   margin: 2rem 0 1.5rem 0;
+  display: flex;
+  align-items: center;
   &-text {
     color: var(--text-footer);
+    svg {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      fill: var(--text-footer);
+      transform: translateY(2.5px);
+      cursor: pointer;
+    }
+    svg:hover {
+      fill: var(--text-footer-hover);
+    }
+  }
+  &-text::after {
+    content: '|';
+    display: inline-block;
+    margin: 0px 12px;
+  }
+  &-text:last-child::after {
+    content: '';
+    display: none;
   }
   &-poweredby {
     height: 1.5rem;
@@ -66,20 +99,10 @@ export default {
       letter-spacing: 0.05rem;
     }
     .icon-github {
-      display: block;
-      width: 1rem;
-      height: 1rem;
-      fill: var(--text-footer);
       margin-left: 0.375rem;
-      transform: translateY(0.0625rem);
-      cursor: pointer;
-    }
-    .icon-github:hover {
-      fill: var(--text-footer-hover);
     }
   }
   &-beian {
-    margin-top: 8px;
     a {
       font-size: 14px;
       color: var(--text-footer);
