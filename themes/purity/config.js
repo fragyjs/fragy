@@ -1,3 +1,4 @@
+// IMPORTANT: DO NOT DELETE ANY PROPERTY IN THE CONFIGURATION!!!
 export default {
   // primaryColor: '#2e2e2e',
   footer: {
@@ -9,6 +10,9 @@ export default {
     poweredby: {
       enable: true,
       github: true,
+    },
+    themeSwitcher: {
+      enable: true,
     },
   },
 };

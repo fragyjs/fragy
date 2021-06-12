@@ -9,7 +9,7 @@
     <div class="page-footer-text page-footer-beian" v-if="showBeian && displayBeianText">
       <a href="https://beian.miit.gov.cn/" target="_blank">{{ displayBeianText }}</a>
     </div>
-    <div class="page-footer-text page-footer-theme">
+    <div class="page-footer-text page-footer-theme" v-if="showThemeSwitcher">
       <span>
         <Moon v-if="darkModeEnabled" />
         <Sun v-else />
@@ -36,6 +36,7 @@ export default {
       enable: showFooter,
       beian: { enable: showBeian, text: beianText },
       poweredby: { enable: showPoweredBy, github: showGitHub },
+      themeSwitcher: { enable: showThemeSwitcher },
     } = this.$fragy.themeConfig.footer;
 
     return {
@@ -44,6 +45,7 @@ export default {
       beianText,
       showPoweredBy,
       showGitHub,
+      showThemeSwitcher,
       darkModeEnabled: false,
     };
   },
