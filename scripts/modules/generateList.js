@@ -6,6 +6,7 @@ const esm = require('esm');
 const fs = require('fs');
 const fsp = require('fs/promises');
 const moment = require('moment');
+const logger = require('../utils/logger');
 
 const esmRequire = esm(module);
 
@@ -41,7 +42,7 @@ const generateList = async ({ filenames }) => {
     filenames.map((filename) => {
       return new Promise((resolve) => {
         const articlePath = path.resolve(postsDirPath, filename);
-        console.debug(`Collecting aritcle: ${articlePath}`);
+        logger.debug(`Collecting aritcle: ${articlePath}`);
         fsp.readFile(articlePath).then((content) => {
           const articleInfo = parseArticle(content);
           Object.assign(articleInfo, {
@@ -102,7 +103,7 @@ const execute = async () => {
   const filenames = await collectArticles();
   const list = await generateList({ filenames });
   await fsp.writeFile(listPath, JSON.stringify(list), { encoding: 'utf-8' });
-  console.log('Aritcles list has been generated.');
+  logger.info('Aritcles list has been generated.');
 };
 
 module.exports = execute;
