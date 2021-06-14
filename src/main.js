@@ -7,8 +7,9 @@ import { parseArticle } from './utils/article';
 import { formatConfig } from './utils/config';
 import store from './store';
 
-const { theme } = config;
-const themeConfig = require(`~themes/${theme}/config.js`).default;
+const { theme: themeName } = config;
+const { setup: themeSetup } = require(`~themes/${themeName}/index.js`).default;
+const themeConfig = require(`~themes/${themeName}/config.js`).default;
 
 Vue.config.productionTip = false;
 
@@ -24,10 +25,19 @@ Vue.use(VueLazyload, {
   observer: true,
 });
 
-const entry = require(`~themes/${theme}/entry.vue`).default;
+const initView = async () => {
+  // theme setup
+  if (typeof themeSetup === 'function') {
+    await Promise.resolve(themeSetup.call(null, Vue, config, themeConfig));
+  }
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(entry),
-}).$mount('#app');
+  const entry = require(`~themes/${themeName}/entry.vue`).default;
+
+  new Vue({
+    router,
+    store,
+    render: (h) => h(entry),
+  }).$mount('#app');
+};
+
+initView();
