@@ -1,34 +1,64 @@
 :root {
   // basic
-  --pure-black: #000;
-  --black: #1e1e1e;
-  --dark-gray: #333;
-  --deeper-gray: #4a4a4a;
-  --gray: #666;
-  --light-gray: #999;
-  --bright-gray: #afafaf;
-  --off-white: #fdfdfd;
+  --black: #000;
+  --black-1: #1e1e1e;
+  --black-2: #2e2e2e;
+  --black-3: #333;
+  --gray: #4a4a4a;
+  --gray-1: #666;
+  --gray-2: #999;
+  --gray-3: #afafaf;
+  --white-3: #cecece;
+  --white-2: #dadada;
+  --white-1: #fdfdfd;
+  --white: white;
   // common
   --primary: #86a873;
   @primary: #86a873;
   --primary-hover: lighten(@primary, 5%);
   // spec
-  --page-background: var(--off-white);
-  --text-title: white;
-  --text-subtitle: var(--gray);
-  --text-footer: var(--light-gray);
-  --text-footer-hover: var(--bright-gray);
+  --page-background: var(--white-1);
+  --text-title: var(--white);
+  --text-subtitle: var(--gray-1);
+  --text-footer: var(--gray-2);
+  --text-footer-hover: var(--gray-3);
   --article-block-border: lighten(@primary, 5%);
-  --article-block-text: var(--deeper-gray);
-  --article-block-footer: var(--light-gray);
-  --article-title: var(--dark-gray);
-  --article-meta: var(--light-gray);
-  --article-text: var(--gray);
-  --article-link-hover: var(--pure-black);
+  --article-block-text: var(--gray);
+  --article-block-footer: var(--gray-2);
+  --article-title: var(--black-3);
+  --article-meta: var(--gray-2);
+  --article-text: var(--gray-1);
+  --article-link-hover: var(--black);
   --article-border: lighten(@primary, 5%);
   --article-title-border: #eee;
   --article-code-bg: #fafafa;
   --paginator-front: var(--primary);
-  --paginator-back: var(--light-gray);
-  --notfound-text: var(--gray);
+  --paginator-back: var(--gray-2);
+  --notfound-text: var(--gray-1);
+}
+
+.dark {
+  // common
+  --primary: #86a873;
+  @primary: #86a873;
+  --primary-hover: darken(@primary, 5%);
+  // spec
+  --page-background: var(--black-1);
+  --text-title: var(--white-1);
+  --text-subtitle: var(--gray-3);
+  --text-footer: var(--gray-2);
+  --text-footer-hover: var(--gray-3);
+  --article-block-border: darken(@primary, 5%);
+  --article-block-text: var(--gray-3);
+  --article-block-footer: var(--gray-2);
+  --article-title: var(--white-3);
+  --article-meta: var(--gray-2);
+  --article-text: var(--gray-3);
+  --article-link-hover: var(--black);
+  --article-border: darken(@primary, 5%);
+  --article-title-border: #eee;
+  --article-code-bg: #fafafa;
+  --paginator-front: var(--primary);
+  --paginator-back: var(--gray-2);
+  --notfound-text: var(--gray-1);
 }

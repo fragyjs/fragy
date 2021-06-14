@@ -126,13 +126,13 @@ export default {
       svg {
         width: 1.125rem;
         height: 1.125rem;
-        fill: var(--light-gray);
+        fill: var(--article-block-footer);
       }
       span {
         font-size: 0.875rem;
         margin-left: 0.5rem;
         letter-spacing: 0.025rem;
-        color: var(--light-gray);
+        color: var(--article-block-footer);
       }
     }
     &-controls {
