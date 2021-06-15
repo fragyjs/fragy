@@ -2,9 +2,10 @@
 const path = require('path');
 const fs = require('fs');
 const generateList = require('./modules/generateList.js');
-const config = require('../fragy.config');
 const logger = require('./utils/logger');
+const esmRequire = require('esm')(module);
 
+const config = esmRequire('../fragy.config');
 const generatorPath = path.resolve(__dirname, `../themes/${config.theme}/generator.js`);
 const themeGenerator = fs.existsSync(generatorPath) ? require(generatorPath) : null;
 
