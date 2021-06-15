@@ -5,8 +5,11 @@ const generateList = require('./modules/generateList.js');
 const logger = require('./utils/logger');
 const esmRequire = require('esm')(module);
 
-const config = esmRequire('../fragy.config');
-const generatorPath = path.resolve(__dirname, `../themes/${config.theme}/generator.js`);
+const fragyConfig = esmRequire('../fragy.config').default;
+const generatorPath = path.resolve(
+  __dirname,
+  `../node_modules/${fragyConfig.theme.package}/generator.js`,
+);
 const themeGenerator = fs.existsSync(generatorPath) ? require(generatorPath) : null;
 
 const queue = [generateList];
@@ -23,7 +26,7 @@ const initThemeGenerators = async () => {
     if (generators && Array.isArray(generators)) {
       queue.unshift(...generators);
     } else {
-      logger.error(`Cannot get generators from theme [${config.theme}].`);
+      logger.error(`Cannot get generators from theme [${fragyConfig.theme.package}].`);
     }
   }
 };

@@ -1,13 +1,15 @@
 {
-  "name": "@fragy/theme-purity",
+  "name": "@fragy/purity",
   "version": "0.1.0",
   "description": "Default theme for fragy.",
   "main": "index.js",
   "author": "BackRunner",
   "license": "MIT",
+  "homepage": "https://github.com/pwp-app/fragy/tree/main/themes/purity",
   "dependencies": {
     "highlight.js": "^11.0.1",
     "marked": "^2.0.7",
-    "pangu.simple": "^1.0.4"
+    "pangu.simple": "^1.0.5",
+    "vue-lazyload": "^1.3.3"
   }
 }

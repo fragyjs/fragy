@@ -22,10 +22,11 @@ export default {
     Page,
   },
   async beforeCreate() {
-    const { primaryColor } = this.$fragy.themeConfig;
+    const { primaryColor } = this.$theme;
     if (primaryColor && ColorTester.test(primaryColor)) {
       const color = new Color(primaryColor);
       const style = document.createElement('style');
+      style.id = 'fragy-generated-styles';
       let lightenRate = 0.05;
       if (color.red() <= 50 && color.green() <= 50 && color.blue() <= 50) {
         lightenRate = 0.2;

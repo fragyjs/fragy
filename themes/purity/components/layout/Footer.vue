@@ -11,8 +11,8 @@
     </div>
     <div class="page-footer-text page-footer-theme" v-if="showThemeSwitcher">
       <span>
-        <Moon v-if="darkModeEnabled" />
-        <Sun v-else />
+        <Moon v-if="darkModeEnabled" @click="switchColorTheme" />
+        <Sun v-else @click="switchColorTheme" />
       </span>
     </div>
   </div>
@@ -37,7 +37,7 @@ export default {
       beian: { enable: showBeian, text: beianText },
       poweredby: { enable: showPoweredBy, github: showGitHub },
       themeSwitcher: { enable: showThemeSwitcher },
-    } = this.$fragy.themeConfig.footer;
+    } = this.$theme.footer;
 
     return {
       showFooter,
@@ -56,6 +56,9 @@ export default {
       }
       return pangu.spacing(this.beianText);
     },
+  },
+  methods: {
+    switchColorTheme() {},
   },
 };
 </script>

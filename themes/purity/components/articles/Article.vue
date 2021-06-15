@@ -220,6 +220,9 @@ export default {
   &-content-loading {
     display: flex;
     align-items: center;
+    span {
+      color: var(--article-text);
+    }
     i {
       display: flex;
       align-items: center;

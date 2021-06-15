@@ -1,4 +1,4 @@
-export const formatConfig = (originalConfig) => {
+export const formatConfig = (userConfig) => {
   const config = Object.assign(
     {
       articles: {
@@ -8,7 +8,7 @@ export const formatConfig = (originalConfig) => {
         infoPath: '/data/articleList.json',
       },
     },
-    originalConfig,
+    userConfig,
   );
   // format articles
   if (config.articles.base) {
