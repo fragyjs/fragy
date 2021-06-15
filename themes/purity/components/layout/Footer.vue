@@ -11,8 +11,8 @@
     </div>
     <div class="page-footer-text page-footer-theme" v-if="showThemeSwitcher">
       <span>
-        <Moon v-if="darkModeEnabled" @click="switchColorTheme" />
-        <Sun v-else @click="switchColorTheme" />
+        <Moon v-if="darkModeEnabled.value" @click.native="switchColorTheme" />
+        <Sun v-else @click.native="switchColorTheme" />
       </span>
     </div>
   </div>
@@ -46,9 +46,9 @@ export default {
       showPoweredBy,
       showGitHub,
       showThemeSwitcher,
-      darkModeEnabled: false,
     };
   },
+  inject: ['darkModeEnabled'],
   computed: {
     displayBeianText() {
       if (!this.beianText) {
@@ -58,7 +58,29 @@ export default {
     },
   },
   methods: {
-    switchColorTheme() {},
+    switchColorTheme() {
+      if (this.darkModeEnabled.value) {
+        this.removeDarkClass();
+        window.localStorage.setItem('fragy-purity-dark', false);
+        this.$bus.$emit('color-theme-changed', 'light');
+      } else {
+        this.addDarkClass();
+        window.localStorage.setItem('fragy-purity-dark', true);
+        this.$bus.$emit('color-theme-changed', 'dark');
+      }
+    },
+    addDarkClass() {
+      !document.documentElement.classList.contains('dark') &&
+        document.documentElement.classList.add('dark');
+      const linkEl = document.getElementById('hl-theme');
+      linkEl.setAttribute('href', '/css/github-dark.css');
+    },
+    removeDarkClass() {
+      document.documentElement.classList.contains('dark') &&
+        document.documentElement.classList.remove('dark');
+      const linkEl = document.getElementById('hl-theme');
+      linkEl.setAttribute('href', '/css/github.css');
+    },
   },
 };
 </script>

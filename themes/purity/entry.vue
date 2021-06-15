@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { computed } from '@vue/composition-api';
 import Page from './components/layout/Page';
 import Color from 'color';
 
@@ -21,7 +22,17 @@ export default {
   components: {
     Page,
   },
-  async beforeCreate() {
+  data() {
+    return {
+      darkModeEnabled: window.localStorage.getItem('fragy-purity-dark') === 'true',
+    };
+  },
+  provide() {
+    return {
+      darkModeEnabled: computed(() => this.darkModeEnabled),
+    };
+  },
+  created() {
     const { primaryColor } = this.$theme;
     if (primaryColor && ColorTester.test(primaryColor)) {
       const color = new Color(primaryColor);
@@ -33,12 +44,17 @@ export default {
       }
       const hoverColor = color.lighten(lightenRate).hex();
       const borderColor = color.lighten(lightenRate).hex();
-      style.innerText = `:root {--primary:${primaryColor};--primary-hover:${hoverColor};--article-block-border:${borderColor};--article-border:${borderColor}};`;
+      style.innerHTML = `:root {--primary:${primaryColor};--primary-hover:${hoverColor};--article-block-border:${borderColor};--article-border:${borderColor}};`;
       document.body.append(style);
     }
-  },
-  created() {
     document.title = this.$fragy.title;
+    // listen events
+    this.$bus.$on('color-theme-changed', this.colorThemeChanged);
+  },
+  methods: {
+    colorThemeChanged(theme) {
+      this.darkModeEnabled = theme === 'dark';
+    },
   },
 };
 </script>

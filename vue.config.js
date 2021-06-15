@@ -22,13 +22,13 @@ const chainWebpack = (config) => {
     config.plugin('bundle-analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
   }
   if (themeFuncs.chainWebpack) {
-    chainWebpack(config);
+    themeFuncs.chainWebpack(config);
   }
 };
 
 const configureWebpack = (config) => {
   if (themeFuncs.configureWebpack) {
-    configureWebpack(config);
+    themeFuncs.configureWebpack(config);
   }
 };
 

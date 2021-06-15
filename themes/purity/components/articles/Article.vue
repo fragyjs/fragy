@@ -215,6 +215,9 @@ export default {
     pre {
       background: var(--article-code-bg);
       padding: 0.75rem 1rem;
+      code {
+        color: var(--article-code-text);
+      }
     }
   }
   &-content-loading {

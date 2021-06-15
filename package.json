@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@fragy/purity": "file:themes/purity",
+    "@vue/composition-api": "^1.0.0-rc.11",
     "axios": "^0.21.1",
     "color": "^3.1.3",
     "core-js": "^3.14.0",
@@ -44,13 +45,13 @@
     "@vue/cli-plugin-router": "^4.5.13",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "^4.5.13",
-    "chalk": "^2.4.2",
+    "chalk": "^4.1.1",
     "cross-env": "^7.0.3",
     "f2elint": "^1.1.2",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "vue-template-compiler": "^2.6.14",
-    "webpack-bundle-analyzer": "^3.9.0"
+    "webpack-bundle-analyzer": "^4.4.2"
   },
   "browserslist": [
     "> 1%",

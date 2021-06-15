@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueCompositionAPI from '@vue/composition-api';
 import axios from 'axios';
 import { createRouter } from './router';
 import { createStore } from './store';
@@ -8,12 +9,15 @@ import fragyConfig from '../fragy.config.js';
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$bus = new Vue();
 Vue.prototype.$http = axios;
 
 Vue.prototype.$fragy = formatConfig(fragyConfig);
 Vue.prototype.$utils = {
   parseArticle,
 };
+
+Vue.use(VueCompositionAPI);
 
 const initView = async () => {
   // import theme

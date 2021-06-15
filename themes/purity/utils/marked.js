@@ -1,6 +1,5 @@
 import marked from 'marked';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/base16/github.css';
 
 marked.use({
   renderer: {
