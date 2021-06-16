@@ -11,43 +11,86 @@ const logger = require('../utils/logger');
 const esmRequire = esm(module);
 
 const __root = path.resolve(__dirname, '../../');
-const __public = path.resolve(__root, './public');
+const __data = path.resolve(__root, './.fragy');
+
+if (!fs.existsSync(__data)) {
+  fs.mkdirSync(__data, { recursive: true });
+}
 
 const { formatConfig } = esmRequire(path.resolve(__root, './src/utils/config.js'));
 const { parseArticle } = esmRequire(path.resolve(__root, './src/utils/article'));
 const fragyConfig = formatConfig(esmRequire(path.resolve(__root, './fragy.config.js')).default);
 
-const postsDirPath = path.resolve(__public, `.${fragyConfig.articles.base}`);
-const listPath = path.resolve(__public, `.${fragyConfig.articleList.infoPath}`);
-const listDirPath = path.dirname(listPath);
+let articlesDir;
+let outputPath;
+let outputDir;
 
 const moreTester = /<!-{2}\s?more\s?-{2}>/;
 
-if (!fs.existsSync(postsDirPath)) {
-  throw new Error('Cannot locate the posts folder.');
-}
-
-if (!fs.existsSync(listDirPath)) {
-  fs.mkdirSync(listDirPath, { recursive: true });
-}
-
-const collectArticles = async () => {
-  const filenames = await fsp.readdir(postsDirPath);
-  return filenames.filter((filename) => filename.endsWith('.md'));
+const checkPath = () => {
+  if (!fragyConfig.articles.path) {
+    logger.error('The articles storage folder was not set in the configuration.');
+    return false;
+  }
+  articlesDir = path.resolve(__data, fragyConfig.articles.path);
+  if (!fragyConfig.articleList.output) {
+    logger.error('You have not specified list info output.');
+    return false;
+  }
+  outputPath = path.resolve(__data, fragyConfig.articleList.output);
+  outputDir = path.dirname(outputPath);
+  if (!fs.existsSync(articlesDir)) {
+    logger.error('Cannot locate the posts folder.');
+    return false;
+  }
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+  return true;
 };
 
-const generateList = async ({ filenames }) => {
-  const articles = [];
+const collectArticles = async (base = null) => {
+  const currentDir = base ? path.resolve(articlesDir, base) : articlesDir;
+  const filenames = await fsp.readdir(currentDir);
+  const res = [];
   await Promise.all(
     filenames.map((filename) => {
+      const filePath = path.resolve(currentDir, filename);
+      const relativePath = base ? `${base}/${filename}` : filename;
       return new Promise((resolve) => {
-        const articlePath = path.resolve(postsDirPath, filename);
-        logger.debug(`Collecting aritcle: ${articlePath}`);
+        try {
+          fsp.stat(filePath).then(async (stat) => {
+            if (stat.isDirectory()) {
+              logger.debug(`Detected folder: ${filePath}`);
+              res.push(...(await collectArticles(relativePath)));
+            } else if (filename.endsWith('.md')) {
+              logger.debug(`Collecting article: ${filePath}`);
+              res.push(relativePath);
+            }
+            resolve();
+          });
+        } catch (err) {
+          logger.error(`Cannot get stat info of file ${filePath}`);
+          resolve(null);
+        }
+      });
+    }),
+  );
+  return res;
+};
+
+const generateList = async ({ files }) => {
+  const articles = [];
+  await Promise.all(
+    files.map((filename) => {
+      return new Promise((resolve) => {
+        const articlePath = path.resolve(articlesDir, filename);
+        logger.debug(`Resolving aritcle: ${filename}`);
         fsp.readFile(articlePath).then((content) => {
           const articleInfo = parseArticle(content);
           Object.assign(articleInfo, {
             path: articlePath,
-            filename,
+            filename: path.basename(articlePath),
           });
           articles.push(articleInfo);
           resolve();
@@ -100,9 +143,14 @@ const generateList = async ({ filenames }) => {
 };
 
 const execute = async () => {
-  const filenames = await collectArticles();
-  const list = await generateList({ filenames });
-  await fsp.writeFile(listPath, JSON.stringify(list), { encoding: 'utf-8' });
+  const pathCheckRes = checkPath();
+  if (!pathCheckRes) {
+    logger.warn('Path check failed, skip generating article list info.');
+    return;
+  }
+  const files = await collectArticles();
+  const list = await generateList({ files });
+  await fsp.writeFile(outputPath, JSON.stringify(list), { encoding: 'utf-8' });
   logger.info('Aritcles list has been generated.');
 };
 

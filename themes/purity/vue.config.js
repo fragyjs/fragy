@@ -9,7 +9,7 @@ module.exports = {
     },
   },
   chainWebpack: (config) => {
-    config.plugin('hljs-styles').use(CopyPlugin, [
+    config.plugin('hljs-css').use(CopyPlugin, [
       {
         patterns: [
           {

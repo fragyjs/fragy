@@ -1,25 +1,34 @@
+const formatFeed = (feed) => {
+  if (feed && !/^https?\/\//.test(feed)) {
+    let formatted = feed;
+    if (!formatted.startsWith('/')) {
+      formatted = `/${formatted}`;
+    }
+    if (formatted.endsWith('/')) {
+      formatted = formatted.substr(0, feed.length - 1);
+    }
+    return formatted;
+  }
+  return feed;
+};
+
 export const formatConfig = (userConfig) => {
   const config = Object.assign(
     {
+      title: 'Fragy',
+      subtitle: 'Another fragy site.',
       articles: {
-        base: '/posts',
+        path: 'posts',
+        feed: '/posts',
       },
       articleList: {
-        infoPath: '/data/articleList.json',
+        output: 'articleList.json',
+        feed: '/data/articleList.json',
       },
     },
     userConfig,
   );
-  // format articles
-  if (config.articles.base) {
-    let { base } = config.articles;
-    if (!base.startsWith('/')) {
-      base = `/${base}`;
-    }
-    if (base.endsWith('/')) {
-      base = base.substr(0, base.length - 1);
-    }
-    config.articles.base = base;
-  }
+  config.articles.feed = formatFeed(config.articles.feed);
+  config.articleList.feed = formatFeed(config.articleList.feed);
   return config;
 };

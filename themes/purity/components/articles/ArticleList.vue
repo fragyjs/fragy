@@ -32,9 +32,6 @@ import Paginator from '../layout/Paginator';
 
 export default {
   name: 'fragy.purity.articles.list',
-  props: {
-    feed: String,
-  },
   components: {
     ArticleBlock,
     Paginator,
@@ -46,6 +43,7 @@ export default {
       articles: [],
       articlesLoading: true,
       loadFailed: false,
+      feed: this.$fragy.articleList.feed,
     };
   },
   created() {

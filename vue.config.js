@@ -1,10 +1,14 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const copyPlugin = require('copy-webpack-plugin');
 const esmRequire = require('esm')(module);
 
-const fragyConfig = esmRequire('./fragy.config.js').default;
+const { formatConfig } = esmRequire('./src/utils/config');
+const fragyConfig = formatConfig(esmRequire('./fragy.config.js').default);
 const themeFuncs = {};
+
+const __data = path.resolve(__dirname, '.fragy');
 
 const chainWebpack = (config) => {
   config.plugin('theme-flags').use(webpack.DefinePlugin, [
@@ -18,6 +22,35 @@ const chainWebpack = (config) => {
       ),
     },
   ]);
+
+  const { feed: articleFeed } = fragyConfig.articles;
+  if (articleFeed && !/^https?\/\//.test(articleFeed)) {
+    config.plugin('fragy-articles').use(copyPlugin, [
+      {
+        patterns: [
+          {
+            from: '.fragy/posts/**/*.md',
+            to: `${articleFeed.substr(1)}/[name].md`,
+          },
+        ],
+      },
+    ]);
+  }
+
+  const { output: articleListPath, feed: articleListFeed } = fragyConfig.articleList;
+  if (articleListFeed && !/^https?\/\//.test(articleListFeed)) {
+    config.plugin('fragy-article-list').use(copyPlugin, [
+      {
+        patterns: [
+          {
+            from: path.resolve(__data, articleListPath),
+            to: articleListFeed.substr(1),
+          },
+        ],
+      },
+    ]);
+  }
+
   if (process.env.BUNDLE_ANALYZE === 'true') {
     config.plugin('bundle-analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
   }
