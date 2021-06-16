@@ -13,6 +13,7 @@ const __data = path.resolve(__dirname, '.fragy');
 const chainWebpack = (config) => {
   config.plugin('theme-flags').use(webpack.DefinePlugin, [
     {
+      __FRAGY__TITLE__: JSON.stringify(fragyConfig.title),
       __FRAGY_THEME_PKG__: JSON.stringify(fragyConfig.theme.package),
       __FRAGY_THEME_CONFIG__: JSON.stringify(
         path.resolve(__dirname, `./node_modules/${fragyConfig.theme.package}/config.js`),
