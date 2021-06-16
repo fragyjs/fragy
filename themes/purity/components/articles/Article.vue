@@ -52,7 +52,7 @@ export default {
     };
   },
   watch: {
-    filename(newValue) {
+    async filename(newValue) {
       if (!newValue) {
         return;
       }
@@ -61,11 +61,13 @@ export default {
       this.contentLoading = true;
       this.loadFailed = false;
       this.renderedContent = '';
-      this.fetchArticle();
+      await this.fetchArticle();
+      this.setTitle();
     },
   },
   async mounted() {
     await this.fetchArticle();
+    this.setTitle();
   },
   computed: {
     ...mapState({
@@ -109,7 +111,7 @@ export default {
     async fetchArticle() {
       let res;
       try {
-        res = await this.$http.get(`${this.$fragy.articles.base}/${this.filename}`);
+        res = await this.$http.get(`${this.$fragy.articles.feed}/${this.filename}`);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article content.', err);
@@ -129,6 +131,12 @@ export default {
         pangu.spacingElementById('article-title');
         pangu.spacingElementById('article-content');
       });
+    },
+    setTitle() {
+      const template = this.$theme.article.title;
+      document.title = template
+        .replace('{articleTitle}', this.title)
+        .replace('{siteTitle}', this.$fragy.title);
     },
   },
 };

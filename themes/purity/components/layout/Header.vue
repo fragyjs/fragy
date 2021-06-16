@@ -28,6 +28,7 @@ export default {
   methods: {
     goHome() {
       this.$router.push('/');
+      document.title = this.$fragy.title;
     },
   },
 };

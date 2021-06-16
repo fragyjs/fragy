@@ -10,5 +10,8 @@ export default {
   components: {
     ArticleList,
   },
+  created() {
+    document.title = this.$fragy.title;
+  },
 };
 </script>
