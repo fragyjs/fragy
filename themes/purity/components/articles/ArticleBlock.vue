@@ -138,6 +138,7 @@ export default {
     &-controls {
       flex: 0 0 auto;
       justify-self: flex-end;
+      user-select: none;
       a {
         color: var(--article-block-footer);
         font-size: 0.875rem;
