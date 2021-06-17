@@ -63,11 +63,18 @@ export default {
       this.renderedContent = '';
       await this.fetchArticle();
       this.setTitle();
+      window.scrollTo({
+        top: 0,
+      });
     },
   },
   async mounted() {
     await this.fetchArticle();
     this.setTitle();
+    // scroll to top
+    window.scrollTo({
+      top: 0,
+    });
   },
   computed: {
     ...mapState({
