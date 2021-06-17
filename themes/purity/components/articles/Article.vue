@@ -31,7 +31,7 @@ import pangu from 'pangu.simple';
 import marked from '../../utils/marked';
 import Date from '../icons/Date';
 import Loading from '../icons/Loading';
-import { mapState } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'fragy.purity.article',
@@ -73,6 +73,7 @@ export default {
     ...mapState({
       storedTitle: (state) => state.article.title,
     }),
+    ...mapGetters('article', ['getCachedContent', 'cacheExisted']),
     title() {
       let title;
       if (this.storedTitle) {
@@ -108,7 +109,12 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('article', ['setCache']),
     async fetchArticle() {
+      if (this.cacheExisted(this.filename)) {
+        this.afterLoaded(this.getCachedContent(this.filename));
+        return;
+      }
       let res;
       try {
         res = await this.$http.get(`${this.$fragy.articles.feed}/${this.filename}`);
@@ -120,6 +126,13 @@ export default {
         return;
       }
       const parsedArticle = this.$utils.parseArticle(res.data.trim());
+      this.setCache({
+        filename: this.filename,
+        article: parsedArticle,
+      });
+      this.afterLoaded(parsedArticle);
+    },
+    afterLoaded(parsedArticle) {
       this.meta = parsedArticle.meta;
       this.content = parsedArticle.content.trim();
       this.contentLoading = false;

@@ -6,6 +6,7 @@ export default {
   },
   article: {
     title: '{articleTitle} - {siteTitle}',
+    prefetch: true,
   },
   footer: {
     enable: true,

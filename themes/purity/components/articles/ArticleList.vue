@@ -29,6 +29,7 @@
 <script>
 import ArticleBlock from './ArticleBlock';
 import Paginator from '../layout/Paginator';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'fragy.purity.articles.list',
@@ -50,6 +51,7 @@ export default {
     this.fetchArticlesList();
   },
   computed: {
+    ...mapGetters('article', ['cacheExisted']),
     showEmpty() {
       const { articles } = this;
       return articles && Array.isArray(articles) && articles.length < 1;
@@ -67,6 +69,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('article', ['setCache']),
     async fetchArticlesList() {
       let res;
       try {
@@ -77,9 +80,32 @@ export default {
         this.loadFailed = true;
       }
       this.articles = res.data;
+      if (this.$theme.article.prefetch) {
+        this.$nextTick(() => {
+          this.prefetchAricles();
+        });
+      }
     },
     onPageChange(page) {
       this.currentPage = page;
+      if (this.$theme.article.prefetch) {
+        this.$nextTick(() => {
+          this.prefetchAricles();
+        });
+      }
+    },
+    prefetchAricles() {
+      this.currentArticles.forEach(async (article) => {
+        if (this.cacheExisted(article.filename)) {
+          return;
+        }
+        const res = await this.$http.get(`${this.$fragy.articles.feed}/${article.filename}`);
+        const parsedArticle = this.$utils.parseArticle(res.data.trim());
+        this.setCache({
+          filename: article.filename,
+          article: parsedArticle,
+        });
+      });
     },
   },
 };
