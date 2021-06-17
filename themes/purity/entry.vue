@@ -14,9 +14,7 @@
 <script>
 import { computed } from '@vue/composition-api';
 import Page from './components/layout/Page';
-import Color from 'color';
-
-const ColorTester = /#([a-f0-9]{3}|[a-f0-9]{4}(?:[a-f0-9]{2}){0,2})\b/i;
+import { generateStyle } from './utils/theme';
 
 export default {
   components: {
@@ -33,23 +31,15 @@ export default {
     };
   },
   created() {
-    const { primaryColor } = this.$theme;
-    if (primaryColor && ColorTester.test(primaryColor)) {
-      const color = new Color(primaryColor);
-      const style = document.createElement('style');
-      style.id = 'fragy-generated-styles';
-      let lightenRate = 0.05;
-      if (color.red() <= 50 && color.green() <= 50 && color.blue() <= 50) {
-        lightenRate = 0.2;
-      }
-      const hoverColor = color.lighten(lightenRate).hex();
-      const borderColor = color.lighten(lightenRate).hex();
-      style.innerHTML = `:root {--primary:${primaryColor};--primary-hover:${hoverColor};--article-block-border:${borderColor};--article-border:${borderColor}};`;
-      document.body.append(style);
-    }
+    // set title
     document.title = this.$fragy.title;
     // listen events
     this.$bus.$on('color-theme-changed', this.colorThemeChanged);
+    // generate theme
+    if (this.$theme.color?.primary && this.$theme.color?.autoGenerate) {
+      const style = generateStyle(this.$theme.color.primary);
+      style && document.head.append(style);
+    }
   },
   methods: {
     colorThemeChanged(theme) {

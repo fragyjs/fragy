@@ -1,6 +1,9 @@
 // IMPORTANT: DO NOT DELETE ANY PROPERTY IN THE CONFIGURATION!!!
 export default {
-  // primaryColor: '#2e2e2e',
+  color: {
+    // primary: '#2e2e2e',
+    autoGenerate: true,
+  },
   article: {
     title: '{articleTitle} - {siteTitle}',
   },
