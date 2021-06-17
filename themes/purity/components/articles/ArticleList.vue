@@ -45,14 +45,24 @@ export default {
       articlesLoading: true,
       loadFailed: false,
       feed: this.$fragy.articleList.feed,
+      mountTime: null,
     };
   },
   created() {
     this.fetchArticlesList();
   },
+  mounted() {
+    this.mountTime = Date.now();
+  },
   computed: {
     ...mapGetters('article', ['cacheExisted']),
     showEmpty() {
+      if (!this.mountTime) {
+        return false;
+      } else if (Date.now() - this.mountTime <= 500) {
+        // do not show the loading text in the first 500 ms
+        return false;
+      }
       const { articles } = this;
       return articles && Array.isArray(articles) && articles.length < 1;
     },
@@ -110,3 +120,11 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+.article-list-empty {
+  span {
+    color: var(--article-block-text);
+  }
+}
+</style>
