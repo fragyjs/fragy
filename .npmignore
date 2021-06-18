@@ -1,1 +1,6 @@
 themes
+.fragy
+.history
+.vscode
+dist
+node_modules
