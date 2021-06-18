@@ -13,12 +13,6 @@
   "bugs": {
     "url": "https://github.com/pwp-app/fragy/issues"
   },
-  "files": [
-    "fragy.config.js",
-    "src",
-    "scripts",
-    "public"
-  ],
   "scripts": {
     "dev": "node ./scripts/generate.js && vue-cli-service serve",
     "build": "node ./scripts/generate.js && vue-cli-service build",
@@ -28,7 +22,6 @@
     "generate": "node ./scripts/generate.js"
   },
   "dependencies": {
-    "@fragy/purity": "file:themes/purity",
     "@vue/composition-api": "^1.0.0-rc.11",
     "axios": "^0.21.1",
     "color": "^3.1.3",
