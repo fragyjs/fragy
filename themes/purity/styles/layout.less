@@ -17,6 +17,10 @@ body,
   background-color: var(--page-background);
 }
 
+#app {
+  padding-right: calc(100vw - 100% + 1rem);
+}
+
 @scrollbar-width: 0.5rem;
 
 body::-webkit-scrollbar {
@@ -36,4 +40,13 @@ body::-webkit-scrollbar-track {
 }
 body::-webkit-scrollbar-corner {
   background: var(--page-background);
+}
+
+@media screen and (max-width: 767px) {
+  @scrollbar-width: 0.375rem;
+
+  body::-webkit-scrollbar {
+    width: @scrollbar-width;
+    height: @scrollbar-width;
+  }
 }
