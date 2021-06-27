@@ -7,7 +7,7 @@
       <div class="page-header-title-main page-header-title-main--clickable" @click="goHome" v-else>
         <span>{{ title }}</span>
       </div>
-      <div class="page-header-title-sub">
+      <div class="page-header-title-sub" v-if="subtitle">
         <span>{{ subtitle }}</span>
       </div>
     </div>
