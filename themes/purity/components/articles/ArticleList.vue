@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pageSize: 10,
+      pageSize: this.$fragy.articleList.pageSize,
       articles: [],
       articlesLoading: true,
       loadFailed: false,
