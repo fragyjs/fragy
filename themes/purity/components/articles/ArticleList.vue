@@ -40,56 +40,85 @@ export default {
   data() {
     return {
       currentPage: 1,
+      total: 0,
       pageSize: this.$fragy.articleList.pageSize,
-      articles: [],
+      articles: null,
       articlesLoading: true,
       loadFailed: false,
-      feed: this.$fragy.articleList.feed,
-      mountTime: null,
+      lastFetchTime: null,
+      loadedPages: {},
     };
   },
   created() {
     this.fetchArticlesList();
   },
-  mounted() {
-    this.mountTime = Date.now();
-  },
   computed: {
     ...mapGetters('article', ['cacheExisted']),
+    feed() {
+      return this.$fragy.articleList.splitPage
+        ? `${this.$fragy.articleList.feed}/page-${this.currentPage}.json`
+        : this.$fragy.articleList.feed;
+    },
     showEmpty() {
-      if (!this.mountTime) {
-        return false;
-      } else if (Date.now() - this.mountTime <= 500) {
-        // do not show the loading text in the first 500 ms
-        return false;
-      }
-      const { articles } = this;
-      return articles && Array.isArray(articles) && articles.length < 1;
+      return this.articlesLoading || this.loadFailed || this.showDefaultEmptyText;
     },
     showDefaultEmptyText() {
-      return !this.articlesLoading && !this.loadFailed;
+      return !this.articlesLoading && !this.loadFailed && !this.currentArticles;
     },
     currentArticles() {
-      const start = (this.currentPage - 1) * 10;
-      const end = this.currentPage * 10;
-      return this.articles.slice(start, end);
+      if (!this.articles) {
+        return null;
+      }
+      if (this.$fragy.articleList.splitPage) {
+        return this.articles[this.currentPage];
+      } else {
+        const start = (this.currentPage - 1) * 10;
+        const end = this.currentPage * 10;
+        return this.articles.slice(start, end);
+      }
     },
     pageCount() {
-      return Math.floor(this.articles.length / this.pageSize) + 1;
+      if (this.$fragy.articleList.splitPage) {
+        return Math.floor(this.total / this.pageSize) + 1;
+      } else {
+        return Math.floor(this.articles.length / this.pageSize) + 1;
+      }
     },
   },
   methods: {
     ...mapMutations('article', ['setCache']),
     async fetchArticlesList() {
+      if (this.loadedPages[this.currentPage]) {
+        return;
+      }
+      // reset flags
+      const loadingTimeout = setTimeout(() => {
+        this.articlesLoading = true;
+      }, 500);
+      this.loadFailed = false;
+      // send request
       let res;
       try {
         res = await this.$http.get(this.feed);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article list info.', err);
+        clearTimeout(loadingTimeout);
         this.loadFailed = true;
       }
-      this.articles = res.data;
+      clearTimeout(loadingTimeout);
+      this.articlesLoading = false;
+      if (res.data.total) {
+        this.total = res.data.total;
+      }
+      this.loadedPages[this.currentPage] = true;
+      if (this.$fragy.articleList.splitPage) {
+        if (!this.articles) this.articles = {};
+        this.$set(this.articles, this.currentPage, res.data.listData);
+      } else {
+        this.articles = res.data.listData;
+      }
+      this.lastFetchTime = Date.now();
       if (this.$theme.article.prefetch) {
         this.$nextTick(() => {
           this.prefetchAricles();
@@ -98,13 +127,18 @@ export default {
     },
     onPageChange(page) {
       this.currentPage = page;
-      if (this.$theme.article.prefetch) {
+      if (this.$fragy.articleList.splitPage) {
+        this.fetchArticlesList();
+      } else if (this.$theme.article.prefetch) {
         this.$nextTick(() => {
           this.prefetchAricles();
         });
       }
     },
     prefetchAricles() {
+      if (!this.currentArticles) {
+        return;
+      }
       this.currentArticles.forEach(async (article) => {
         if (this.cacheExisted(article.filename)) {
           return;
@@ -123,6 +157,7 @@ export default {
 
 <style lang="less">
 .article-list-empty {
+  user-select: none;
   span {
     color: var(--article-block-text);
   }
