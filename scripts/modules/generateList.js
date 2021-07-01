@@ -118,28 +118,34 @@ const generateList = async ({ files }) => {
     }),
   );
   // generate list info
-  return articles.map((article) => {
-    const listInfo = {
-      filename: article.filename,
-      title: article.meta.title,
-      date: article.meta.date,
-    };
-    let abstract = '';
-    const matches = moreTester.exec(article.content);
-    if (matches && matches.length) {
-      const moreFlag = matches[0];
-      const moreFlagIdx = article.content.indexOf(moreFlag);
-      abstract = article.content.substr(0, moreFlagIdx).trim();
-    } else if (article.content.length > (fragyConfig.articleList.abstractWords || 200)) {
-      abstract = `${article.content.substr(0, 200)}...`;
-    } else {
-      abstract = article.content;
-    }
-    Object.assign(listInfo, {
-      abstract,
+  return articles
+    .map((article) => {
+      const listInfo = {
+        filename: article.filename,
+        title: article.meta.title,
+        date: article.meta.date,
+      };
+      let abstract = '';
+      const matches = moreTester.exec(article.content);
+      if (matches && matches.length) {
+        const moreFlag = matches[0];
+        const moreFlagIdx = article.content.indexOf(moreFlag);
+        abstract = article.content.substr(0, moreFlagIdx).trim();
+      } else if (article.content.length > (fragyConfig.articleList.abstractWords || 200)) {
+        abstract = `${article.content.substr(0, 200)}...`;
+      } else {
+        abstract = article.content;
+      }
+      Object.assign(listInfo, {
+        abstract,
+      });
+      return listInfo;
+    })
+    .sort((a, b) => {
+      const createTimeA = moment(a.date, 'YYYY-MM-DD HH:mm:ss');
+      const createTimeB = moment(b.date, 'YYYY-MM-DD HH:mm:ss');
+      return createTimeB.valueOf() - createTimeA.valueOf();
     });
-    return listInfo;
-  });
 };
 
 const execute = async () => {
@@ -168,12 +174,26 @@ const execute = async () => {
         .filter((slice) => !!slice.length)
         .map((slice, idx) => {
           const slicePath = path.resolve(outputPath, `./page-${idx + 1}.json`);
-          return fsp.writeFile(slicePath, JSON.stringify(slice), { encoding: 'utf-8' });
+          return fsp.writeFile(
+            slicePath,
+            JSON.stringify({
+              total: list.length,
+              listData: slice,
+            }),
+            { encoding: 'utf-8' },
+          );
         }),
     );
   } else {
     try {
-      await fsp.writeFile(outputPath, JSON.stringify(list), { encoding: 'utf-8' });
+      await fsp.writeFile(
+        outputPath,
+        JSON.stringify({
+          total: list.length,
+          listData: list,
+        }),
+        { encoding: 'utf-8' },
+      );
     } catch (err) {
       logger.error('Failed to write list info to disk: ', err);
     }
