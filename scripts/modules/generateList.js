@@ -150,7 +150,34 @@ const execute = async () => {
   }
   const files = await collectArticles();
   const list = await generateList({ files });
-  await fsp.writeFile(outputPath, JSON.stringify(list), { encoding: 'utf-8' });
+  if (fragyConfig.articleList.splitPage) {
+    const { pageSize } = fragyConfig.articleList;
+    if (fs.existsSync(outputPath)) {
+      await fsp.rmdir(outputPath, { recursive: true });
+    }
+    await fsp.mkdir(outputPath, { recursive: true });
+    const slices = [];
+    for (let i = 0; i < pageSize; i++) {
+      slices.push(list.slice(i * pageSize, (i + 1) * pageSize));
+      if ((i + 1) * pageSize > list.length) {
+        break;
+      }
+    }
+    await Promise.all(
+      slices
+        .filter((slice) => !!slice.length)
+        .map((slice, idx) => {
+          const slicePath = path.resolve(outputPath, `./page-${idx + 1}.json`);
+          return fsp.writeFile(slicePath, JSON.stringify(slice), { encoding: 'utf-8' });
+        }),
+    );
+  } else {
+    try {
+      await fsp.writeFile(outputPath, JSON.stringify(list), { encoding: 'utf-8' });
+    } catch (err) {
+      logger.error('Failed to write list info to disk: ', err);
+    }
+  }
   logger.info('Aritcles list has been generated.');
 };
 
