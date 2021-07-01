@@ -19,14 +19,8 @@ export const formatConfig = (userConfig) => {
       subtitle: 'Another fragy site.',
       articles: {
         path: 'posts',
-        feed: '/posts',
+        feed: '/data/posts',
       },
-      // articleList: {
-      //   output: 'listFeed.json',
-      //   feed: '/data/listFeed.json',
-      //   splitPage: false,
-      //   pageSize: 10,
-      // },
       articleList: {
         output: 'listFeed',
         feed: '/data/listFeed',
