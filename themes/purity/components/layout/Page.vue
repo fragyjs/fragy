@@ -29,14 +29,17 @@ export default {
 @main-width: 52rem;
 
 .page-wrapper {
-  width: 100%;
-  max-width: @main-width;
+  width: 100vw;
+  max-width: 100vw;
   min-height: 100vh;
   margin: 0 auto;
+  padding: 1.25rem;
   box-sizing: border-box;
   .page {
+    width: 100%;
+    max-width: @main-width;
+    margin: 0 auto;
     min-height: 100vh;
-    padding: 1.25rem 1.75rem;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
