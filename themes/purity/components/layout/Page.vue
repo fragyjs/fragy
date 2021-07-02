@@ -35,11 +35,12 @@ export default {
   margin: 0 auto;
   padding: 1.25rem;
   box-sizing: border-box;
+  position: relative;
   .page {
     width: 100%;
     max-width: @main-width;
+    min-height: calc(100vh - 2.5rem);
     margin: 0 auto;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
