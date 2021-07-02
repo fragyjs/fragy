@@ -79,6 +79,7 @@ export default {
   methods: {
     setPage(page) {
       this.$emit('change', page);
+      window.scrollTo(0, 0);
     },
   },
 };
