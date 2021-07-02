@@ -7,7 +7,7 @@
       <a
         class="page-header-title-main page-header-title-main--clickable"
         :href="homeUrl"
-        @click="goHome"
+        @click.prevent="goHome"
         v-else
       >
         <span>{{ title }}</span>
