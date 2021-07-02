@@ -54,11 +54,6 @@ export default {
   },
   computed: {
     ...mapGetters('article', ['cacheExisted']),
-    feed() {
-      return this.$fragy.articleList.splitPage
-        ? `${this.$fragy.articleList.feed}/page-${this.currentPage}.json`
-        : this.$fragy.articleList.feed;
-    },
     showEmpty() {
       return this.listDataLoading || this.loadFailed || this.showDefaultEmptyText;
     },
@@ -87,8 +82,21 @@ export default {
   },
   methods: {
     ...mapMutations('article', ['setCache']),
+    getFeed(page) {
+      return this.$fragy.articleList.splitPage
+        ? `${this.$fragy.articleList.feed}/page-${page}.json`
+        : this.$fragy.articleList.feed;
+    },
     async fetchArticlesList() {
       if (this.loadedPages[this.currentPage]) {
+        this.$nextTick(() => {
+          if (this.$theme.article.prefetch) {
+            this.prefetchAricles();
+          }
+          if (this.$fragy.articleList.splitPage && this.$theme.articleList.prefetch) {
+            this.prefetchArticleList();
+          }
+        });
         return;
       }
       // reset flags
@@ -97,12 +105,13 @@ export default {
       // send request
       let res;
       try {
-        res = await this.$http.get(this.feed);
+        res = await this.$http.get(this.getFeed(this.currentPage));
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article list info.', err);
         this.listDataLoading = false;
         this.loadFailed = true;
+        return;
       }
       this.listDataLoading = false;
       if (res.data.total) {
@@ -121,6 +130,40 @@ export default {
           this.prefetchAricles();
         });
       }
+      if (this.$fragy.articleList.splitPage && this.$theme.articleList.prefetch) {
+        this.$nextTick(() => {
+          this.prefetchArticleList();
+        });
+      }
+    },
+    async prefetchArticleList() {
+      if (this.currentPage === this.pageCount) {
+        return;
+      }
+      const needFetch = [];
+      if (this.currentPage === 1) {
+        needFetch.push(2);
+      } else {
+        needFetch.push(this.currentPage - 1);
+        needFetch.push(this.currentPage + 1);
+      }
+      needFetch.forEach(async (page) => {
+        // check existed cache
+        if (this.loadedPages[page]) {
+          return;
+        }
+        // fetch info
+        let res;
+        try {
+          res = await this.$http.get(this.getFeed(page));
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to pre-fetch article list info.', err);
+          return;
+        }
+        this.$set(this.articles, page, res.data.listData);
+        this.loadedPages[page] = true;
+      });
     },
     onPageChange(page) {
       this.currentPage = page;
