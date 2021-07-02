@@ -114,6 +114,23 @@ export default {
     font-size: 0.95rem;
     line-height: 2rem;
     color: var(--article-block-text);
+    a {
+      color: var(--article-block-text);
+    }
+    a:hover {
+      color: var(--article-block-hover) !important;
+    }
+    a:visited {
+      color: var(--article-block-text);
+    }
+    pre {
+      background: var(--article-code-bg);
+      font-size: 0.8125rem;
+      padding: 0.75rem 1rem;
+      code {
+        color: var(--article-code-text);
+      }
+    }
   }
   &-footer {
     display: flex;
