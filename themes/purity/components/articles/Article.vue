@@ -195,6 +195,7 @@ export default {
     border-bottom: 0.0625rem dashed var(--article-border);
     text-align: justify;
     line-height: 2;
+    color: var(--article-text);
     p {
       color: var(--article-text);
       margin: 0 0 1.125rem 0;
