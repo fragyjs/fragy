@@ -4,6 +4,9 @@ export default {
     // primary: '#2e2e2e',
     autoGenerate: true,
   },
+  articleList: {
+    prefetch: true,
+  },
   article: {
     title: '{articleTitle} - {siteTitle}',
     prefetch: true,
