@@ -1,6 +1,6 @@
 <template>
   <div class="article-list article-list-empty" v-if="showEmpty">
-    <span v-if="articlesLoading">文章列表加载中...</span>
+    <span v-if="listDataLoading">文章列表加载中...</span>
     <span v-if="loadFailed">文章列表加载失败</span>
     <span v-if="showDefaultEmptyText">这里暂时还没有文章...</span>
   </div>
@@ -43,7 +43,8 @@ export default {
       total: 0,
       pageSize: this.$fragy.articleList.pageSize,
       articles: null,
-      articlesLoading: true,
+      listDataLoadingStarted: true,
+      listDataLoading: true,
       loadFailed: false,
       lastFetchTime: null,
       loadedPages: {},
@@ -60,10 +61,15 @@ export default {
         : this.$fragy.articleList.feed;
     },
     showEmpty() {
-      return this.articlesLoading || this.loadFailed || this.showDefaultEmptyText;
+      return this.listDataLoading || this.loadFailed || this.showDefaultEmptyText;
     },
     showDefaultEmptyText() {
-      return !this.articlesLoading && !this.loadFailed && !this.currentArticles;
+      return (
+        !this.listDataLoadingStarted &&
+        !this.listDataLoading &&
+        !this.loadFailed &&
+        !this.currentArticles
+      );
     },
     currentArticles() {
       if (!this.articles) {
@@ -92,8 +98,9 @@ export default {
         return;
       }
       // reset flags
+      this.listDataLoadingStarted = true;
       const loadingTimeout = setTimeout(() => {
-        this.articlesLoading = true;
+        this.listDataLoading = true;
       }, 500);
       this.loadFailed = false;
       // send request
@@ -104,10 +111,13 @@ export default {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article list info.', err);
         clearTimeout(loadingTimeout);
+        this.listDataLoading = false;
+        this.listDataLoadingStarted = false;
         this.loadFailed = true;
       }
       clearTimeout(loadingTimeout);
-      this.articlesLoading = false;
+      this.listDataLoadingStarted = false;
+      this.listDataLoading = false;
       if (res.data.total) {
         this.total = res.data.total;
       }
