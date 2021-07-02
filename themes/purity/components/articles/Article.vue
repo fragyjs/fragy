@@ -247,6 +247,9 @@ export default {
         color: var(--article-code-text);
       }
     }
+    ul {
+      color: var(--article-text);
+    }
   }
   &-content-loading {
     display: flex;
