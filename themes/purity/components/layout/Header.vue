@@ -4,9 +4,14 @@
       <div class="page-header-title-main" v-if="$route.path === '/'">
         <span>{{ title }}</span>
       </div>
-      <div class="page-header-title-main page-header-title-main--clickable" @click="goHome" v-else>
+      <a
+        class="page-header-title-main page-header-title-main--clickable"
+        :href="homeUrl"
+        @click="goHome"
+        v-else
+      >
         <span>{{ title }}</span>
-      </div>
+      </a>
       <div class="page-header-title-sub" v-if="subtitle">
         <span>{{ subtitle }}</span>
       </div>
@@ -23,6 +28,7 @@ export default {
     return {
       title,
       subtitle,
+      homeUrl: window.location.origin,
     };
   },
   methods: {
@@ -56,6 +62,7 @@ export default {
       font-size: 1.2rem;
       font-weight: 600;
       letter-spacing: 0.075rem;
+      text-decoration: none;
     }
     &-main--clickable {
       transition: 100ms ease-in-out;
@@ -63,6 +70,15 @@ export default {
     &-main--clickable:hover {
       background: var(--primary-hover);
       cursor: pointer;
+    }
+    &-main--clickable:active {
+      color: var(--text-title);
+    }
+    &-main--clickable:visited {
+      color: var(--text-title);
+    }
+    &-main--clickable:focus {
+      color: var(--text-title);
     }
     &-sub {
       color: var(--text-subtitle);
