@@ -43,7 +43,6 @@ export default {
       total: 0,
       pageSize: this.$fragy.articleList.pageSize,
       articles: null,
-      listDataLoadingStarted: true,
       listDataLoading: true,
       loadFailed: false,
       lastFetchTime: null,
@@ -64,12 +63,7 @@ export default {
       return this.listDataLoading || this.loadFailed || this.showDefaultEmptyText;
     },
     showDefaultEmptyText() {
-      return (
-        !this.listDataLoadingStarted &&
-        !this.listDataLoading &&
-        !this.loadFailed &&
-        !this.currentArticles
-      );
+      return !this.listDataLoading && !this.loadFailed && !this.currentArticles;
     },
     currentArticles() {
       if (!this.articles) {
@@ -98,10 +92,7 @@ export default {
         return;
       }
       // reset flags
-      this.listDataLoadingStarted = true;
-      const loadingTimeout = setTimeout(() => {
-        this.listDataLoading = true;
-      }, 500);
+      this.listDataLoading = true;
       this.loadFailed = false;
       // send request
       let res;
@@ -110,13 +101,9 @@ export default {
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article list info.', err);
-        clearTimeout(loadingTimeout);
         this.listDataLoading = false;
-        this.listDataLoadingStarted = false;
         this.loadFailed = true;
       }
-      clearTimeout(loadingTimeout);
-      this.listDataLoadingStarted = false;
       this.listDataLoading = false;
       if (res.data.total) {
         this.total = res.data.total;
