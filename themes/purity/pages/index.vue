@@ -1,5 +1,7 @@
 <template>
-  <ArticleList />
+  <keep-alive>
+    <ArticleList />
+  </keep-alive>
 </template>
 
 <script>
