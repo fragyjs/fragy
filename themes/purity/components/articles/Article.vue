@@ -233,13 +233,13 @@ export default {
       font-size: 1.25rem;
     }
     h3 {
-      font-size: 1.125rem;
+      font-size: 1.15rem;
     }
     h4 {
-      font-size: 1.025rem;
+      font-size: 1.115rem;
     }
     h5 {
-      font-size: 1rem;
+      font-size: 1.025rem;
     }
     img {
       display: block;
