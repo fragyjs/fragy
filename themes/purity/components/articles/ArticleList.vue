@@ -38,8 +38,9 @@ export default {
     Paginator,
   },
   data() {
+    const currentPage = parseInt(this.$route.query?.page, 10) || 1;
     return {
-      currentPage: 1,
+      currentPage,
       total: 0,
       pageSize: this.$fragy.articleList.pageSize,
       articles: null,
@@ -167,6 +168,19 @@ export default {
     },
     onPageChange(page) {
       this.currentPage = page;
+      if (this.$route.query?.page !== page) {
+        if (page !== 1) {
+          this.$router.replace({
+            query: {
+              page,
+            },
+          });
+        } else {
+          this.$router.replace({
+            query: null,
+          });
+        }
+      }
       if (this.$fragy.articleList.splitPage) {
         this.fetchArticlesList();
       } else if (this.$theme.article.prefetch) {
