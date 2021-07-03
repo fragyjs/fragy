@@ -71,6 +71,15 @@ export default {
 </script>
 
 <style lang="less">
+.article-block-text__prefix {
+  margin-right: 8px;
+  color: var(--article-block-text--prefix);
+}
+
+.article-block-text__prefix--small {
+  margin-right: 6px;
+}
+
 .article-block {
   margin: 2.5rem 0;
   padding-top: 2.5rem;
@@ -124,6 +133,43 @@ export default {
     }
     a:visited {
       color: var(--article-block-text);
+    }
+    h1 {
+      font-size: 1.25rem;
+    }
+    h1::before {
+      content: '#';
+      .article-block-text__prefix();
+    }
+    h2 {
+      font-size: 1.175rem;
+    }
+    h2::before {
+      content: '##';
+      .article-block-text__prefix();
+    }
+    h3 {
+      font-size: 1.15rem;
+    }
+    h3::before {
+      content: '###';
+      .article-block-text__prefix();
+    }
+    h4 {
+      font-size: 1.125rem;
+    }
+    h4::before {
+      content: '####';
+      .article-block-text__prefix();
+      .article-block-text__prefix--small();
+    }
+    h5 {
+      font-size: 1.025rem;
+    }
+    h5::before {
+      content: '#####';
+      .article-block-text__prefix();
+      .article-block-text__prefix--small();
     }
     pre {
       background: var(--article-code-bg);
