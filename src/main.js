@@ -25,8 +25,9 @@ const initView = async () => {
   const { default: theme } = await import(__FRAGY_THEME_PKG__);
   // eslint-disable-next-line no-undef
   const { default: themeConfig } = await import(__FRAGY_THEME_CONFIG__);
-  if (fragyConfig.theme.config) {
-    Object.assign(themeConfig, fragyConfig.theme.config);
+  const { config: userThemeConfig } = fragyConfig.theme;
+  if (typeof userThemeConfig === 'object' && userThemeConfig) {
+    Object.assign(themeConfig, userThemeConfig);
   }
   Vue.prototype.$theme = themeConfig;
   // theme setup
