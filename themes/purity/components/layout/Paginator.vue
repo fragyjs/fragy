@@ -40,7 +40,11 @@
       <span>...</span>
     </div>
     <div
-      class="purity-pager-item purity-pager__last"
+      :class="{
+        'purity-pager-item': true,
+        'purity-pager-item__last': true,
+        'purity-pager-item__current': currentPage === pageCount,
+      }"
       v-if="pageCount > 1"
       @click="setPage(pageCount)"
     >
