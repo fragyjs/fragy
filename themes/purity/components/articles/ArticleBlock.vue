@@ -21,6 +21,7 @@ import Date from '../icons/Date';
 import marked from '../../utils/marked';
 import pangu from 'pangu.simple';
 import { mapMutations } from 'vuex';
+import { optimizeExternalLink } from '../../utils/renderer';
 
 export default {
   name: 'fragy.purity.articles.block',
@@ -45,6 +46,7 @@ export default {
     this.renderAbstract();
     this.$nextTick(() => {
       pangu.spacingNode(this.$refs.abstract);
+      optimizeExternalLink(this.$refs.abstract);
     });
   },
   computed: {
