@@ -23,6 +23,9 @@
     <div class="article-content article-content-failed" v-if="loadFailed">
       <p>文章内容加载失败</p>
     </div>
+    <div class="article-comment" v-if="showValine">
+      <div id="vcomment"></div>
+    </div>
   </div>
 </template>
 
@@ -31,6 +34,7 @@ import pangu from 'pangu.simple';
 import marked from '../../utils/marked';
 import Date from '../icons/Date';
 import Loading from '../icons/Loading';
+import { optimizeExternalLink } from '../../utils/renderer';
 import { mapGetters, mapMutations, mapState } from 'vuex';
 
 export default {
@@ -49,6 +53,7 @@ export default {
       contentLoading: true,
       renderedContent: '',
       loadFailed: false,
+      showValine: this.$theme.valine.enable,
     };
   },
   watch: {
@@ -150,6 +155,7 @@ export default {
       this.$nextTick(() => {
         pangu.spacingElementById('article-title');
         pangu.spacingElementById('article-content');
+        optimizeExternalLink(document.querySelector('#article-content'));
       });
     },
     setTitle() {
