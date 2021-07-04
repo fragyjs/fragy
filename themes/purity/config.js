@@ -27,7 +27,5 @@ export default {
   },
   valine: {
     enable: false,
-    appId: '',
-    appKey: '',
   },
 };

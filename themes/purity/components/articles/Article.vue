@@ -24,13 +24,14 @@
       <p>文章内容加载失败</p>
     </div>
     <div class="article-comment" v-if="showValine">
-      <div id="vcomment"></div>
+      <div id="vcomments"></div>
     </div>
   </div>
 </template>
 
 <script>
 import pangu from 'pangu.simple';
+import Valine from 'valine';
 import marked from '../../utils/marked';
 import Date from '../icons/Date';
 import Loading from '../icons/Loading';
@@ -54,6 +55,7 @@ export default {
       renderedContent: '',
       loadFailed: false,
       showValine: this.$theme.valine.enable,
+      valine: null,
     };
   },
   watch: {
@@ -80,6 +82,16 @@ export default {
     window.scrollTo({
       top: 0,
     });
+    // mount valine
+    if (this.showValine) {
+      const valineConfig = Object.assign({}, this.$theme.valine);
+      delete valineConfig.enable;
+      const valine = new Valine({
+        el: '#vcomments',
+        ...valineConfig,
+      });
+      this.valine = valine;
+    }
   },
   computed: {
     ...mapState({
@@ -276,6 +288,9 @@ export default {
         animation: rotate 1.125s ease-in-out infinite;
       }
     }
+  }
+  &-comment {
+    padding-top: 2.5rem;
   }
 }
 </style>
