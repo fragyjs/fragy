@@ -66,15 +66,30 @@ const chainWebpack = (config) => {
 
   config.optimization.splitChunks({
     cacheGroups: {
-      common: {
-        minChunks: 1,
-        maxInitialRequests: 5,
-        minSize: 0,
+      theme: {
+        name: 'theme',
         priority: 0,
         reuseExistingChunk: true,
         enforce: true,
       },
+      themeVendors: {
+        name: 'theme-vendors',
+        test: /[\\/]node_modules[\\/]/,
+        priority: 20,
+        reuseExistingChunk: true,
+        enforce: true,
+      },
+      basic: {
+        name: 'basic-vendors',
+        test: /[\\/]node_modules[\\/]((@?vue)|(axios)|(babel))/,
+        chunks: 'all',
+        priority: 20,
+        reuseExistingChunk: true,
+        enforce: true,
+      },
       vendors: {
+        name: 'vendors',
+        chunks: 'all',
         test: /[\\/]node_modules[\\/]/,
         priority: 10,
         reuseExistingChunk: true,
