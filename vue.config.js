@@ -11,6 +11,7 @@ const themeFuncs = {};
 const __data = path.resolve(__dirname, '.fragy');
 
 const context = {
+  projectRoot: __dirname,
   siteTitle: fragyConfig.title,
   themePkg: fragyConfig.theme.package,
   themeConfigPath: path.resolve(__dirname, `./node_modules/${fragyConfig.theme.package}/config.js`),
@@ -126,7 +127,7 @@ if (fs.existsSync(themeFilePath)) {
   let exported = require(themeFilePath);
   // if exported item is a function, get the return.
   if (typeof exported === 'function') {
-    exported = exported.call(vueConfig, context);
+    exported = exported.call(null, context);
   }
   if (exported.chainWebpack) {
     themeFuncs.chainWebpack = exported.chainWebpack;

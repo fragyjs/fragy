@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = (context) => ({
   pages: {
     index: {
-      entry: path.resolve(__dirname, '../../src/main.js'),
+      entry: path.resolve(context.projectRoot, './src/main.js'),
       template: path.resolve(__dirname, './public/index.html'),
     },
   },
