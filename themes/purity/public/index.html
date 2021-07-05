@@ -5,8 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" />
-    <link id="hl-theme" href="/css/github.css" rel="stylesheet" />
+    <link id="hl-theme" href="<%= __HIGHLIGHT_CSS_THEME__ %>" rel="stylesheet" />
+    <link id="hl-theme" href="<%= __HIGHLIGHT_CSS_THEME_DARK__ %>" rel="prefetch" />
     <title><%= __FRAGY__TITLE__ %></title>
+    <script src="<%= __HIGHLIGHT_JS__ %>"></script>
+    <script src="<%= __VALINE_JS__ %>"></script>
+    <script src="<%= __MARKED_JS__ %>"></script>
     <script>
       const darkModeEnabled = window.localStorage.getItem('fragy-purity-dark') === 'true';
       if (darkModeEnabled) {
@@ -17,11 +21,11 @@
         document.documentElement.append(style);
         // init highlight.js theme
         const linkEl = document.getElementById('hl-theme');
-        linkEl.setAttribute('href', '/css/github-dark.css');
+        linkEl.setAttribute('href', '<%= __HIGHLIGHT_CSS_THEME_DARK__ %>');
       } else {
         // init highlight.js theme
         const linkEl = document.getElementById('hl-theme');
-        linkEl.setAttribute('href', '/css/github.css');
+        linkEl.setAttribute('href', '<%= __HIGHLIGHT_CSS_THEME__ %>');
       }
     </script>
   </head>

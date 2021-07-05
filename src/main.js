@@ -24,7 +24,7 @@ const initView = async () => {
   // eslint-disable-next-line no-undef
   const { default: theme } = await import(__FRAGY_THEME_PKG__);
   // eslint-disable-next-line no-undef
-  const { default: themeConfig } = await import(__FRAGY_THEME_CONFIG__);
+  const { default: themeConfig } = await import(__FRAGY_THEME_CONFIG_PATH__);
   const { config: userThemeConfig } = fragyConfig.theme;
   if (typeof userThemeConfig === 'object' && userThemeConfig) {
     Object.assign(themeConfig, userThemeConfig);
@@ -36,7 +36,7 @@ const initView = async () => {
   }
 
   // eslint-disable-next-line no-undef
-  const { default: entry } = await import(__FRAGY_THEME_ENTRY__);
+  const { default: entry } = await import(__FRAGY_THEME_ENTRY_PATH__);
 
   new Vue({
     router: createRouter(theme.routes),

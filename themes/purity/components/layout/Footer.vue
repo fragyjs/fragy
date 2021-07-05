@@ -73,13 +73,13 @@ export default {
       !document.documentElement.classList.contains('dark') &&
         document.documentElement.classList.add('dark');
       const linkEl = document.getElementById('hl-theme');
-      linkEl.setAttribute('href', '/css/github-dark.css');
+      linkEl.setAttribute('href', this.$theme.vendors.highlightjs.github);
     },
     removeDarkClass() {
       document.documentElement.classList.contains('dark') &&
         document.documentElement.classList.remove('dark');
       const linkEl = document.getElementById('hl-theme');
-      linkEl.setAttribute('href', '/css/github.css');
+      linkEl.setAttribute('href', this.$theme.vendors.highlightjs.githubDark);
     },
   },
 };

@@ -1,7 +1,7 @@
 const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
-module.exports = {
+module.exports = (context) => ({
   pages: {
     index: {
       entry: path.resolve(__dirname, '../../src/main.js'),
@@ -9,19 +9,15 @@ module.exports = {
     },
   },
   chainWebpack: (config) => {
-    config.plugin('hljs-css').use(CopyPlugin, [
+    const { vendors } = context.themeConfig;
+    config.plugin('theme-purity-vendors').use(webpack.DefinePlugin, [
       {
-        patterns: [
-          {
-            from: path.resolve(__dirname, './node_modules/highlight.js/styles/github.css'),
-            to: 'css',
-          },
-          {
-            from: path.resolve(__dirname, './node_modules/highlight.js/styles/github-dark.css'),
-            to: 'css',
-          },
-        ],
+        __HIGHLIGHT_JS__: JSON.stringify(vendors.highlightjs.main),
+        __HIGHLIGHT_CSS_THEME__: JSON.stringify(vendors.highlightjs.theme),
+        __HIGHLIGHT_CSS_THEME_DARK__: JSON.stringify(vendors.highlightjs.themeDark),
+        __VALINE_JS__: JSON.stringify(vendors.valine),
+        __MARKED_JS__: JSON.stringify(vendors.marked),
       },
     ]);
   },
-};
+});

@@ -31,7 +31,6 @@
 
 <script>
 import pangu from 'pangu.simple';
-import Valine from 'valine';
 import marked from '../../utils/marked';
 import Date from '../icons/Date';
 import Loading from '../icons/Loading';
@@ -86,7 +85,7 @@ export default {
     if (this.showValine) {
       const valineConfig = Object.assign({}, this.$theme.valine);
       delete valineConfig.enable;
-      const valine = new Valine({
+      const valine = new window.Valine({
         el: '#vcomments',
         ...valineConfig,
       });

@@ -10,17 +10,29 @@ const themeFuncs = {};
 
 const __data = path.resolve(__dirname, '.fragy');
 
+const context = {
+  siteTitle: fragyConfig.title,
+  themePkg: fragyConfig.theme.package,
+  themeConfigPath: path.resolve(__dirname, `./node_modules/${fragyConfig.theme.package}/config.js`),
+  themeEntryPath: path.resolve(__dirname, `./node_modules/${fragyConfig.theme.package}/entry.vue`),
+  // config objs
+  fragyConfig,
+};
+
+const themeConfig = esmRequire(context.themeConfigPath).default;
+const userThemeConfig = fragyConfig.theme.config;
+if (userThemeConfig) {
+  Object.assign(themeConfig, userThemeConfig);
+}
+context.themeConfig = themeConfig;
+
 const chainWebpack = (config) => {
   config.plugin('theme-flags').use(webpack.DefinePlugin, [
     {
-      __FRAGY__TITLE__: JSON.stringify(fragyConfig.title),
-      __FRAGY_THEME_PKG__: JSON.stringify(fragyConfig.theme.package),
-      __FRAGY_THEME_CONFIG__: JSON.stringify(
-        path.resolve(__dirname, `./node_modules/${fragyConfig.theme.package}/config.js`),
-      ),
-      __FRAGY_THEME_ENTRY__: JSON.stringify(
-        path.resolve(__dirname, `./node_modules/${fragyConfig.theme.package}/entry.vue`),
-      ),
+      __FRAGY__TITLE__: JSON.stringify(context.siteTitle),
+      __FRAGY_THEME_PKG__: JSON.stringify(context.themePkg),
+      __FRAGY_THEME_CONFIG_PATH__: JSON.stringify(context.themeConfigPath),
+      __FRAGY_THEME_ENTRY_PATH__: JSON.stringify(context.themeEntryPath),
     },
   ]);
 
@@ -52,6 +64,25 @@ const chainWebpack = (config) => {
     ]);
   }
 
+  config.optimization.splitChunks({
+    cacheGroups: {
+      common: {
+        minChunks: 1,
+        maxInitialRequests: 5,
+        minSize: 0,
+        priority: 0,
+        reuseExistingChunk: true,
+        enforce: true,
+      },
+      vendors: {
+        test: /[\\/]node_modules[\\/]/,
+        priority: 10,
+        reuseExistingChunk: true,
+        enforce: true,
+      },
+    },
+  });
+
   if (process.env.BUNDLE_ANALYZE === 'true') {
     config.plugin('bundle-analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
   }
@@ -77,7 +108,11 @@ const themeFilePath = path.resolve(
   `./node_modules/${fragyConfig.theme.package}/vue.config.js`,
 );
 if (fs.existsSync(themeFilePath)) {
-  const exported = require(themeFilePath);
+  let exported = require(themeFilePath);
+  // if exported item is a function, get the return.
+  if (typeof exported === 'function') {
+    exported = exported.call(vueConfig, context);
+  }
   if (exported.chainWebpack) {
     themeFuncs.chainWebpack = exported.chainWebpack;
   }

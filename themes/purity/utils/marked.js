@@ -1,7 +1,4 @@
-import marked from 'marked';
-import hljs from 'highlight.js';
-
-marked.use({
+window.marked.use({
   renderer: {
     image: (href, title, text) => {
       const cleanedHref = decodeURIComponent(href);
@@ -18,10 +15,10 @@ marked.use({
   },
 });
 
-marked.setOptions({
+window.marked.setOptions({
   highlight: (code) => {
-    return hljs.highlightAuto(code).value;
+    return window.hljs.highlightAuto(code).value;
   },
 });
 
-export default marked;
+export default window.marked;
