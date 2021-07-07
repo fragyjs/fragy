@@ -33,9 +33,8 @@ export default {
     marked: 'https://cdn.bootcdn.net/ajax/libs/marked/2.1.3/marked.min.js',
     highlightjs: {
       main: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js',
-      theme: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/base16/github.min.css',
-      themeDark:
-        'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/base16/google-dark.min.css',
+      theme: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/github.min.css',
+      themeDark: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css',
     },
   },
 };
