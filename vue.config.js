@@ -54,6 +54,21 @@ const chainWebpack = (config) => {
     },
   ]);
 
+  // copy public files
+  const publicPath = path.resolve(userDataPath, './public');
+  if (fs.existsSync(publicPath)) {
+    config.plugin('public-files').use(copyPlugin, [
+      {
+        patterns: [
+          {
+            from: publicPath,
+          },
+        ],
+      },
+    ]);
+  }
+
+  // copy posts and feed data
   const { feed: articleFeed } = fragyConfig.articles;
   if (articleFeed && !/^https?\/\//.test(articleFeed)) {
     const articlesSource = `${path.resolve(userDataPath, './posts').replace(/\\/g, '/')}/**/*.md`;
