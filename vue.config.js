@@ -98,9 +98,9 @@ const chainWebpack = (config) => {
         priority: 10,
       },
       defaultVendors: {
-        name: 'vendors',
+        name: `chunk-vendors`,
         test: /[\\/]node_modules[\\/]/,
-        priority: -15,
+        priority: -10,
         chunks: 'initial',
       },
     },
