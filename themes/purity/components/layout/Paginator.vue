@@ -101,6 +101,7 @@ export default {
     margin: 0 0.625rem;
     font-size: 0.875rem;
     user-select: none;
+    box-sizing: border-box;
     span {
       color: var(--paginator-back);
       cursor: pointer;
