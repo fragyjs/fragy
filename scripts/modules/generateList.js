@@ -10,16 +10,21 @@ const logger = require('../utils/logger');
 
 const esmRequire = esm(module);
 
-const __root = path.resolve(__dirname, '../../');
-const __data = path.resolve(__root, './.fragy');
+const IS_IN_NODE_MODULES = path.resolve(__dirname).includes('node_modules');
 
-if (!fs.existsSync(__data)) {
-  fs.mkdirSync(__data, { recursive: true });
+const frameworkRoot = path.resolve(__dirname, '../../');
+const userProjectRoot = IS_IN_NODE_MODULES ? path.resolve(frameworkRoot, '../../') : frameworkRoot;
+const userDataRoot = path.resolve(userProjectRoot, './.fragy');
+
+if (!fs.existsSync(userDataRoot)) {
+  fs.mkdirSync(userDataRoot, { recursive: true });
 }
 
-const { formatConfig } = esmRequire(path.resolve(__root, './src/utils/config.js'));
-const { parseArticle } = esmRequire(path.resolve(__root, './src/utils/article'));
-const fragyConfig = formatConfig(esmRequire(path.resolve(__root, './fragy.config.js')).default);
+const { formatConfig } = esmRequire(path.resolve(frameworkRoot, './src/utils/config.js'));
+const { parseArticle } = esmRequire(path.resolve(frameworkRoot, './src/utils/article'));
+const fragyConfig = formatConfig(
+  esmRequire(path.resolve(userProjectRoot, './fragy.config.js')).default,
+);
 
 let articlesDir;
 let outputPath;
@@ -32,12 +37,12 @@ const checkPath = () => {
     logger.error('The articles storage folder was not set in the configuration.');
     return false;
   }
-  articlesDir = path.resolve(__data, fragyConfig.articles.path);
+  articlesDir = path.resolve(userDataRoot, fragyConfig.articles.path);
   if (!fragyConfig.articleList.output) {
     logger.error('You have not specified list info output.');
     return false;
   }
-  outputPath = path.resolve(__data, fragyConfig.articleList.output);
+  outputPath = path.resolve(userDataRoot, fragyConfig.articleList.output);
   outputDir = path.dirname(outputPath);
   if (!fs.existsSync(articlesDir)) {
     logger.error('Cannot locate the posts folder.');
