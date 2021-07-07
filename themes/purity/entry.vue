@@ -36,9 +36,12 @@ export default {
     // listen events
     this.$bus.$on('color-theme-changed', this.colorThemeChanged);
     // check system theme
-    const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
-    if (themeMedia.matches) {
-      this.darkModeEnabled = true;
+    if (typeof window.localStorage.getItem('fragy-purity-dark') === 'undefined') {
+      const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      if (themeMedia.matches) {
+        this.darkModeEnabled = true;
+        this.colorThemeChanged('dark');
+      }
     }
     // generate theme
     if (this.$theme.color?.primary && this.$theme.color?.autoGenerate) {
@@ -49,6 +52,18 @@ export default {
   methods: {
     colorThemeChanged(theme) {
       this.darkModeEnabled = theme === 'dark';
+      if (this.darkModeEnabled) {
+        !document.documentElement.classList.contains('dark') &&
+          document.documentElement.classList.add('dark');
+        const linkEl = document.getElementById('hl-theme');
+        linkEl.setAttribute('href', this.$theme.vendors.highlightjs.themeDark);
+      } else {
+        document.documentElement.classList.contains('dark') &&
+          document.documentElement.classList.remove('dark');
+        const linkEl = document.getElementById('hl-theme');
+        linkEl.setAttribute('href', this.$theme.vendors.highlightjs.theme);
+      }
+      window.localStorage.setItem('fragy-purity-dark', this.darkModeEnabled);
     },
   },
 };

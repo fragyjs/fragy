@@ -60,26 +60,10 @@ export default {
   methods: {
     switchColorTheme() {
       if (this.darkModeEnabled.value) {
-        this.removeDarkClass();
-        window.localStorage.setItem('fragy-purity-dark', false);
         this.$bus.$emit('color-theme-changed', 'light');
       } else {
-        this.addDarkClass();
-        window.localStorage.setItem('fragy-purity-dark', true);
         this.$bus.$emit('color-theme-changed', 'dark');
       }
-    },
-    addDarkClass() {
-      !document.documentElement.classList.contains('dark') &&
-        document.documentElement.classList.add('dark');
-      const linkEl = document.getElementById('hl-theme');
-      linkEl.setAttribute('href', this.$theme.vendors.highlightjs.github);
-    },
-    removeDarkClass() {
-      document.documentElement.classList.contains('dark') &&
-        document.documentElement.classList.remove('dark');
-      const linkEl = document.getElementById('hl-theme');
-      linkEl.setAttribute('href', this.$theme.vendors.highlightjs.githubDark);
     },
   },
 };
