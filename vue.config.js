@@ -87,32 +87,21 @@ const chainWebpack = (config) => {
     cacheGroups: {
       theme: {
         name: 'theme',
-        priority: 0,
-        reuseExistingChunk: true,
-        enforce: true,
+        chunks: 'async',
+        test: new RegExp(context.themePkg.replace(/\//g, '[\\\\/]')),
+        priority: 20,
       },
       themeVendors: {
         name: 'theme-vendors',
-        test: /[\\/]node_modules[\\/]/,
-        priority: 20,
-        reuseExistingChunk: true,
-        enforce: true,
-      },
-      basic: {
-        name: 'basic-vendors',
-        test: /[\\/]node_modules[\\/]((@?vue)|(axios)|(babel))/,
-        chunks: 'all',
-        priority: 20,
-        reuseExistingChunk: true,
-        enforce: true,
-      },
-      vendors: {
-        name: 'vendors',
-        chunks: 'all',
+        chunks: 'async',
         test: /[\\/]node_modules[\\/]/,
         priority: 10,
-        reuseExistingChunk: true,
-        enforce: true,
+      },
+      defaultVendors: {
+        name: 'vendors',
+        test: /[\\/]node_modules[\\/]/,
+        priority: -15,
+        chunks: 'initial',
       },
     },
   });
