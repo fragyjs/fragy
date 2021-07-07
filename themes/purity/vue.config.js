@@ -4,13 +4,13 @@ const webpack = require('webpack');
 module.exports = (context) => ({
   pages: {
     index: {
-      entry: path.resolve(context.projectRoot, './src/main.js'),
+      entry: path.resolve(context.frameworkRoot, './src/main.js'),
       template: path.resolve(__dirname, './public/index.html'),
     },
   },
   chainWebpack: (config) => {
     const { vendors } = context.themeConfig;
-    config.plugin('theme-purity-vendors').use(webpack.DefinePlugin, [
+    config.plugin('fragy-theme-flags').use(webpack.DefinePlugin, [
       {
         __HIGHLIGHT_JS__: JSON.stringify(vendors.highlightjs.main),
         __HIGHLIGHT_CSS_THEME__: JSON.stringify(vendors.highlightjs.theme),

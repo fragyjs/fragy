@@ -11,9 +11,10 @@
 </template>
 
 <script>
-import { computed } from '@vue/composition-api';
 import Page from './components/layout/Page';
+import { computed } from '@vue/composition-api';
 import { generateStyle } from './utils/theme';
+import './utils/marked';
 
 export default {
   components: {

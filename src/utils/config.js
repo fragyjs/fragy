@@ -17,6 +17,7 @@ export const formatConfig = (userConfig) => {
     {
       title: 'Fragy',
       subtitle: 'Another fragy site.',
+      icon: '/favicon.ico',
       articles: {
         path: 'posts',
         feed: '/data/posts',

@@ -4,18 +4,33 @@ const webpack = require('webpack');
 const copyPlugin = require('copy-webpack-plugin');
 const esmRequire = require('esm')(module);
 
+const IS_IN_NODE_MODULES = path.resolve(__dirname).includes('node_modules');
+
+const nodeModulesPath = IS_IN_NODE_MODULES
+  ? path.resolve(__dirname, '../')
+  : path.resolve(__dirname, './node_modules');
+const userDataPath = IS_IN_NODE_MODULES
+  ? path.resolve('../../.fragy')
+  : path.resolve(__dirname, './.fragy');
+const userConfigPath = IS_IN_NODE_MODULES
+  ? path.resolve(__dirname, '../../fragy.config.js')
+  : path.resolve(__dirname, './fragy.config.js');
+
+// check user config path
+if (!fs.existsSync(userConfigPath)) {
+  throw new Error('Cannot locate user configuration (fragy.config.js), please check your project.');
+}
+
 const { formatConfig } = esmRequire('./src/utils/config');
-const fragyConfig = formatConfig(esmRequire('./fragy.config.js').default);
+const fragyConfig = formatConfig(esmRequire(userConfigPath).default);
 const themeFuncs = {};
 
-const __data = path.resolve(__dirname, '.fragy');
-
 const context = {
-  projectRoot: __dirname,
+  frameworkRoot: __dirname,
   siteTitle: fragyConfig.title,
   themePkg: fragyConfig.theme.package,
-  themeConfigPath: path.resolve(__dirname, `./node_modules/${fragyConfig.theme.package}/config.js`),
-  themeEntryPath: path.resolve(__dirname, `./node_modules/${fragyConfig.theme.package}/entry.vue`),
+  themeConfigPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/config.js`),
+  themeEntryPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/entry.vue`),
   // config objs
   fragyConfig,
 };
@@ -28,8 +43,10 @@ if (userThemeConfig) {
 context.themeConfig = themeConfig;
 
 const chainWebpack = (config) => {
-  config.plugin('theme-flags').use(webpack.DefinePlugin, [
+  // theme flags
+  config.plugin('fragy-flags').use(webpack.DefinePlugin, [
     {
+      __FAVICON_URL__: JSON.stringify(fragyConfig.icon),
       __FRAGY__TITLE__: JSON.stringify(context.siteTitle),
       __FRAGY_THEME_PKG__: JSON.stringify(context.themePkg),
       __FRAGY_THEME_CONFIG_PATH__: JSON.stringify(context.themeConfigPath),
@@ -39,11 +56,12 @@ const chainWebpack = (config) => {
 
   const { feed: articleFeed } = fragyConfig.articles;
   if (articleFeed && !/^https?\/\//.test(articleFeed)) {
+    const articlesSource = `${path.resolve(userDataPath, './posts').replace(/\\/g, '/')}/**/*.md`;
     config.plugin('fragy-articles').use(copyPlugin, [
       {
         patterns: [
           {
-            from: '.fragy/posts/**/*.md',
+            from: articlesSource,
             to: `${articleFeed.substr(1)}/[name].md`,
           },
         ],
@@ -57,7 +75,7 @@ const chainWebpack = (config) => {
       {
         patterns: [
           {
-            from: path.resolve(__data, articleListPath),
+            from: path.resolve(userDataPath, articleListPath),
             to: articleListFeed.substr(1),
           },
         ],
@@ -119,10 +137,8 @@ const vueConfig = {
 };
 
 // merge theme vue.config.js
-const themeFilePath = path.resolve(
-  __dirname,
-  `./node_modules/${fragyConfig.theme.package}/vue.config.js`,
-);
+const themeFilePath = path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/vue.config.js`);
+
 if (fs.existsSync(themeFilePath)) {
   let exported = require(themeFilePath);
   // if exported item is a function, get the return.

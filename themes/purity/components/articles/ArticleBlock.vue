@@ -18,7 +18,6 @@
 
 <script>
 import Date from '../icons/Date';
-import marked from '../../utils/marked';
 import pangu from 'pangu.simple';
 import { mapMutations } from 'vuex';
 import { optimizeExternalLink } from '../../utils/renderer';
@@ -60,7 +59,7 @@ export default {
   methods: {
     ...mapMutations('article', ['setTitle']),
     renderAbstract() {
-      this.renderedAbstract = marked(this.abstract);
+      this.renderedAbstract = window.marked(this.abstract);
     },
     toArticlePage() {
       this.setTitle(this.title);
