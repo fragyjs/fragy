@@ -31,7 +31,6 @@
 
 <script>
 import pangu from 'pangu.simple';
-import marked from '../../utils/marked';
 import Date from '../icons/Date';
 import Loading from '../icons/Loading';
 import { optimizeExternalLink } from '../../utils/renderer';
@@ -162,7 +161,7 @@ export default {
       this.renderContent();
     },
     renderContent() {
-      this.renderedContent = marked(this.content);
+      this.renderedContent = window.marked(this.content);
       this.$nextTick(() => {
         pangu.spacingElementById('article-title');
         pangu.spacingElementById('article-content');
