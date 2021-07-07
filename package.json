@@ -1,6 +1,6 @@
 {
   "name": "fragy",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": {
     "name": "BackRunner",
     "email": "dev@backrunner.top"
@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "node ./scripts/generate.js && vue-cli-service serve",
     "build": "node ./scripts/generate.js && vue-cli-service build",
-    "analyze": "node ./scripts/generate.js && cross-env BUNDLE_ANALYZE=true vue-cli-service build",
+    "analyze": "cross-env BUNDLE_ANALYZE=true vue-cli-service build",
     "f2elint-fix": "f2elint fix",
     "f2elint-scan": "f2elint scan",
     "generate": "node ./scripts/generate.js"
