@@ -215,6 +215,10 @@ export default {
     p {
       color: var(--article-text);
       margin: 0 0 1.125rem 0;
+      code {
+        padding: 4px 6px;
+        background: var(--article-code-bg);
+      }
     }
     p:last-child {
       margin: 0;
