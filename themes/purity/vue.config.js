@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const SCRIPT_TEMPLATE = `<script src="{url}"></script>`;
+
 module.exports = (context) => ({
   pages: {
     index: {
@@ -15,8 +17,10 @@ module.exports = (context) => ({
         __HIGHLIGHT_JS__: JSON.stringify(vendors.highlightjs.main),
         __HIGHLIGHT_CSS_THEME__: JSON.stringify(vendors.highlightjs.theme),
         __HIGHLIGHT_CSS_THEME_DARK__: JSON.stringify(vendors.highlightjs.themeDark),
-        __VALINE_JS__: JSON.stringify(vendors.valine),
         __MARKED_JS__: JSON.stringify(vendors.marked),
+        __VALINE_SCRIPT_LINE__: JSON.stringify(
+          context.themeConfig.valine.enable ? SCRIPT_TEMPLATE.replace('{url}', vendors.valine) : '',
+        ),
       },
     ]);
   },
