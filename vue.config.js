@@ -9,11 +9,12 @@ const IS_IN_NODE_MODULES = path.resolve(__dirname).includes('node_modules');
 const nodeModulesPath = IS_IN_NODE_MODULES
   ? path.resolve(__dirname, '../')
   : path.resolve(__dirname, './node_modules');
+const userProjectRoot = IS_IN_NODE_MODULES ? path.resolve(__dirname, '../../') : __dirname;
 const userDataPath = IS_IN_NODE_MODULES
-  ? path.resolve('../../.fragy')
+  ? path.resolve(userProjectRoot, './.fragy')
   : path.resolve(__dirname, './.fragy');
 const userConfigPath = IS_IN_NODE_MODULES
-  ? path.resolve(__dirname, '../../fragy.config.js')
+  ? path.resolve(userProjectRoot, './fragy.config.js')
   : path.resolve(__dirname, './fragy.config.js');
 
 // check user config path
@@ -136,6 +137,7 @@ const configureWebpack = (config) => {
 };
 
 const vueConfig = {
+  outputDir: IS_IN_NODE_MODULES ? path.resolve(userProjectRoot, './dist') : 'dist',
   chainWebpack,
   configureWebpack,
 };
