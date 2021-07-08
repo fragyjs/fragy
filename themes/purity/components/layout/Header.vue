@@ -12,7 +12,7 @@
       >
         <span>{{ title }}</span>
       </a>
-      <div class="page-header-title-sub" v-if="subtitle">
+      <div class="page-header-title-sub mobile-hide" v-if="subtitle">
         <span>{{ subtitle }}</span>
       </div>
     </div>
