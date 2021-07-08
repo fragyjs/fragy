@@ -80,14 +80,14 @@ export default {
 }
 
 .article-block {
-  margin: 2.5rem 0;
-  padding-top: 2.5rem;
+  padding-top: 2.15rem;
+  margin-bottom: 2.25rem;
   border-top: 0.0625rem dashed var(--article-block-border);
   &-title {
     font-size: 1.375rem;
     font-weight: 600;
     letter-spacing: 0.05rem;
-    margin-bottom: 1.375rem;
+    margin-bottom: 1rem;
     a {
       display: block;
       width: max-content;
@@ -121,7 +121,7 @@ export default {
     }
   }
   &-abstract {
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 2rem;
     color: var(--article-block-text);
     a {
@@ -132,6 +132,13 @@ export default {
     }
     a:visited {
       color: var(--article-block-text);
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin: 0.75rem 0 0.5rem 0;
     }
     h1 {
       font-size: 1.25rem;
@@ -163,12 +170,21 @@ export default {
       .article-block-text__prefix--small();
     }
     h5 {
-      font-size: 1.025rem;
+      font-size: 1.075rem;
     }
     h5::before {
       content: '#####';
       .article-block-text__prefix();
       .article-block-text__prefix--small();
+    }
+    p {
+      margin: 0;
+      line-height: 36px;
+      code {
+        padding: 4px 6px;
+        background: var(--article-code-bg);
+        font-size: 0.875rem;
+      }
     }
     pre {
       background: var(--article-code-bg);
@@ -182,6 +198,7 @@ export default {
   &-footer {
     display: flex;
     align-items: center;
+    margin-top: 1rem;
     &-time {
       display: flex;
       align-items: center;
@@ -236,7 +253,8 @@ export default {
   margin-top: 0;
 }
 .article-block:last-child {
-  padding-bottom: 2.5rem;
+  padding-bottom: 2.25rem;
+  margin-bottom: 0;
   border-bottom: 0.0625rem dashed var(--article-block-border);
 }
 </style>

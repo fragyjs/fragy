@@ -74,7 +74,7 @@ export default {
   flex: 0 0 auto;
   justify-self: flex-end;
   user-select: none;
-  margin: 2rem 0 1.5rem 0;
+  margin: 2rem 0 1.625rem 0;
   display: flex;
   align-items: center;
   &-text {
@@ -125,6 +125,12 @@ export default {
     a:visited {
       color: var(--text-footer);
     }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page-footer {
+    margin: 2rem 0 1.5rem 0;
   }
 }
 </style>

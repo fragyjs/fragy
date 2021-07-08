@@ -214,14 +214,13 @@ export default {
     color: var(--article-text);
     p {
       color: var(--article-text);
-      margin: 0 0 1.125rem 0;
+      margin: 0;
+      line-height: 36px;
       code {
         padding: 4px 6px;
         background: var(--article-code-bg);
+        font-size: 0.875rem;
       }
-    }
-    p:last-child {
-      margin: 0;
     }
     a {
       color: var(--article-text);
@@ -239,6 +238,13 @@ export default {
     h5 {
       color: var(--article-title);
       border-bottom: 0.0625rem solid var(--article-title-border);
+    }
+    h1:first-child,
+    h2:first-child,
+    h3:first-child,
+    h4:first-child,
+    h5:first-child {
+      margin-top: 0;
     }
     h1 {
       font-size: 1.375rem;

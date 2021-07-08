@@ -45,7 +45,7 @@ export default {
 
 .page-header {
   user-select: none;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.25rem;
   height: @header-height;
   flex: 0 0 auto;
   &-title {
