@@ -5,14 +5,16 @@ import { createRouter } from './router';
 import { createStore } from './store';
 import { parseArticle } from './utils/article';
 import { formatConfig } from './utils/config';
-import fragyConfig from '../fragy.config.js';
+
+// flags
+// eslint-disable-next-line no-undef
+const IS_IN_NODE_MODULES = __IS_IN_NODE_MODULES__;
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$bus = new Vue();
 Vue.prototype.$http = axios;
 
-Vue.prototype.$fragy = formatConfig(fragyConfig);
 Vue.prototype.$utils = {
   parseArticle,
 };
@@ -20,6 +22,10 @@ Vue.prototype.$utils = {
 Vue.use(VueCompositionAPI);
 
 const initView = async () => {
+  // import config
+  const fragyConfigPath = IS_IN_NODE_MODULES ? '../../../fragy.config.js' : '../fragy.config.js';
+  const fragyConfig = await import(fragyConfigPath).default;
+  Vue.prototype.$fragy = formatConfig(fragyConfig);
   // import theme
   // eslint-disable-next-line no-undef
   const { default: theme } = await import(__FRAGY_THEME_PKG__);
