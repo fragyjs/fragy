@@ -190,9 +190,16 @@ export default {
       background: var(--article-code-bg);
       font-size: 0.8125rem;
       padding: 0.75rem 1rem;
+      box-sizing: border-box;
+      overflow-x: auto;
       code {
         color: var(--article-code-text);
       }
+    }
+    img {
+      display: block;
+      max-width: 100%;
+      margin: 1rem auto;
     }
   }
   &-footer {
@@ -256,5 +263,15 @@ export default {
   padding-bottom: 2.25rem;
   margin-bottom: 0;
   border-bottom: 0.0625rem dashed var(--article-block-border);
+}
+
+.dark {
+  .article-block {
+    &-abstract {
+      img {
+        filter: brightness(0.875);
+      }
+    }
+  }
 }
 </style>

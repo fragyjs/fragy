@@ -43,6 +43,27 @@ body::-webkit-scrollbar-corner {
   background: var(--page-background);
 }
 
+@code-scrollbar-width: 0.175rem;
+
+pre::-webkit-scrollbar {
+  width: @code-scrollbar-width;
+  height: @code-scrollbar-width;
+}
+pre::-webkit-scrollbar-button {
+  display: none;
+}
+pre::-webkit-scrollbar-thumb {
+  width: @code-scrollbar-width;
+  border-radius: @code-scrollbar-width;
+  background: var(--article-code-scroll);
+}
+pre::-webkit-scrollbar-track {
+  background: var(--article-code-bg);
+}
+pre::-webkit-scrollbar-corner {
+  background: var(--article-code-bg);
+}
+
 @media screen and (max-width: 767px) {
   @scrollbar-width: 0.375rem;
 

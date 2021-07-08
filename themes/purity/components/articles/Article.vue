@@ -264,12 +264,14 @@ export default {
     img {
       display: block;
       max-width: 100%;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 1rem auto;
     }
     pre {
+      width: 100%;
       background: var(--article-code-bg);
       padding: 0.75rem 1rem;
+      box-sizing: border-box;
+      overflow-x: auto;
       code {
         color: var(--article-code-text);
       }
@@ -299,6 +301,14 @@ export default {
   }
   &-comment {
     padding-top: 2.5rem;
+  }
+}
+
+.dark {
+  .article {
+    img {
+      filter: brightness(0.875);
+    }
   }
 }
 </style>
