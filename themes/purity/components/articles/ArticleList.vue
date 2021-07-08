@@ -1,8 +1,8 @@
 <template>
   <div class="article-list article-list-empty" v-if="showEmpty">
-    <span v-if="listDataLoading">文章列表加载中...</span>
-    <span v-if="loadFailed">文章列表加载失败</span>
-    <span v-if="showDefaultEmptyText">这里暂时还没有文章...</span>
+    <span v-if="listDataLoading">{{ $t('article_list_loading') }}</span>
+    <span v-if="loadFailed">{{ $t('article_list_load_failed') }}</span>
+    <span v-if="showDefaultEmptyText">{{ $t('aritcle_list_empty') }}</span>
   </div>
   <div class="article-list" v-else>
     <div class="article-list__main">

@@ -1,6 +1,6 @@
 <template>
   <p class="notfound">
-    你似乎走错了，这里什么也没有...<a href="/" @click.prevent="goHome">回到主页</a>
+    {{ $t('not_found') }}<a href="/" @click.prevent="goHome">{{ $t('go_home') }}</a>
   </p>
 </template>
 

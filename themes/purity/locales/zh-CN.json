@@ -1,0 +1,10 @@
+{
+  "article_loading": "文章内容加载中...",
+  "article_load_failed": "文章内容加载失败",
+  "article_list_loading": "文章列表加载中...",
+  "article_list_load_failed": "文章列表加载失败",
+  "article_list_empty": "这里暂时还没有文章...",
+  "read_more": "阅读全文",
+  "not_found": "你似乎走错了，这里什么也没有...",
+  "go_home": "回到主页"
+}

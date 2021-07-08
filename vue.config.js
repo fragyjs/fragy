@@ -48,7 +48,8 @@ const chainWebpack = (config) => {
   config.plugin('fragy-flags').use(webpack.DefinePlugin, [
     {
       __FAVICON_URL__: JSON.stringify(fragyConfig.icon),
-      __FRAGY__TITLE__: JSON.stringify(context.siteTitle),
+      __FRAGY_TITLE__: JSON.stringify(context.siteTitle),
+      __FRAGY_LOCALE__: JSON.stringify(context.fragyConfig.locale),
       __FRAGY_THEME_PKG__: JSON.stringify(context.themePkg),
       __FRAGY_THEME_CONFIG_PATH__: JSON.stringify(context.themeConfigPath),
       __FRAGY_THEME_ENTRY_PATH__: JSON.stringify(context.themeEntryPath),

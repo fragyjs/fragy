@@ -10,7 +10,9 @@
         <span>{{ date }}</span>
       </div>
       <div class="article-block-footer-controls">
-        <a :href="fullUrl" class="button-read-all" @click.prevent="toArticlePage">阅读全文</a>
+        <a :href="fullUrl" class="button-read-all" @click.prevent="toArticlePage">
+          {{ $t('read_more') }}
+        </a>
       </div>
     </div>
   </div>

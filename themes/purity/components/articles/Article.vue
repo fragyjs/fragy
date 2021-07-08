@@ -18,10 +18,13 @@
       v-if="showContent"
     ></div>
     <div class="article-content article-content-loading" v-if="contentLoading">
-      <span>文章内容加载中...</span><i><Loading /></i>
+      <span>
+        {{ $t('article_loading') }}
+      </span>
+      <i><Loading /></i>
     </div>
     <div class="article-content article-content-failed" v-if="loadFailed">
-      <p>文章内容加载失败</p>
+      <p>{{ $t('article_load_failed') }}</p>
     </div>
     <div class="article-comment" v-if="showValine">
       <div id="vcomments"></div>
