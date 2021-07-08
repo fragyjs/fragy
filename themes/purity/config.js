@@ -18,7 +18,7 @@ export default {
     },
     poweredby: {
       enable: true,
-      github: true,
+      github: false,
     },
     themeSwitcher: {
       enable: true,
