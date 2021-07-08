@@ -5,10 +5,12 @@ export default {
   },
   articleList: {
     prefetch: true,
+    useJustifyAlign: true,
   },
   article: {
     title: '{articleTitle} - {siteTitle}',
     prefetch: true,
+    useJustifyAlign: true,
   },
   footer: {
     enable: true,

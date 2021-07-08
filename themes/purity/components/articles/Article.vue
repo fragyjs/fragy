@@ -11,7 +11,10 @@
       </div>
     </div>
     <div
-      class="article-content"
+      :class="{
+        'article-content': true,
+        'text-justify': $theme.article.useJustifyAlign,
+      }"
       id="article-content"
       v-lazy-container="{ selector: 'img' }"
       v-html="renderedContent"
@@ -212,7 +215,6 @@ export default {
   &-content {
     padding: 1.5rem 0;
     border-bottom: 0.0625rem dashed var(--article-border);
-    text-align: justify;
     line-height: 2;
     color: var(--article-text);
     p {

@@ -3,7 +3,14 @@
     <div class="article-block-title">
       <a :href="fullUrl" @click.prevent="toArticlePage">{{ displayTitle }}</a>
     </div>
-    <div class="article-block-abstract" ref="abstract" v-html="renderedAbstract"></div>
+    <div
+      :class="{
+        'article-block-abstract': true,
+        'text-justify': $theme.articleList.useJustifyAlign,
+      }"
+      ref="abstract"
+      v-html="renderedAbstract"
+    ></div>
     <div class="article-block-footer">
       <div class="article-block-footer-time">
         <Date />

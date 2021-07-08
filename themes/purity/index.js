@@ -1,12 +1,10 @@
-import './styles/anim.less';
-import './styles/color.less';
-import './styles/layout.less';
 import VueLazyload from 'vue-lazyload';
+import store from './store';
 import Index from './pages/index.vue';
 import Article from './pages/article.vue';
 import NotFound from './pages/notFound.vue';
-import store from './store';
 import { getMessage } from './utils/i18n';
+import './styles/layout.less';
 
 export default {
   name: 'purity',
