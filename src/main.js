@@ -6,10 +6,6 @@ import { createStore } from './store';
 import { parseArticle } from './utils/article';
 import { formatConfig } from './utils/config';
 
-// flags
-// eslint-disable-next-line no-undef
-const IS_IN_NODE_MODULES = __IS_IN_NODE_MODULES__;
-
 Vue.config.productionTip = false;
 
 Vue.prototype.$bus = new Vue();
@@ -23,8 +19,8 @@ Vue.use(VueCompositionAPI);
 
 const initView = async () => {
   // import config
-  const fragyConfigPath = IS_IN_NODE_MODULES ? '../../../fragy.config.js' : '../fragy.config.js';
-  const fragyConfig = await import(fragyConfigPath).default;
+  // eslint-disable-next-line no-undef
+  const { default: fragyConfig } = await import(__FRAGY_USER_CONFIG_PATH__);
   Vue.prototype.$fragy = formatConfig(fragyConfig);
   // import theme
   // eslint-disable-next-line no-undef
