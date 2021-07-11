@@ -192,6 +192,7 @@ export default {
     &-title {
       font-size: 1.5rem;
       font-weight: 600;
+      text-align: justify;
       color: var(--article-title);
     }
     &-meta {

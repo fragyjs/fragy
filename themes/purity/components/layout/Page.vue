@@ -33,13 +33,13 @@ export default {
   max-width: 100vw;
   min-height: 100vh;
   margin: 0 auto;
-  padding: 1.25rem;
+  padding: 1.5rem 1.25rem;
   box-sizing: border-box;
   position: relative;
   .page {
     width: 100%;
     max-width: @main-width;
-    min-height: calc(100vh - 2.5rem);
+    min-height: calc(100vh - 3rem);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
