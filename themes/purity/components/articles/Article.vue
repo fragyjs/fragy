@@ -39,6 +39,7 @@
 import pangu from 'pangu.simple';
 import Date from '../icons/Date';
 import Loading from '../icons/Loading';
+import githubMixin from '../../mixin/github';
 import { optimizeExternalLink } from '../../utils/renderer';
 import { mapGetters, mapMutations, mapState } from 'vuex';
 
@@ -51,6 +52,7 @@ export default {
     Date,
     Loading,
   },
+  mixins: [githubMixin],
   data() {
     return {
       meta: null,
@@ -139,10 +141,17 @@ export default {
   methods: {
     ...mapMutations('article', ['setCache']),
     async fetchArticle() {
+      // check cache
       if (this.cacheExisted(this.filename)) {
-        this.afterLoaded(this.getCachedContent(this.filename));
+        this.afterParsed(this.getCachedContent(this.filename));
         return;
       }
+      // if using github mode, fetch content from github
+      if (this.$fragy.github) {
+        this.fetchContentFromGithub();
+        return;
+      }
+      // no cache
       let res;
       try {
         res = await this.$http.get(`${this.$fragy.articles.feed}/${this.filename}`);
@@ -153,14 +162,35 @@ export default {
         this.loadFailed = true;
         return;
       }
-      const parsedArticle = this.$utils.parseArticle(res.data.trim());
+      this.afterLoaded(res);
+    },
+    async fetchContentFromGithub() {
+      let res;
+      try {
+        res = await this.$http.get(this.getGithubRawContentUrl(this.filename));
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch article content.', err);
+        this.contentLoading = false;
+        this.loadFailed = true;
+        return;
+      }
+      this.afterLoaded(res);
+    },
+    afterLoaded(contentRes) {
+      if (contentRes.status !== 200 || !contentRes.data) {
+        this.contentLoading = false;
+        this.loadFailed = true;
+        return;
+      }
+      const parsedArticle = this.$utils.parseArticle(contentRes.data.trim());
       this.setCache({
         filename: this.filename,
         article: parsedArticle,
       });
-      this.afterLoaded(parsedArticle);
+      this.afterParsed(parsedArticle);
     },
-    afterLoaded(parsedArticle) {
+    afterParsed(parsedArticle) {
       this.meta = parsedArticle.meta;
       this.content = parsedArticle.content.trim();
       this.contentLoading = false;

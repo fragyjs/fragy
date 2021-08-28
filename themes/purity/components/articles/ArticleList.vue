@@ -30,6 +30,7 @@
 <script>
 import ArticleBlock from './ArticleBlock';
 import Paginator from '../layout/Paginator';
+import githubMixin from '../../mixin/github';
 import { mapGetters, mapMutations } from 'vuex';
 
 const GITHUB_FILES_CACHE_KEY = 'fragy-github-files';
@@ -43,6 +44,7 @@ export default {
     ArticleBlock,
     Paginator,
   },
+  mixins: [githubMixin],
   data() {
     const currentPage = parseInt(this.$route.query?.page, 10) || 1;
     return {
@@ -61,7 +63,7 @@ export default {
     this.fetchArticlesList();
   },
   computed: {
-    ...mapGetters('article', ['cacheExisted']),
+    ...mapGetters('article', ['cacheExisted', 'getCachedContent']),
     showEmpty() {
       return this.listDataLoading || this.loadFailed || this.showDefaultEmptyText;
     },
@@ -90,31 +92,6 @@ export default {
   },
   methods: {
     ...mapMutations('article', ['setCache']),
-    getGithubListUrl() {
-      if (this.$fragy.github) {
-        const { repo, proxy, base } = this.$fragy.github;
-        const apiUrl = this.$consts.GITHUB_CONTENTS_API.replace('{repo}', repo).replace(
-          '{base}',
-          base || '.fragy/posts',
-        );
-        if (proxy) {
-          let formattedProxy = proxy;
-          if (proxy.endsWith('/')) {
-            formattedProxy = `${proxy}/`;
-          }
-          return `${formattedProxy}${apiUrl}`;
-        }
-        return apiUrl;
-      }
-    },
-    getGithubContentUrl(contentUrl) {
-      const { proxy } = this.$fragy.github;
-      if (proxy) {
-        const formattedProxy = proxy.endsWith('/') ? proxy : `${proxy}/`;
-        return `${formattedProxy}${contentUrl}`;
-      }
-      return contentUrl;
-    },
     getFeed(page) {
       return this.$fragy.articleList.splitPage
         ? `${this.$fragy.articleList.feed}/page-${page}.json`
@@ -124,30 +101,42 @@ export default {
       // reset flags
       this.listDataLoading = true;
       this.loadFailed = false;
+      // list data var
+      let listData;
       // check cached content
       const stored = window.localStorage.getItem(GITHUB_FILES_CACHE_KEY);
       const cacheTime = this.$fragy.github.proxy ? A_HOUR_IN_MS : TEN_MIN_IN_MS;
-      if (stored && Date.now() - stored.time <= cacheTime) {
-        return stored;
+      const cacheCheckPassed = stored && Date.now() - stored.time <= cacheTime;
+      if (cacheCheckPassed) {
+        listData = stored.data;
+      } else {
+        // no cache
+        let res;
+        try {
+          res = await this.$http.get(this.getGithubListUrl());
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error('Failed to fetch github files.', err);
+          this.listDataLoading = false;
+          this.loadFailed = true;
+          return;
+        }
+        if (!res.data || !Array.isArray(res.data)) {
+          this.listDataLoading = false;
+          this.loadFailed = true;
+          return;
+        }
+        listData = res.data;
       }
-      // no cache
-      let res;
-      try {
-        res = await this.$http.get(this.getGithubListUrl());
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to fetch github files.', err);
-        this.listDataLoading = false;
-        this.loadFailed = true;
-        return;
-      }
-      if (!Array.isArray(res.data)) {
-        this.listDataLoading = false;
-        this.loadFailed = true;
-        return;
+      // set cache
+      if (!cacheCheckPassed) {
+        window.localStorage.setItem(GITHUB_FILES_CACHE_KEY, {
+          data: listData,
+          time: Date.now(),
+        });
       }
       // get list
-      const articles = res.data
+      const articles = listData
         .map((item) => {
           if (!item.name.endsWith('.md')) {
             return null;
@@ -159,9 +148,23 @@ export default {
           };
         })
         .filter((item) => !!item);
+      // check if page is invalid
+      if (this.currentPage * this.pageSize > articles.length) {
+        this.currentPage = 1;
+        if (this.currentPage > 1 && this.$router.query.page) {
+          this.$router.replace({
+            query: null,
+          });
+        }
+      }
       // if articles list is too long, fetch first page first
       const listOverOnePage = articles.length > this.pageSize;
-      const firstBatch = listOverOnePage ? articles.slice(0, this.pageSize - 1) : articles;
+      const firstBatch = listOverOnePage
+        ? articles.slice(
+            (this.currentPage - 1) * this.pageSize,
+            this.currentPage * this.pageSize - 1,
+          )
+        : articles;
       // prefetch all url content
       const metaMap = await this.fetchGithubContent(firstBatch);
       this.articles = articles.map((article) => {
@@ -180,18 +183,32 @@ export default {
       this.total = this.articles.length;
       this.listDataLoading = false;
       if (listOverOnePage) {
-        this.batchFetchGithubContent(articles.slice(this.pageSize));
+        this.prefetchGithubContents();
       }
+    },
+    prefetchGithubContents() {
+      const startIdx = (this.currentPage + 1) * this.pageSize;
+      let endIdx = (this.currentPage + 2) * this.pageSize - 1;
+      if (endIdx > this.articles.length - 1) {
+        endIdx = this.articles.length - 1;
+      }
+      this.batchFetchGithubContent(this.articles.slice(startIdx, endIdx));
     },
     batchFetchGithubContent(articles) {
       // parallel request
       articles.forEach(async (item) => {
+        const filename = decodeURIComponent(
+          item.contentUrl.substr(item.contentUrl.lastIndexOf('/') + 1),
+        );
+        // check cache
+        if (this.cacheExisted(filename)) {
+          return this.getCachedContent(filename);
+        }
+        // no cache
         const res = await this.$http.get(this.getGithubContentUrl(item.contentUrl));
         if (res.status !== 200 || !res.data) {
           return;
         }
-        const reqUrl = res.config.url;
-        const filename = decodeURIComponent(reqUrl.substr(reqUrl.lastIndexOf('/') + 1));
         const content = {
           ...this.$utils.parseArticle(res.data),
           filename,
@@ -214,20 +231,39 @@ export default {
       });
     },
     async fetchGithubContent(articles) {
+      /* use Promise.allSettled to enhance user experience on the first page */
       const contents = (
         await Promise.allSettled(
           articles.map((article) => {
+            const filename = decodeURIComponent(
+              article.contentUrl.substr(article.contentUrl.lastIndexOf('/') + 1),
+            );
+            if (this.cacheExisted(filename)) {
+              return Promise.resolve({
+                parsed: true,
+                data: this.getCachedContent(filename),
+              });
+            }
             return this.$http.get(this.getGithubContentUrl(article.contentUrl));
           }),
         )
       )
-        .map((item) => {
+        .map((item, index) => {
           if (item.status !== 'fulfilled') {
-            return null;
+            return {
+              ...articles[index],
+              metaLoadFailed: true,
+            };
           }
           const contentRes = item.value;
+          if (contentRes.parsed) {
+            return contentRes.data;
+          }
           if (contentRes.status !== 200 || !contentRes.data) {
-            return null;
+            return {
+              ...articles[index],
+              metaLoadFailed: true,
+            };
           }
           // get filename from url
           const reqUrl = contentRes.config.url;
@@ -239,7 +275,7 @@ export default {
         })
         .filter((item) => {
           const notNull = !!item;
-          if (notNull) {
+          if (notNull && !item.metaLoadFailed) {
             this.setCache({
               filename: item.filename,
               article: item,
@@ -251,7 +287,7 @@ export default {
       contents.forEach((article) => {
         metaMap[article.filename] = {
           ...article.meta,
-          abstract: article.abstract,
+          abstract: article.abstract || '',
         };
       });
       return metaMap;
