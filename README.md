@@ -64,6 +64,20 @@ A: We wanted to give theme developers as much freedom as possible, so we designe
 
 It's hard for public components to match all needs and all scenarios. In our opinion, it's a better approach to give developers a very high degree of freedom to decide what dependencies and components should be included in the theme and how the theme should present the articles, based solely on the needs and target scenarios. In this mode, capable theme developers can also make better use of their skills to make the theme perfect.
 
+**Q: Why not use Vite and Vue 3?**
+
+A: We built this project with a preference for a powerful and stable, Webpack-based `@vue/cli`. We didn't think Vite's capabilities and our ability to use Vite was enough for development needs.
+
+After deciding on the technology to be used for the project, our development stalled for a very long time, so at current, it seems like we chose a technology that is relatively old.
+
+As of now, Vue 3 is a good choice for us. But it will took a lot of effort to migrate our existing code to Vue 3, so in the future we will continue use Vue 2 from a time cost perspective.
+
+**Q: Why not use TypeScript?**
+
+A: We do not think that using TypeScript in this project is conducive to development, so in both the framework and the default theme, we do not use TypeScript.
+
+We do not restrict the development language of the theme, you can use any programming language and CSS preprocessor you like. **(We only provide JavaScript and Less support in the framework, you need to handle TypeScript compilation with other css preprocessors by yourself)**
+
 ## License
 
 MIT
