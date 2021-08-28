@@ -30,6 +30,20 @@ You can find the post in `.fragy/posts`.
 
 Once everything is ready, you can use the `fragy build` command to build your site. The build product is in the `dist` folder and you can deploy it directly. You can also run `fragy serve` to preview your site locally.
 
+#### Github Mode
+
+From `v0.2.0`, we provide a brand new meta generate mode named `Github Mode`.
+
+In this mode, you won't need to generate meta of posts anymore, to build your own blog, you only need to build your site once, and just push your articles to your Github repository.
+
+You need to be aware of these rules and restrictions:
+
+1. You must use `fragy setup github` to setup Github config or set the related options in `fragy.config.js` manually before the site build.
+
+2. In the options, you must specify the `base` of posts if your posts are not in `.fragy/posts`.
+
+3. For users who living in Mainland of China, you need to set `proxy` in the options.
+
 ## Q&A
 
 **Q: Why not use SSG or SSR?**
