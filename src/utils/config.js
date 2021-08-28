@@ -17,6 +17,13 @@ const DEFAULT_FEED_CONFIG = {
   },
 };
 
+const DEFAULT_GITHUB_CONFIG = {
+  articleList: {
+    splitPage: false,
+    pageSize: 10,
+  },
+};
+
 const formatFeed = (feed) => {
   if (feed && !/^https?\/\//.test(feed)) {
     let formatted = feed;
@@ -33,11 +40,13 @@ const formatFeed = (feed) => {
 
 export const formatConfig = (userConfig) => {
   const config = Object.assign(Object.create(null), DEFAULT_CONFIG);
-  if (!userConfig.github_repo) {
+  if (!userConfig.github) {
     Object.assign(config, DEFAULT_FEED_CONFIG);
+  } else {
+    Object.assign(config, DEFAULT_GITHUB_CONFIG);
   }
   Object.assign(config, userConfig);
-  if (!config.github_repo) {
+  if (!config.github) {
     config.articles.feed = formatFeed(config.articles.feed);
     config.articleList.feed = formatFeed(config.articleList.feed);
   }

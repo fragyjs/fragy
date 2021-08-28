@@ -12,7 +12,7 @@ const generatorPath = path.resolve(
 );
 const themeGenerator = fs.existsSync(generatorPath) ? require(generatorPath) : null;
 
-const queue = [generateList];
+const queue = [];
 
 const initThemeGenerators = async () => {
   if (themeGenerator && Array.isArray(themeGenerator)) {
@@ -46,6 +46,12 @@ const executeParallel = async (generators) => {
 const execute = async () => {
   // init
   await initThemeGenerators();
+  // check if site need to generate list feed
+  if (!fragyConfig.github) {
+    queue.push(generateList);
+  } else {
+    logger.warn("You're using Github dynamic mode, skip generate feeds.");
+  }
   // execution
   logger.debug('Starting generate the site...');
   for (const item of queue) {

@@ -72,33 +72,35 @@ const chainWebpack = (config) => {
   }
 
   // copy posts and feed data
-  const { feed: articleFeed } = fragyConfig.articles;
-  if (articleFeed && !/^https?\/\//.test(articleFeed)) {
-    const articlesSource = `${path.resolve(userDataPath, './posts').replace(/\\/g, '/')}/**/*.md`;
-    config.plugin('fragy-articles').use(copyPlugin, [
-      {
-        patterns: [
-          {
-            from: articlesSource,
-            to: `${articleFeed.substr(1)}/[name].md`,
-          },
-        ],
-      },
-    ]);
-  }
+  if (fragyConfig.articles) {
+    const { feed: articleFeed } = fragyConfig.articles;
+    if (articleFeed && !/^https?\/\//.test(articleFeed)) {
+      const articlesSource = `${path.resolve(userDataPath, './posts').replace(/\\/g, '/')}/**/*.md`;
+      config.plugin('fragy-articles').use(copyPlugin, [
+        {
+          patterns: [
+            {
+              from: articlesSource,
+              to: `${articleFeed.substr(1)}/[name].md`,
+            },
+          ],
+        },
+      ]);
+    }
 
-  const { output: articleListPath, feed: articleListFeed } = fragyConfig.articleList;
-  if (articleListFeed && !/^https?\/\//.test(articleListFeed)) {
-    config.plugin('fragy-article-list').use(copyPlugin, [
-      {
-        patterns: [
-          {
-            from: path.resolve(userDataPath, articleListPath),
-            to: articleListFeed.substr(1),
-          },
-        ],
-      },
-    ]);
+    const { output: articleListPath, feed: articleListFeed } = fragyConfig.articleList;
+    if (articleListFeed && !/^https?\/\//.test(articleListFeed)) {
+      config.plugin('fragy-article-list').use(copyPlugin, [
+        {
+          patterns: [
+            {
+              from: path.resolve(userDataPath, articleListPath),
+              to: articleListFeed.substr(1),
+            },
+          ],
+        },
+      ]);
+    }
   }
 
   config.optimization.splitChunks({

@@ -14,7 +14,7 @@
     <div class="article-block-footer">
       <div class="article-block-footer-time">
         <Date />
-        <span>{{ date }}</span>
+        <span>{{ date || '日期数据加载失败' }}</span>
       </div>
       <div class="article-block-footer-controls">
         <a :href="fullUrl" class="button-read-all" @click.prevent="toArticlePage">
@@ -38,6 +38,14 @@ export default {
     abstract: String,
     date: String,
     filename: String,
+    abstractLoading: {
+      type: Boolean,
+      default: false,
+    },
+    metaLoadFailed: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     Date,
@@ -57,6 +65,11 @@ export default {
       optimizeExternalLink(this.$refs.abstract);
     });
   },
+  watch: {
+    abstract() {
+      this.renderedAbstract();
+    },
+  },
   computed: {
     displayTitle() {
       return pangu.spacing(this.title);
@@ -68,6 +81,14 @@ export default {
   methods: {
     ...mapMutations('article', ['setTitle']),
     renderAbstract() {
+      if (this.metaLoadFailed) {
+        this.renderedAbstract = '<p>元数据加载失败</p>';
+        return;
+      }
+      if (!this.abstract) {
+        this.renderedAbstract = '<p>暂无摘要</p>';
+        return;
+      }
       this.renderedAbstract = window.marked(this.abstract);
     },
     toArticlePage() {

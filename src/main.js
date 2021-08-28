@@ -5,11 +5,13 @@ import { createRouter } from './router';
 import { createStore } from './store';
 import { parseArticle } from './utils/article';
 import { formatConfig } from './utils/config';
+import consts from './constants';
 
 Vue.config.productionTip = false;
 
 Vue.prototype.$bus = new Vue();
 Vue.prototype.$http = axios;
+Vue.prototype.$consts = consts;
 
 Vue.prototype.$utils = {
   parseArticle,
