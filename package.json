@@ -17,10 +17,10 @@
   "scripts": {
     "dev": "node ./scripts/generate.js && vue-cli-service serve",
     "build": "node ./scripts/generate.js && vue-cli-service build",
+    "generate": "node ./scripts/generate.js",
     "analyze": "cross-env BUNDLE_ANALYZE=true vue-cli-service build",
     "f2elint-fix": "f2elint fix",
-    "f2elint-scan": "f2elint scan",
-    "generate": "node ./scripts/generate.js"
+    "f2elint-scan": "f2elint scan"
   },
   "dependencies": {
     "@fragy/purity": "file:themes/purity",
