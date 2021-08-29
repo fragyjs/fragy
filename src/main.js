@@ -42,11 +42,22 @@ const initView = async () => {
   // eslint-disable-next-line no-undef
   const { default: entry } = await import(__FRAGY_THEME_ENTRY_PATH__);
 
-  new Vue({
-    router: createRouter(theme.routes),
-    store: createStore(theme.store),
+  const mainOpts = {
     render: (h) => h(entry),
-  }).$mount('#app');
+  };
+
+  if (theme.routes) {
+    Object.assign(mainOpts, {
+      router: createRouter(theme.routes),
+    });
+  }
+  if (theme.store) {
+    Object.assign(mainOpts, {
+      store: createStore(theme.store),
+    });
+  }
+
+  new Vue(mainOpts).$mount('#app');
 };
 
 initView();

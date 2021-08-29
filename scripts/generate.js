@@ -15,19 +15,23 @@ const themeGenerator = fs.existsSync(generatorPath) ? require(generatorPath) : n
 const queue = [];
 
 const initThemeGenerators = async () => {
-  if (themeGenerator && Array.isArray(themeGenerator)) {
-    queue.unshift(...themeGenerator);
-  } else if (typeof themeGenerator === 'function') {
-    const generators = await Promise.resolve(
-      themeGenerator.call({
-        logger,
-      }),
-    );
-    if (generators && Array.isArray(generators)) {
-      queue.unshift(...generators);
-    } else {
-      logger.error(`Cannot get generators from theme [${fragyConfig.theme.package}].`);
-    }
+  if (!themeGenerator) {
+    return;
+  }
+  const generators =
+    typeof themeGenerator === 'function'
+      ? await Promise.resolve(
+          themeGenerator.call({
+            logger,
+          }),
+        )
+      : themeGenerator;
+  const { before, end } = generators;
+  if (Array.isArray(before)) {
+    queue.unshift(...before);
+  }
+  if (Array.isArray(end)) {
+    queue.push(...end);
   }
 };
 
@@ -44,14 +48,14 @@ const executeParallel = async (generators) => {
 };
 
 const execute = async () => {
-  // init
-  await initThemeGenerators();
   // check if site need to generate list feed
   if (!fragyConfig.github) {
     queue.push(generateList);
   } else {
     logger.warn("You're using Github dynamic mode, skip generate feeds.");
   }
+  // init
+  await initThemeGenerators();
   // execution
   logger.debug('Starting generate the site...');
   for (const item of queue) {

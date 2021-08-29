@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-Vue.use(Vuex);
-
-export const createStore = (modules) =>
-  new Vuex.Store({
+export const createStore = (modules) => {
+  Vue.use(Vuex);
+  return new Vuex.Store({
     modules,
   });
+};
