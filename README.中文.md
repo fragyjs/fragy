@@ -52,6 +52,10 @@ Fragy 基本兼容 Hexo 的文章格式，你可以基本无痛将之前在 Hexo
 
 4. 如果你的站点主要面向国内用户，你可能需要配置一个代理服务器，该服务器可能会接收到 URL 类似于 `https://proxyserver.com/https%3A%2F%2Fapi.github.com%2Frepos%2Ffragyjs%2Ffragy%2Fcontents%2Fsrc` 的请求。
 
+## 主题开发
+
+详见[主题开发指南](https://github.com/fragyjs/fragy/blob/main/docs/zh-CN/%E4%B8%BB%E9%A2%98%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.md)
+
 ## Q&A
 
 **Q: 为什么不使用 SSG 或 SSR？**

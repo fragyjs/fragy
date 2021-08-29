@@ -26,6 +26,29 @@ const { formatConfig } = esmRequire('./src/utils/config');
 const fragyConfig = formatConfig(esmRequire(userConfigPath).default);
 const themeFuncs = {};
 
+const themePkgInfoPath = path.resolve(
+  nodeModulesPath,
+  `./${fragyConfig.theme.package}/package.json`,
+);
+
+// check compatibility
+let themePkgInfo;
+if (fs.existsSync(themePkgInfoPath)) {
+  themePkgInfo = JSON.parse(fs.readFileSync(themePkgInfoPath, { encoding: 'utf-8' }));
+} else {
+  throw new Error('Cannot find package.json of theme.');
+}
+
+if (themePkgInfo.compatibility) {
+  if (
+    typeof themePkgInfo.compatibility.github !== 'undefined' &&
+    themePkgInfo.compatibility.github === false &&
+    fragyConfig.github
+  ) {
+    throw new Error('The theme you used is not compatible with GitHub Mode.');
+  }
+}
+
 const context = {
   frameworkRoot: __dirname,
   siteTitle: fragyConfig.title,
@@ -34,6 +57,7 @@ const context = {
   themeEntryPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/entry.vue`),
   // config objs
   fragyConfig,
+  themePkgInfo,
 };
 
 const themeConfig = esmRequire(context.themeConfigPath).default;
