@@ -12,16 +12,9 @@
   },
   "fragy": {
     "type": "theme",
-<<<<<<< Updated upstream
-    "compatibility": "0.2.0"
-=======
     "compatibility": {
       "frameworkVersion": "0.2.0",
       "githubMode": true
     }
-  },
-  "devDependencies": {
-    "eslint-config-alloy": "^3.10.0"
->>>>>>> Stashed changes
   }
 }
