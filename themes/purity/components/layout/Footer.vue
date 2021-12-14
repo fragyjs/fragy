@@ -1,15 +1,15 @@
 <template>
-  <div class="page-footer" v-if="showFooter">
-    <div class="page-footer-text page-footer-poweredby" v-if="showPoweredBy">
+  <div v-if="showFooter" class="page-footer">
+    <div v-if="showPoweredBy" class="page-footer-text page-footer-poweredby">
       <span>Powered by Fragy.</span>
-      <a href="https://github.com/pwp-app/fragy" target="_blank" v-if="showGitHub">
+      <a v-if="showGitHub" href="https://github.com/pwp-app/fragy" target="_blank">
         <GitHub />
       </a>
     </div>
-    <div class="page-footer-text page-footer-beian" v-if="showBeian && displayBeianText">
+    <div v-if="showBeian && displayBeianText" class="page-footer-text page-footer-beian">
       <a href="https://beian.miit.gov.cn/" target="_blank">{{ displayBeianText }}</a>
     </div>
-    <div class="page-footer-text page-footer-theme" v-if="showThemeSwitcher">
+    <div v-if="showThemeSwitcher" class="page-footer-text page-footer-theme">
       <span>
         <Moon v-if="darkModeEnabled.value" @click.native="switchColorTheme" />
         <Sun v-else @click.native="switchColorTheme" />
@@ -95,6 +95,7 @@ export default {
     content: '|';
     display: inline-block;
     margin: 0px 12px;
+    opacity: 0.6;
   }
   &-text:last-child::after {
     content: '';
@@ -106,7 +107,7 @@ export default {
     align-items: center;
     span {
       display: block;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       letter-spacing: 0.05rem;
     }
     .icon-github {
@@ -115,7 +116,7 @@ export default {
   }
   &-beian {
     a {
-      font-size: 14px;
+      font-size: 0.8rem;
       color: var(--text-footer);
       text-decoration: none;
     }

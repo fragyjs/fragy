@@ -1,8 +1,8 @@
 <template>
   <div class="purity-pager">
     <div
-      class="purity-pager-item purity-pager-item__prev"
       v-if="currentPage > 1"
+      class="purity-pager-item purity-pager-item__prev"
       @click="setPage(currentPage - 1)"
     >
       <Prev />
@@ -17,42 +17,42 @@
     >
       <span>1</span>
     </div>
-    <div class="purity-pager-item purity-page-item__ellipsis" v-if="currentPage > 3">
+    <div v-if="currentPage > 3" class="purity-pager-item purity-page-item__ellipsis">
       <span>...</span>
     </div>
-    <div class="purity-pager-item" v-if="currentPage > 2" @click="setPage(currentPage - 1)">
+    <div v-if="currentPage > 2" class="purity-pager-item" @click="setPage(currentPage - 1)">
       <span>{{ currentPage - 1 }}</span>
     </div>
     <div
-      class="purity-pager-item purity-pager-item__current"
       v-if="currentPage !== 1 && currentPage !== pageCount"
+      class="purity-pager-item purity-pager-item__current"
     >
       <span>{{ currentPage }}</span>
     </div>
     <div
-      class="purity-pager-item"
       v-if="pageCount - currentPage >= 2"
+      class="purity-pager-item"
       @click="setPage(currentPage + 1)"
     >
       <span>{{ currentPage + 1 }}</span>
     </div>
-    <div class="purity-pager-item purity-pager-item__ellipsis" v-if="pageCount - currentPage > 2">
+    <div v-if="pageCount - currentPage > 2" class="purity-pager-item purity-pager-item__ellipsis">
       <span>...</span>
     </div>
     <div
+      v-if="pageCount > 1"
       :class="{
         'purity-pager-item': true,
         'purity-pager-item__last': true,
         'purity-pager-item__current': currentPage === pageCount,
       }"
-      v-if="pageCount > 1"
       @click="setPage(pageCount)"
     >
       <span>{{ pageCount }}</span>
     </div>
     <div
-      class="purity-pager-item purity-pager__next"
       v-if="currentPage < pageCount"
+      class="purity-pager-item purity-pager__next"
       @click="setPage(currentPage + 1)"
     >
       <Next />
@@ -83,7 +83,11 @@ export default {
   methods: {
     setPage(page) {
       this.$emit('change', page);
-      window.scrollTo(0, 0);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
     },
   },
 };

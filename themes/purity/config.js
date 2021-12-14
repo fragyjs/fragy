@@ -3,6 +3,7 @@ export default {
   color: {
     autoGenerate: true,
   },
+  fontFamily: 'Noto Sans SC',
   articleList: {
     prefetch: true,
     useJustifyAlign: true,
@@ -29,13 +30,18 @@ export default {
   valine: {
     enable: false,
   },
+  gfont: {
+    enable: false,
+    family: 'Noto+Sans+SC:wght@100;300;400;500;700;900',
+  },
   vendors: {
-    valine: 'https://cdn.bootcdn.net/ajax/libs/valine/1.4.9/Valine.min.js',
-    marked: 'https://cdn.bootcdn.net/ajax/libs/marked/2.1.3/marked.min.js',
+    valine: 'https://cdnjs.cloudflare.com/ajax/libs/valine/1.4.16/Valine.min.js',
+    marked: 'https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js',
     highlightjs: {
-      main: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/highlight.min.js',
-      theme: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/github.min.css',
-      themeDark: 'https://cdn.bootcdn.net/ajax/libs/highlight.js/11.0.1/styles/github-dark.min.css',
+      main: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js',
+      theme: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/github.min.css',
+      themeDark:
+        'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/github-dark.min.css',
     },
   },
 };

@@ -177,7 +177,7 @@ if (fs.existsSync(themeFilePath)) {
   let exported = require(themeFilePath);
   // if exported item is a function, get the return.
   if (typeof exported === 'function') {
-    exported = exported.call(null, context);
+    exported = exported(context);
   }
   if (exported.chainWebpack) {
     themeFuncs.chainWebpack = exported.chainWebpack;

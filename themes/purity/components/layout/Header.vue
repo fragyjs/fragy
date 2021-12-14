@@ -1,18 +1,18 @@
 <template>
   <div class="page-header">
     <div class="page-header-title">
-      <div class="page-header-title-main" v-if="$route.path === '/'">
+      <div v-if="$route.path === '/'" class="page-header-title-main">
         <span>{{ title }}</span>
       </div>
       <a
+        v-else
         class="page-header-title-main page-header-title-main--clickable"
         :href="homeUrl"
         @click.prevent="goHome"
-        v-else
       >
         <span>{{ title }}</span>
       </a>
-      <div class="page-header-title-sub mobile-hide" v-if="subtitle">
+      <div v-if="subtitle" class="page-header-title-sub mobile-hide">
         <span>{{ subtitle }}</span>
       </div>
     </div>

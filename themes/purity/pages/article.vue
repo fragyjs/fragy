@@ -1,14 +1,14 @@
 <template>
-  <Article />
+  <FragyArticle />
 </template>
 
 <script>
-import Article from '../components/articles/Article';
+import FragyArticle from '../components/articles/Article';
 
 export default {
   name: 'fragy.purity.page.article',
   components: {
-    Article,
+    FragyArticle,
   },
 };
 </script>

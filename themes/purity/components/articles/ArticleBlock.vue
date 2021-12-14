@@ -4,11 +4,11 @@
       <a :href="fullUrl" @click.prevent="toArticlePage">{{ displayTitle }}</a>
     </div>
     <div
+      ref="abstract"
       :class="{
         'article-block-abstract': true,
         'text-justify': $theme.articleList.useJustifyAlign,
       }"
-      ref="abstract"
       v-html="renderedAbstract"
     ></div>
     <div class="article-block-footer">
@@ -33,6 +33,9 @@ import { optimizeExternalLink } from '../../utils/renderer';
 
 export default {
   name: 'fragy.purity.articles.block',
+  components: {
+    Date,
+  },
   props: {
     title: String,
     abstract: String,
@@ -47,13 +50,23 @@ export default {
       default: false,
     },
   },
-  components: {
-    Date,
-  },
   data() {
     return {
       renderedAbstract: '',
     };
+  },
+  computed: {
+    displayTitle() {
+      return pangu.spacing(this.title);
+    },
+    fullUrl() {
+      return `//${window.location.host}/article/${this.filename}`;
+    },
+  },
+  watch: {
+    abstract() {
+      this.renderedAbstract();
+    },
   },
   created() {
     this.setTitle(null);
@@ -64,19 +77,6 @@ export default {
       pangu.spacingNode(this.$refs.abstract);
       optimizeExternalLink(this.$refs.abstract);
     });
-  },
-  watch: {
-    abstract() {
-      this.renderedAbstract();
-    },
-  },
-  computed: {
-    displayTitle() {
-      return pangu.spacing(this.title);
-    },
-    fullUrl() {
-      return `//${window.location.host}/article/${this.filename}`;
-    },
   },
   methods: {
     ...mapMutations('article', ['setTitle']),
@@ -89,7 +89,7 @@ export default {
         this.renderedAbstract = '<p>暂无摘要</p>';
         return;
       }
-      this.renderedAbstract = window.marked(this.abstract);
+      this.renderedAbstract = window.marked.parse(this.abstract);
     },
     toArticlePage() {
       this.setTitle(this.title);
@@ -100,23 +100,12 @@ export default {
 </script>
 
 <style lang="less">
-.article-block-text__prefix {
-  margin-right: 8px;
-  color: var(--article-block-text--prefix);
-}
-
-.article-block-text__prefix--small {
-  margin-right: 6px;
-}
-
 .article-block {
   padding-top: 2.15rem;
   margin-bottom: 2.25rem;
   border-top: 0.0625rem dashed var(--article-block-border);
   &-title {
     font-size: 1.375rem;
-    font-weight: 600;
-    letter-spacing: 0.05rem;
     margin-bottom: 1rem;
     a {
       display: block;
@@ -124,6 +113,8 @@ export default {
       position: relative;
       text-decoration: none;
       color: var(--article-block-text);
+      font-weight: 700;
+      letter-spacing: 0.0875rem;
     }
     a:hover {
       cursor: pointer;
@@ -154,6 +145,8 @@ export default {
     font-size: 1rem;
     line-height: 2rem;
     color: var(--article-block-text);
+    letter-spacing: 0.05rem;
+    font-weight: 400;
     a {
       color: var(--article-block-text);
     }
@@ -172,40 +165,49 @@ export default {
     }
     h1 {
       font-size: 1.25rem;
-    }
-    h1::before {
-      content: '#';
-      .article-block-text__prefix();
+      border-bottom: 0.0625rem solid var(--article-title-border);
+      letter-spacing: 0.075rem;
+      padding-bottom: 0.5rem;
     }
     h2 {
       font-size: 1.175rem;
     }
     h2::before {
-      content: '##';
-      .article-block-text__prefix();
+      content: '#';
+      color: var(--primary);
+      opacity: 0.4;
+      margin-right: 0.5rem;
+      font-size: 1.125rem;
     }
     h3 {
       font-size: 1.15rem;
     }
     h3::before {
-      content: '###';
-      .article-block-text__prefix();
+      content: '##';
+      color: var(--primary);
+      opacity: 0.4;
+      margin-right: 0.5rem;
+      font-size: 1rem;
     }
     h4 {
       font-size: 1.125rem;
     }
     h4::before {
-      content: '####';
-      .article-block-text__prefix();
-      .article-block-text__prefix--small();
+      content: '###';
+      color: var(--primary);
+      opacity: 0.4;
+      margin-right: 0.5rem;
+      font-size: 1rem;
     }
     h5 {
       font-size: 1.075rem;
     }
     h5::before {
-      content: '#####';
-      .article-block-text__prefix();
-      .article-block-text__prefix--small();
+      content: '####';
+      color: var(--primary);
+      opacity: 0.4;
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
     }
     p {
       margin: 0;
@@ -219,9 +221,10 @@ export default {
     pre {
       background: var(--article-code-bg);
       font-size: 0.8125rem;
-      padding: 0.75rem 1rem;
+      padding: 0.625rem 1rem;
       box-sizing: border-box;
       overflow-x: auto;
+      box-shadow: 2px 2px 4px var(--article-code-shadow);
       code {
         color: var(--article-code-text);
       }
@@ -236,6 +239,7 @@ export default {
     display: flex;
     align-items: center;
     margin-top: 1rem;
+    font-weight: 400;
     &-time {
       display: flex;
       align-items: center;
@@ -249,7 +253,7 @@ export default {
       span {
         font-size: 0.875rem;
         margin-left: 0.5rem;
-        letter-spacing: 0.025rem;
+        letter-spacing: 0.05rem;
         color: var(--article-block-footer);
       }
     }
@@ -264,6 +268,8 @@ export default {
         display: block;
         width: max-content;
         position: relative;
+        font-weight: 500;
+        letter-spacing: 0.075rem;
       }
       a:hover {
         color: var(--primary);

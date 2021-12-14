@@ -1,26 +1,26 @@
 <template>
   <div class="page-wrapper">
     <div class="page">
-      <Header />
+      <PageHeader />
       <div class="page-content">
         <transition mode="out-in">
           <slot></slot>
         </transition>
       </div>
-      <Footer />
+      <PageFooter />
     </div>
   </div>
 </template>
 
 <script>
-import Header from './Header';
-import Footer from './Footer';
+import PageHeader from './Header';
+import PageFooter from './Footer';
 
 export default {
   name: 'fragy.purity.layout.page',
   components: {
-    Header,
-    Footer,
+    PageHeader,
+    PageFooter,
   },
 };
 </script>

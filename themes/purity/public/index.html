@@ -13,11 +13,13 @@
     <title><%= __FRAGY_TITLE__ %></title>
     <script src="<%= __HIGHLIGHT_JS__ %>"></script>
     <script src="<%= __MARKED_JS__ %>"></script>
+    <%= __GOOGLE_FONTS__ %>
     <style>
       .dark {
         background: var(--black-1, #1e1e1e);
       }
     </style>
+    <%= __DEFAULT_FONTS__ %>
     <script>
       const darkModeEnabled = window.localStorage.getItem('fragy-purity-dark') === 'true';
       if (darkModeEnabled) {
@@ -36,7 +38,10 @@
   </head>
   <body>
     <noscript>
-      <strong>很抱歉，Fragy 无法在您的浏览器上正常运行。</strong>
+      <strong
+        >Sorry，Fragy doesn't work properly on your browser, you should enable JavaScript to browse
+        this site.</strong
+      >
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->

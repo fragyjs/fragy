@@ -1,35 +1,35 @@
 <template>
   <div class="article">
     <div class="article-header">
-      <div class="article-header-title" id="article-title">
+      <div id="article-title" class="article-header-title">
         <span>{{ title }}</span>
       </div>
-      <div class="article-header-meta" v-if="showMeta">
-        <div class="article-header-meta__item" v-if="showDate">
+      <div v-if="showMeta" class="article-header-meta">
+        <div v-if="showDate" class="article-header-meta__item">
           <Date /><span>{{ meta.date }}</span>
         </div>
       </div>
     </div>
     <div
+      v-if="showContent"
+      id="article-content"
+      v-lazy-container="{ selector: 'img' }"
       :class="{
         'article-content': true,
         'text-justify': $theme.article.useJustifyAlign,
       }"
-      id="article-content"
-      v-lazy-container="{ selector: 'img' }"
       v-html="renderedContent"
-      v-if="showContent"
     ></div>
-    <div class="article-content article-content-loading" v-if="contentLoading">
+    <div v-if="contentLoading" class="article-content article-content-loading">
       <span>
         {{ $t('article_loading') }}
       </span>
       <i><Loading /></i>
     </div>
-    <div class="article-content article-content-failed" v-if="loadFailed">
+    <div v-if="loadFailed" class="article-content article-content-failed">
       <p>{{ $t('article_load_failed') }}</p>
     </div>
-    <div class="article-comment" v-if="showValine">
+    <div v-if="showValine" class="article-comment">
       <div id="vcomments"></div>
     </div>
   </div>
@@ -90,7 +90,7 @@ export default {
     });
     // mount valine
     if (this.showValine) {
-      const valineConfig = Object.assign({}, this.$theme.valine);
+      const valineConfig = { ...this.$theme.valine };
       delete valineConfig.enable;
       const valine = new window.Valine({
         el: '#vcomments',
@@ -197,7 +197,7 @@ export default {
       this.renderContent();
     },
     renderContent() {
-      this.renderedContent = window.marked(this.content);
+      this.renderedContent = window.marked.parse(this.content);
       this.$nextTick(() => {
         pangu.spacingElementById('article-title');
         pangu.spacingElementById('article-content');
@@ -221,9 +221,10 @@ export default {
     padding-bottom: 1.5rem;
     &-title {
       font-size: 1.5rem;
-      font-weight: 600;
+      font-weight: 700;
       text-align: justify;
       color: var(--article-title);
+      letter-spacing: 0.0875rem;
     }
     &-meta {
       margin-top: 1rem;
@@ -239,6 +240,7 @@ export default {
         span {
           color: var(--article-meta);
           font-size: 0.875rem;
+          font-weight: 300;
         }
       }
     }
@@ -250,13 +252,18 @@ export default {
     color: var(--article-text);
     p {
       color: var(--article-text);
-      margin: 0;
-      line-height: 36px;
+      margin: 0 0 1.25rem 0;
+      line-height: 2rem;
+      font-weight: 400;
+      letter-spacing: 0.05rem;
       code {
-        padding: 4px 6px;
+        padding: 0.25rem 0.45rem;
         background: var(--article-code-bg);
         font-size: 0.875rem;
       }
+    }
+    p:last-child {
+      margin-bottom: 0;
     }
     a {
       color: var(--article-text);
@@ -274,6 +281,8 @@ export default {
     h5 {
       color: var(--article-title);
       border-bottom: 0.0625rem solid var(--article-title-border);
+      letter-spacing: 0.075rem;
+      padding-bottom: 0.5rem;
     }
     h1:first-child,
     h2:first-child,
@@ -288,14 +297,42 @@ export default {
     h2 {
       font-size: 1.25rem;
     }
+    h2::before {
+      content: '#';
+      color: var(--primary);
+      opacity: 0.4;
+      margin-right: 0.5rem;
+      font-size: 1.125rem;
+    }
     h3 {
       font-size: 1.15rem;
+    }
+    h3::before {
+      content: '##';
+      color: var(--primary);
+      opacity: 0.4;
+      margin-right: 0.5rem;
+      font-size: 1rem;
     }
     h4 {
       font-size: 1.115rem;
     }
+    h4::before {
+      content: '###';
+      color: var(--primary);
+      opacity: 0.4;
+      margin-right: 0.5rem;
+      font-size: 1rem;
+    }
     h5 {
       font-size: 1.025rem;
+    }
+    h5::before {
+      content: '####';
+      color: var(--primary);
+      opacity: 0.4;
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
     }
     img {
       display: block;
@@ -305,9 +342,10 @@ export default {
     pre {
       width: 100%;
       background: var(--article-code-bg);
-      padding: 0.75rem 1rem;
+      padding: 0.625rem 1rem;
       box-sizing: border-box;
       overflow-x: auto;
+      box-shadow: 2px 2px 8px var(--article-code-shadow);
       code {
         color: var(--article-code-text);
       }

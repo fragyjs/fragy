@@ -1,10 +1,10 @@
 <template>
-  <div class="article-list article-list-empty" v-if="showEmpty">
+  <div v-if="showEmpty" class="article-list article-list-empty">
     <span v-if="listDataLoading">{{ $t('article_list_loading') }}</span>
     <span v-if="loadFailed">{{ $t('article_list_load_failed') }}</span>
     <span v-if="showDefaultEmptyText">{{ $t('aritcle_list_empty') }}</span>
   </div>
-  <div class="article-list" v-else>
+  <div v-else class="article-list">
     <div class="article-list__main">
       <ArticleBlock
         v-for="item in currentArticles"
@@ -18,10 +18,10 @@
     </div>
     <div class="article-list__footer">
       <Paginator
+        v-if="pageCount > 1"
         :currentPage="currentPage"
         :pageCount="pageCount"
         @change="onPageChange"
-        v-if="pageCount > 1"
       />
     </div>
   </div>

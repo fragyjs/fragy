@@ -3,6 +3,32 @@ const webpack = require('webpack');
 
 const SCRIPT_TEMPLATE = `<script src="{url}"></script>`;
 
+const getGoogleFontsDefine = (gfontOptions) => {
+  if (!gfontOptions.enable) {
+    return '';
+  }
+  const googleApisHost = gfontOptions.googleApisHost || 'fonts.googleapis.com';
+  const gstatciHost = gfontOptions.gstaticHost || 'fonts.gstatic.com';
+  return `
+  <link rel="preconnect" href="https://${googleApisHost}">
+  <link rel="preconnect" href="https://${gstatciHost}" crossorigin>
+  <link href="https://${googleApisHost}/css2?family=${gfontOptions.family}&display=swap" rel="stylesheet">
+  `.trim();
+};
+
+const getDefaultFont = (fontFamily) => {
+  if (!fontFamily) {
+    return '';
+  }
+  return `
+  <style>
+    :root {
+      --main-font: ${fontFamily};
+    }
+  </style>
+  `.trim();
+};
+
 module.exports = (context) => ({
   pages: {
     index: {
@@ -21,6 +47,8 @@ module.exports = (context) => ({
         __VALINE_SCRIPT_LINE__: JSON.stringify(
           context.themeConfig.valine.enable ? SCRIPT_TEMPLATE.replace('{url}', vendors.valine) : '',
         ),
+        __GOOGLE_FONTS__: JSON.stringify(getGoogleFontsDefine(context.themeConfig.gfont)),
+        __DEFAULT_FONTS__: JSON.stringify(getDefaultFont(context.themeConfig.fontFamily)),
       },
     ]);
   },

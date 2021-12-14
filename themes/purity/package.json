@@ -1,6 +1,6 @@
 {
   "name": "@fragy/purity",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "Default theme for fragy.",
   "main": "index.js",
   "author": "BackRunner",
@@ -8,13 +8,20 @@
   "homepage": "https://github.com/pwp-app/fragy/tree/main/themes/purity",
   "dependencies": {
     "pangu.simple": "^1.0.5",
-    "vue-lazyload": "^1.3.3"
+    "vue-lazyload": "^1.3.4"
   },
   "fragy": {
     "type": "theme",
+<<<<<<< Updated upstream
+    "compatibility": "0.2.0"
+=======
     "compatibility": {
       "frameworkVersion": "0.2.0",
       "githubMode": true
     }
+  },
+  "devDependencies": {
+    "eslint-config-alloy": "^3.10.0"
+>>>>>>> Stashed changes
   }
 }

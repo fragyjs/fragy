@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      darkModeEnabled: window.localStorage.getItem('fragy-purity-dark') === 'true',
+      darkModeEnabled: window.localStorage.getItem('fragy-purity-dark'),
     };
   },
   provide() {

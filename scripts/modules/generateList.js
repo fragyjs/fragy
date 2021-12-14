@@ -164,7 +164,7 @@ const execute = async () => {
   if (fragyConfig.articleList.splitPage) {
     const { pageSize } = fragyConfig.articleList;
     if (fs.existsSync(outputPath)) {
-      await fsp.rmdir(outputPath, { recursive: true });
+      await fsp.rm(outputPath, { recursive: true, force: true });
     }
     await fsp.mkdir(outputPath, { recursive: true });
     const slices = [];

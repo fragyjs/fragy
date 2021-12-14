@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueCompositionAPI from '@vue/composition-api';
 import axios from 'axios';
+import merge from 'lodash-es/merge';
 import { createRouter } from './router';
 import { createStore } from './store';
 import { parseArticle } from './utils/article';
@@ -31,7 +32,7 @@ const initView = async () => {
   const { default: themeConfig } = await import(__FRAGY_THEME_CONFIG_PATH__);
   const { config: userThemeConfig } = fragyConfig.theme;
   if (typeof userThemeConfig === 'object' && userThemeConfig) {
-    Object.assign(themeConfig, userThemeConfig);
+    merge(themeConfig, userThemeConfig);
   }
   Vue.prototype.$theme = themeConfig;
   // theme setup
