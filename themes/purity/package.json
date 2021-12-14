@@ -13,7 +13,7 @@
   "fragy": {
     "type": "theme",
     "compatibility": {
-      "frameworkVersion": "0.2.0",
+      "frameworkVersion": "0.2.1",
       "githubMode": true
     }
   }
