@@ -353,6 +353,15 @@ export default {
     ul {
       color: var(--article-text);
     }
+    hr {
+      margin: 1.25rem 0;
+      height: 1px;
+      background-color: transparent;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      border-bottom: 1px dashed var(--article-title-border);
+    }
   }
   &-content-loading {
     display: flex;

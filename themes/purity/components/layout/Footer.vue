@@ -151,6 +151,16 @@ export default {
   }
 }
 
+.dark {
+  .page-footer {
+    &__right {
+      .license {
+        filter: brightness(0.75);
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 767px) {
   .page-footer {
     margin: 2rem 0 1.5rem 0;
