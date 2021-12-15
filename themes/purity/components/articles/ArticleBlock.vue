@@ -101,8 +101,8 @@ export default {
 
 <style lang="less">
 .article-block {
-  padding-top: 2.15rem;
-  margin-bottom: 2.25rem;
+  padding-top: 2.05rem;
+  margin-bottom: 2.275rem;
   border-top: 0.0625rem dashed var(--article-block-border);
   &-title {
     font-size: 1.375rem;
