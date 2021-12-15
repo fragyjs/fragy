@@ -1,6 +1,6 @@
 import YAML from 'yaml';
 
-const yamlExtractor = /^-{3}\n(.+)\n-{3}(.*)/s;
+const yamlExtractor = /^-{3}\r?\n(.+)\r?\n-{3}\r?\n(.*)/s;
 
 const parseArticle = (article) => {
   const matches = yamlExtractor.exec(article);
