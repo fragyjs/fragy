@@ -51,17 +51,17 @@ export default {
   &-title {
     display: flex;
     &-main {
-      min-width: 5rem;
+      min-width: 5.5rem;
       height: @header-height;
-      padding: 0 1rem;
+      padding: 0.25rem 0.875rem;
       display: flex;
       align-items: center;
       justify-content: center;
       background: var(--primary);
       color: var(--text-title);
-      font-size: 1.2rem;
-      font-weight: 600;
-      letter-spacing: 0.075rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.1rem;
       text-decoration: none;
     }
     &-main--clickable {
@@ -83,9 +83,9 @@ export default {
     &-sub {
       color: var(--text-subtitle);
       align-self: flex-end;
-      font-size: 1.125rem;
-      letter-spacing: 0.05rem;
-      margin-left: 1.25rem;
+      font-size: 1rem;
+      letter-spacing: 0.075rem;
+      margin-left: 1rem;
     }
   }
 }

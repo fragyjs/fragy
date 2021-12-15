@@ -154,7 +154,9 @@ export default {
       // no cache
       let res;
       try {
-        res = await this.$http.get(`${this.$fragy.articles.feed}/${this.filename}`);
+        res = await this.$http.get(
+          `${this.$fragy.articles.feed}/${encodeURIComponent(this.filename)}`,
+        );
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article content.', err);
@@ -230,7 +232,6 @@ export default {
       margin-top: 1rem;
       &__item {
         display: flex;
-        align-items: center;
         svg {
           width: 1.125rem;
           height: 1.125rem;
@@ -240,7 +241,6 @@ export default {
         span {
           color: var(--article-meta);
           font-size: 0.875rem;
-          font-weight: 300;
         }
       }
     }
@@ -252,7 +252,7 @@ export default {
     color: var(--article-text);
     p {
       color: var(--article-text);
-      margin: 0 0 1.25rem 0;
+      margin: 0 0 1rem 0;
       line-height: 2rem;
       font-weight: 400;
       letter-spacing: 0.05rem;
