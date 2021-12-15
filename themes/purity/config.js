@@ -26,6 +26,10 @@ export default {
     themeSwitcher: {
       enable: true,
     },
+    // cc-by-4.0
+    license: {
+      enable: false,
+    },
   },
   valine: {
     enable: false,
