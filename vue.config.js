@@ -25,6 +25,7 @@ if (!fs.existsSync(userConfigPath)) {
 const { formatConfig } = esmRequire('./src/utils/config');
 const fragyConfig = formatConfig(esmRequire(userConfigPath).default);
 const themeFuncs = {};
+let themeVueConfig = null;
 
 const themePkgInfoPath = path.resolve(
   nodeModulesPath,
@@ -53,6 +54,7 @@ const context = {
   frameworkRoot: __dirname,
   siteTitle: fragyConfig.title,
   themePkg: fragyConfig.theme.package,
+  themeRoot: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}`),
   themeConfigPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/config.js`),
   themeEntryPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/entry.vue`),
   // config objs
@@ -150,18 +152,23 @@ const chainWebpack = (config) => {
     },
   });
 
+  // check theme entry override
+  if (themeVueConfig?.pages?.index) {
+    config.plugin('copy').tap((options) => {
+      options[0].patterns[0].globOptions.ignore.push('**/index.html');
+      return options;
+    });
+  }
+
+  themeFuncs.chainWebpack?.(config);
+
   if (process.env.BUNDLE_ANALYZE === 'true') {
     config.plugin('bundle-analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
-  }
-  if (themeFuncs.chainWebpack) {
-    themeFuncs.chainWebpack(config);
   }
 };
 
 const configureWebpack = (config) => {
-  if (themeFuncs.configureWebpack) {
-    themeFuncs.configureWebpack(config);
-  }
+  themeFuncs.configureWebpack?.(config);
 };
 
 const vueConfig = {
@@ -179,6 +186,8 @@ if (fs.existsSync(themeFilePath)) {
   if (typeof exported === 'function') {
     exported = exported(context);
   }
+  themeVueConfig = exported;
+  // merge webpack related functions
   if (exported.chainWebpack) {
     themeFuncs.chainWebpack = exported.chainWebpack;
   }
@@ -189,5 +198,7 @@ if (fs.existsSync(themeFilePath)) {
   const staticExported = JSON.parse(JSON.stringify(exported));
   Object.assign(vueConfig, staticExported);
 }
+
+console.log(vueConfig);
 
 module.exports = vueConfig;

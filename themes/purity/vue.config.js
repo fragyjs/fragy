@@ -33,7 +33,8 @@ module.exports = (context) => ({
   pages: {
     index: {
       entry: path.resolve(context.frameworkRoot, './src/main.js'),
-      template: path.resolve(__dirname, './public/index.html'),
+      template: path.resolve(context.themeRoot, './public/index.html'),
+      filename: 'index.html',
     },
   },
   chainWebpack: (config) => {
