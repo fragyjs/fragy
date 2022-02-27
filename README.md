@@ -1,7 +1,9 @@
+# Fragy
+
 <div align="center">
  <img src="https://github.com/fragyjs/fragy/blob/main/assets/logo.png?raw=true" width="88">
- <p>Fragy</p>
  <p>Reborn with Vue 3</p>
+ <a href="https://github.com/fragyjs/fragy/blob/main/README.%E4%B8%AD%E6%96%87.md">中文文档</a>
 </div>
 
 Fragy is a Vue-based, dynamically rendered page lightweight blogging framework, we are committed to bringing the most agile and free experience to users.

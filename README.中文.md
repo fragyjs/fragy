@@ -1,6 +1,7 @@
+# Fragy
+
 <div align="center">
  <img src="https://github.com/fragyjs/fragy/blob/main/assets/logo.png?raw=true" width="88">
- <p>Fragy</p>
  <p>Reborn with Vue 3</p>
 </div>
 
