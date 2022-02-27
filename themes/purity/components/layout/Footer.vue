@@ -12,7 +12,7 @@
       </div>
       <div v-if="showThemeSwitcher" class="page-footer-text page-footer-theme">
         <span>
-          <Moon v-if="darkModeEnabled.value" @click.native="switchColorTheme" />
+          <Moon v-if="darkModeEnabled" @click.native="switchColorTheme" />
           <Sun v-else @click.native="switchColorTheme" />
         </span>
       </div>
@@ -74,7 +74,7 @@ export default defineComponent({
   },
   methods: {
     switchColorTheme() {
-      if (this.darkModeEnabled.value) {
+      if (this.darkModeEnabled) {
         this.$bus.emit('color-theme-changed', 'light');
       } else {
         this.$bus.emit('color-theme-changed', 'dark');
