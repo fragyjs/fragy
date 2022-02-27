@@ -173,6 +173,7 @@ const configureWebpack = (config) => {
 
 const vueConfig = {
   outputDir: IS_IN_NODE_MODULES ? path.resolve(userProjectRoot, './dist') : 'dist',
+  productionSourceMap: false,
   chainWebpack,
   configureWebpack,
 };
