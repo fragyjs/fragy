@@ -61,10 +61,11 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import Prev from '../icons/Prev';
 import Next from '../icons/Next';
 
-export default {
+export default defineComponent({
   name: 'fragy.purity.pager',
   components: {
     Prev,
@@ -80,6 +81,7 @@ export default {
       required: true,
     },
   },
+  emits: ['change'],
   methods: {
     setPage(page) {
       this.$emit('change', page);
@@ -90,7 +92,7 @@ export default {
       });
     },
   },
-};
+});
 </script>
 
 <style lang="less">

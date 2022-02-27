@@ -1,20 +1,19 @@
-import VueLazyload from 'vue-lazyload';
-import store from './store';
+import VueLazyload from 'vue-lazyload-next';
 import Index from './pages/index.vue';
 import Article from './pages/article.vue';
 import NotFound from './pages/notFound.vue';
 import { getMessage } from './utils/i18n';
+import store from './store';
 import './utils/extend';
 import './styles/layout.less';
 
 export default {
   name: 'purity',
-  setup(Vue) {
-    Vue.use(VueLazyload, {
+  setup(app) {
+    app.use(VueLazyload, {
       observer: true,
     });
-    // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$t = getMessage;
+    app.config.globalProperties.$t = getMessage;
   },
   store,
   routes: [
@@ -34,7 +33,7 @@ export default {
       component: NotFound,
     },
     {
-      path: '*',
+      path: '/:pathMatch(.*)',
       redirect: '/notFound',
     },
   ],

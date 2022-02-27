@@ -37,13 +37,14 @@
 
 <script>
 import pangu from 'pangu.simple';
+import { defineComponent } from 'vue';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import Date from '../icons/Date';
 import Loading from '../icons/Loading';
 import githubMixin from '../../mixin/github';
 import { optimizeExternalLink } from '../../utils/renderer';
-import { mapGetters, mapMutations, mapState } from 'vuex';
 
-export default {
+export default defineComponent({
   name: 'fragy.purity.article',
   props: {
     article: String,
@@ -213,7 +214,7 @@ export default {
         .replace('{siteTitle}', this.$fragy.title);
     },
   },
-};
+});
 </script>
 
 <style lang="less">

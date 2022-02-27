@@ -1,6 +1,6 @@
 {
   "name": "@fragy/purity",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Default theme for fragy.",
   "main": "index.js",
   "author": "BackRunner",
@@ -8,12 +8,12 @@
   "homepage": "https://github.com/pwp-app/fragy/tree/main/themes/purity",
   "dependencies": {
     "pangu.simple": "^1.0.5",
-    "vue-lazyload": "^1.3.4"
+    "vue-lazyload-next": "^0.0.2"
   },
   "fragy": {
     "type": "theme",
     "compatibility": {
-      "frameworkVersion": "0.2.1",
+      "frameworkVersion": "0.3.0",
       "githubMode": true
     }
   }

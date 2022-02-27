@@ -2,6 +2,8 @@ themes
 .fragy
 .history
 .vscode
+assets
 dist
 node_modules
 docs
+packages

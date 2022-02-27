@@ -20,7 +20,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'fragy.purity.layout.header',
   data() {
     const { title, subtitle } = this.$fragy;
@@ -37,7 +39,7 @@ export default {
       document.title = this.$fragy.title;
     },
   },
-};
+});
 </script>
 
 <style lang="less">

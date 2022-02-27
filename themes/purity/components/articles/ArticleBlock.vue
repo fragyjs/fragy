@@ -26,12 +26,14 @@
 </template>
 
 <script>
-import Date from '../icons/Date';
 import pangu from 'pangu.simple';
+import { defineComponent } from 'vue';
 import { mapMutations } from 'vuex';
+import Date from '../icons/Date';
+
 import { optimizeExternalLink } from '../../utils/renderer';
 
-export default {
+export default defineComponent({
   name: 'fragy.purity.articles.block',
   components: {
     Date,
@@ -96,7 +98,7 @@ export default {
       this.$router.push(`/article/${this.filename}`);
     },
   },
-};
+});
 </script>
 
 <style lang="less">

@@ -3,9 +3,7 @@
     <div class="page">
       <PageHeader />
       <div class="page-content">
-        <transition mode="out-in">
-          <slot></slot>
-        </transition>
+        <slot></slot>
       </div>
       <PageFooter />
     </div>
@@ -13,16 +11,17 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
 import PageHeader from './Header';
 import PageFooter from './Footer';
 
-export default {
+export default defineComponent({
   name: 'fragy.purity.layout.page',
   components: {
     PageHeader,
     PageFooter,
   },
-};
+});
 </script>
 
 <style lang="less">
@@ -48,15 +47,5 @@ export default {
       flex: 1 0 auto;
     }
   }
-}
-
-// transition
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 125ms;
-}
-.fade-enter,
-.fade-leave {
-  opacity: 0;
 }
 </style>

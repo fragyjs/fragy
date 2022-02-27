@@ -12,7 +12,7 @@
       </div>
       <div v-if="showThemeSwitcher" class="page-footer-text page-footer-theme">
         <span>
-          <Moon v-if="darkModeEnabled.value" @click.native="switchColorTheme" />
+          <Moon v-if="darkModeEnabled" @click.native="switchColorTheme" />
           <Sun v-else @click.native="switchColorTheme" />
         </span>
       </div>
@@ -22,7 +22,7 @@
         <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"
           ><img
             alt="知识共享许可协议"
-            style="border-width:0"
+            style="border-width: 0"
             src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png"
         /></a>
       </div>
@@ -32,11 +32,12 @@
 
 <script>
 import pangu from 'pangu.simple';
+import { defineComponent } from 'vue';
 import GitHub from '../icons/GitHub';
 import Sun from '../icons/Sun';
 import Moon from '../icons/Moon';
 
-export default {
+export default defineComponent({
   name: 'fragy.purity.layout.footer',
   components: {
     GitHub,
@@ -73,14 +74,14 @@ export default {
   },
   methods: {
     switchColorTheme() {
-      if (this.darkModeEnabled.value) {
-        this.$bus.$emit('color-theme-changed', 'light');
+      if (this.darkModeEnabled) {
+        this.$bus.emit('color-theme-changed', 'light');
       } else {
-        this.$bus.$emit('color-theme-changed', 'dark');
+        this.$bus.emit('color-theme-changed', 'dark');
       }
     },
   },
-};
+});
 </script>
 
 <style lang="less">

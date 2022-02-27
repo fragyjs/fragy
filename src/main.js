@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import VueCompositionAPI from '@vue/composition-api';
+import { createApp } from 'vue';
+import mitt from 'mitt';
 import axios from 'axios';
 import merge from 'lodash-es/merge';
 import { createRouter } from './router';
@@ -8,23 +8,20 @@ import { parseArticle } from './utils/article';
 import { formatConfig } from './utils/config';
 import consts from './constants';
 
-Vue.config.productionTip = false;
+const globalProperties = {};
 
-Vue.prototype.$bus = new Vue();
-Vue.prototype.$http = axios;
-Vue.prototype.$consts = consts;
-
-Vue.prototype.$utils = {
+globalProperties.$bus = mitt();
+globalProperties.$http = axios;
+globalProperties.$consts = consts;
+globalProperties.$utils = {
   parseArticle,
 };
 
-Vue.use(VueCompositionAPI);
-
-const initView = async () => {
+const initialize = async () => {
   // import config
   // eslint-disable-next-line no-undef
   const { default: fragyConfig } = await import(__FRAGY_USER_CONFIG_PATH__);
-  Vue.prototype.$fragy = formatConfig(fragyConfig);
+  globalProperties.$fragy = formatConfig(fragyConfig);
   // import theme
   // eslint-disable-next-line no-undef
   const { default: theme } = await import(__FRAGY_THEME_PKG__);
@@ -34,31 +31,35 @@ const initView = async () => {
   if (typeof userThemeConfig === 'object' && userThemeConfig) {
     merge(themeConfig, userThemeConfig);
   }
-  Vue.prototype.$theme = themeConfig;
-  // theme setup
-  if (typeof theme.setup === 'function') {
-    await Promise.resolve(theme.setup.call(null, Vue, fragyConfig, themeConfig));
-  }
+  globalProperties.$theme = themeConfig;
 
+  // load theme entry
   // eslint-disable-next-line no-undef
   const { default: entry } = await import(__FRAGY_THEME_ENTRY_PATH__);
 
-  const mainOpts = {
-    render: (h) => h(entry),
-  };
+  // create vue app
+  const app = createApp(entry);
 
+  app.config.globalProperties = globalProperties;
+  app.config.unwrapInjectedRef = true;
+
+  // theme setup
+  if (typeof theme.setup === 'function') {
+    await Promise.resolve(theme.setup.call(null, app, fragyConfig, themeConfig));
+  }
+
+  // add router and store
   if (theme.routes) {
-    Object.assign(mainOpts, {
-      router: createRouter(theme.routes),
-    });
+    const router = createRouter(theme.routes);
+    app.use(router);
   }
   if (theme.store) {
-    Object.assign(mainOpts, {
-      store: createStore(theme.store),
-    });
+    const store = createStore(theme.store);
+    app.use(store);
   }
 
-  new Vue(mainOpts).$mount('#app');
+  // mount to dom
+  app.mount('#app');
 };
 
-initView();
+initialize();
