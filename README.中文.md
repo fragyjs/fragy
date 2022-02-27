@@ -59,6 +59,6 @@ Fragy 基本兼容 Hexo 的文章格式，你可以基本无痛将之前在 Hexo
 
 详见[主题开发指南](https://github.com/fragyjs/fragy/blob/main/docs/zh-CN/%E4%B8%BB%E9%A2%98%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.md)
 
-## License
+## ✒ License
 
 MIT
