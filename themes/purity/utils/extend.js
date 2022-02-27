@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
 const { setItem, getItem } = window.localStorage;
+
 window.localStorage.setItem = (key, value) => {
   setItem.call(window.localStorage, key, JSON.stringify(value));
 };
+
 window.localStorage.getItem = (key) => {
   const stored = getItem.call(window.localStorage, key);
   try {

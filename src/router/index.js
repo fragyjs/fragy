@@ -1,10 +1,8 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter as createVueRouter, createWebHistory } from 'vue-router';
 
 export const createRouter = (routes) => {
-  Vue.use(VueRouter);
-  return new VueRouter({
-    mode: 'history',
+  return createVueRouter({
+    history: createWebHistory(),
     base: process.env.BASE_URL,
     routes,
   });

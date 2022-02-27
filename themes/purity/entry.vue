@@ -2,21 +2,23 @@
   <div id="app">
     <Page>
       <div>
-        <transition mode="out-in" name="fade">
-          <router-view />
-        </transition>
+        <router-view v-slot="{ Component }">
+          <transition mode="out-in" name="fade">
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </div>
     </Page>
   </div>
 </template>
 
 <script>
-import Page from './components/layout/Page';
-import { computed } from '@vue/composition-api';
+import { defineComponent, computed } from 'vue';
 import { generateStyle } from './utils/theme';
+import Page from './components/layout/Page';
 import './utils/marked';
 
-export default {
+export default defineComponent({
   components: {
     Page,
   },
@@ -34,7 +36,7 @@ export default {
     // set title
     document.title = this.$fragy.title;
     // listen events
-    this.$bus.$on('color-theme-changed', this.colorThemeChanged);
+    this.$bus.on('color-theme-changed', this.colorThemeChanged);
     // check system theme
     if (typeof window.localStorage.getItem('fragy-purity-dark') === 'undefined') {
       const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
@@ -66,7 +68,7 @@ export default {
       window.localStorage.setItem('fragy-purity-dark', this.darkModeEnabled);
     },
   },
-};
+});
 </script>
 
 <style lang="less">

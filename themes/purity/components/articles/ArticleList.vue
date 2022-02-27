@@ -28,17 +28,18 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+import { mapGetters, mapMutations } from 'vuex';
 import ArticleBlock from './ArticleBlock';
 import Paginator from '../layout/Paginator';
 import githubMixin from '../../mixin/github';
-import { mapGetters, mapMutations } from 'vuex';
 
 const GITHUB_FILES_CACHE_KEY = 'fragy-github-files';
 
 const A_HOUR_IN_MS = 60 * 60 * 1000;
 const TEN_MIN_IN_MS = 10 * 60 * 1000;
 
-export default {
+export default defineComponent({
   name: 'fragy.purity.articles.list',
   components: {
     ArticleBlock,
@@ -221,10 +222,10 @@ export default {
         for (let i = 0; i < articles.length; i++) {
           const article = this.articles[i];
           if (article.filename === filename) {
-            this.$set(this.articles, i, {
+            this.articles[i] = {
               ...article,
               ...content.meta,
-            });
+            };
             break;
           }
         }
@@ -328,7 +329,7 @@ export default {
       this.loadedPages[this.currentPage] = true;
       if (this.$fragy.articleList.splitPage) {
         if (!this.articles) this.articles = {};
-        this.$set(this.articles, this.currentPage, res.data.listData);
+        this.articles[this.currentPage] = res.data.listData;
       } else {
         this.articles = res.data.listData;
       }
@@ -369,7 +370,7 @@ export default {
           console.error('Failed to pre-fetch article list info.', err);
           return;
         }
-        this.$set(this.articles, page, res.data.listData);
+        this.articles[page] = res.data.listData;
         this.loadedPages[page] = true;
       });
     },
@@ -413,7 +414,7 @@ export default {
       });
     },
   },
-};
+});
 </script>
 
 <style lang="less">

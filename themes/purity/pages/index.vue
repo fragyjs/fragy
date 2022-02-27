@@ -5,15 +5,19 @@
 </template>
 
 <script>
+import { defineComponent, getCurrentInstance, onBeforeMount } from 'vue';
 import ArticleList from '../components/articles/ArticleList';
 
-export default {
+export default defineComponent({
   name: 'fragy.purity.page.index',
   components: {
     ArticleList,
   },
-  created() {
-    document.title = this.$fragy.title;
+  setup() {
+    const { proxy } = getCurrentInstance();
+    onBeforeMount(() => {
+      document.title = proxy.$fragy.title;
+    });
   },
-};
+});
 </script>

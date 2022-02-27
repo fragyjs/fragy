@@ -199,6 +199,4 @@ if (fs.existsSync(themeFilePath)) {
   Object.assign(vueConfig, staticExported);
 }
 
-console.log(vueConfig);
-
 module.exports = vueConfig;
