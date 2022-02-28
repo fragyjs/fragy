@@ -73,6 +73,7 @@ const chainWebpack = (config) => {
   // theme flags
   config.plugin('fragy-flags').use(webpack.DefinePlugin, [
     {
+      __MARKVUE_ENABLED__: JSON.stringify(!!fragyConfig.markVue?.enabled),
       __FAVICON_URL__: JSON.stringify(fragyConfig.icon),
       __FRAGY_TITLE__: JSON.stringify(context.siteTitle),
       __FRAGY_LOCALE__: JSON.stringify(context.fragyConfig.locale),
@@ -129,27 +130,97 @@ const chainWebpack = (config) => {
     }
   }
 
-  config.optimization.splitChunks({
-    cacheGroups: {
-      theme: {
-        name: 'theme',
-        chunks: 'async',
-        test: new RegExp(context.themePkg.replace(/\//g, '[\\\\/]')),
-        priority: 20,
+  const cacheGroups = {
+    vendors: {
+      name: `chunk-vendors`,
+      test(module) {
+        if (!module.resource) {
+          return false;
+        }
+        const filtered = [
+          'vue',
+          '@vue',
+          'vuex',
+          '@vue/compiler-sfc',
+          'marked',
+          'markvue',
+          'core-js',
+          'axios',
+          'yaml',
+          'mitt',
+          'lodash-es',
+        ].reduce((res, curr) => {
+          if (res) return res;
+          return (
+            res || module.resource.includes(`/${curr}`) || module.resource.includes(`\\${curr}`)
+          );
+        }, false);
+        return /[\\/]node_modules[\\/]/.test(module.resource) && !filtered;
       },
-      themeVendors: {
-        name: 'theme-vendors',
-        chunks: 'async',
-        test: /[\\/]node_modules[\\/]/,
-        priority: 10,
-      },
-      defaultVendors: {
-        name: `chunk-vendors`,
-        test: /[\\/]node_modules[\\/]/,
-        priority: -10,
-        chunks: 'initial',
-      },
+      chunks: 'initial',
+      priority: -5,
     },
+    base: {
+      name: 'chunk-base',
+      chunks: 'initial',
+      test(module) {
+        if (!module.resource) {
+          return false;
+        }
+        const included = [
+          'vue',
+          '@vue',
+          'vuex',
+          'marked',
+          'core-js',
+          'axios',
+          'yaml',
+          'mitt',
+          'lodash-es',
+        ].reduce((res, curr) => {
+          if (res) return res;
+          return (
+            res || module.resource.includes(`/${curr}`) || module.resource.includes(`\\${curr}`)
+          );
+        }, false);
+        return (
+          /[\\/]node_modules[\\/]/.test(module.resource) &&
+          !/[\\/]node_modules[\\/](@vue[\\/]compiler-sfc)|markvue/.test(module.resource) &&
+          included
+        );
+      },
+      priority: 20,
+      enforce: true,
+    },
+    theme: {
+      name: 'theme',
+      chunks: 'async',
+      test: new RegExp(context.themePkg.replace(/\//g, '[\\\\/]')),
+      priority: 10,
+    },
+    themeVendors: {
+      name: 'theme-vendors',
+      chunks: 'async',
+      test: /[\\/]node_modules[\\/]/,
+      priority: 5,
+      reuseExistingChunk: true,
+    },
+  };
+
+  if (fragyConfig.markVue?.enabled) {
+    Object.assign(cacheGroups, {
+      markVue: {
+        name: 'chunk-markvue',
+        chunks: 'all',
+        test: /[\\/]node_modules[\\/](markvue)|(@vue[\\/]compiler-sfc)/,
+        priority: 30,
+        enforce: true,
+      },
+    });
+  }
+
+  config.optimization.splitChunks({
+    cacheGroups,
   });
 
   // check theme entry override
@@ -163,7 +234,12 @@ const chainWebpack = (config) => {
   themeFuncs.chainWebpack?.(config);
 
   if (process.env.BUNDLE_ANALYZE === 'true') {
-    config.plugin('bundle-analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
+    const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+    config.plugin('bundle-analyzer').use(
+      new BundleAnalyzerPlugin({
+        analyzerPort: 'auto',
+      }),
+    );
   }
 };
 

@@ -6,7 +6,7 @@ const parseArticle = (article) => {
   const matches = yamlExtractor.exec(article);
   let meta = null;
   if (matches.length < 4) {
-    throw new Error('Match content failed.');
+    throw new Error('[Fragy] Match content failed.');
   }
   if (matches && matches.length) {
     meta = YAML.parse(matches[2].trim());
@@ -16,7 +16,7 @@ const parseArticle = (article) => {
   if (content.includes('<!-- more -->')) {
     abstract = content.split('<!-- more -->')[0];
   } else {
-    abstract = content.substr(0, 200);
+    abstract = content.slice(0, 200);
   }
   return {
     meta,

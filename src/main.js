@@ -58,6 +58,13 @@ const initialize = async () => {
     app.use(store);
   }
 
+  // check markvue
+  // eslint-disable-next-line no-undef
+  if (__MARKVUE_ENABLED__) {
+    const MarkVue = require('markvue').default;
+    app.use(MarkVue);
+  }
+
   // mount to dom
   app.mount('#app');
 };

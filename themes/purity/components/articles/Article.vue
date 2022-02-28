@@ -11,7 +11,7 @@
       </div>
     </div>
     <div
-      v-if="showContent"
+      v-if="showContent && !supportMarkVue"
       id="article-content"
       v-lazy-container="{ selector: 'img' }"
       :class="{
@@ -20,6 +20,16 @@
       }"
       v-html="renderedContent"
     ></div>
+    <MarkVue
+      v-if="showContent && supportMarkVue"
+      id="article-content"
+      v-lazy-container="{ selector: 'img' }"
+      :content="content"
+      :class="{
+        'article-content': true,
+        'text-justify': $theme.article.useJustifyAlign,
+      }"
+    />
     <div v-if="contentLoading" class="article-content article-content-loading">
       <span>
         {{ $t('article_loading') }}
@@ -138,6 +148,9 @@ export default defineComponent({
     showContent() {
       return !this.contentLoading && !this.loadFailed;
     },
+    supportMarkVue() {
+      return !!this.$fragy.markVue?.enabled;
+    },
   },
   methods: {
     ...mapMutations('article', ['setCache']),
@@ -200,7 +213,9 @@ export default defineComponent({
       this.renderContent();
     },
     renderContent() {
-      this.renderedContent = window.marked.parse(this.content);
+      if (!this.supportMarkVue) {
+        this.renderedContent = window.marked.parse(this.content);
+      }
       this.$nextTick(() => {
         pangu.spacingElementById('article-title');
         pangu.spacingElementById('article-content');
