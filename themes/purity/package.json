@@ -8,6 +8,7 @@
   "homepage": "https://github.com/pwp-app/fragy/tree/main/themes/purity",
   "dependencies": {
     "color": "^3.2.1",
+    "dexie": "^3.2.1",
     "pangu.simple": "^1.0.5",
     "vue-lazyload-next": "^0.0.2"
   },

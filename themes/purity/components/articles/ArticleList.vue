@@ -2,7 +2,7 @@
   <div v-if="showEmpty" class="article-list article-list-empty">
     <span v-if="listDataLoading">{{ $t('article_list_loading') }}</span>
     <span v-if="loadFailed">{{ $t('article_list_load_failed') }}</span>
-    <span v-if="showDefaultEmptyText">{{ $t('aritcle_list_empty') }}</span>
+    <span v-if="showDefaultEmptyText">{{ $t('article_list_empty') }}</span>
   </div>
   <div v-else class="article-list">
     <div class="article-list__main">
@@ -30,6 +30,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapGetters, mapMutations } from 'vuex';
+import { getFromCache, setToCache } from '../../utils/cache';
 import ArticleBlock from './ArticleBlock';
 import Paginator from '../layout/Paginator';
 import githubMixin from '../../mixin/github';
@@ -51,17 +52,30 @@ export default defineComponent({
     return {
       currentPage,
       total: 0,
+      pageInited: false,
       pageSize: this.$fragy.articleList?.pageSize || 10,
       articles: null,
-      listDataLoading: true,
+      listDataLoading: false,
       loadFailed: false,
       lastFetchTime: null,
       loadedPages: {},
       metaMap: {},
     };
   },
-  created() {
-    this.fetchArticlesList();
+  async created() {
+    try {
+      // get from cache first
+      this.articles = (await getFromCache('articles')) || null;
+      // request remote
+      this.fetchArticlesList();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      // set page inited
+      setTimeout(() => {
+        this.pageInited = true;
+      });
+    }
   },
   computed: {
     ...mapGetters('article', ['cacheExisted', 'getCachedContent']),
@@ -69,7 +83,7 @@ export default defineComponent({
       return this.listDataLoading || this.loadFailed || this.showDefaultEmptyText;
     },
     showDefaultEmptyText() {
-      return !this.listDataLoading && !this.loadFailed && !this.currentArticles;
+      return !this.listDataLoading && !this.loadFailed && !this.currentArticles && this.pageInited;
     },
     currentArticles() {
       if (!this.articles) {
@@ -100,8 +114,10 @@ export default defineComponent({
     },
     async fetchGithubFiles() {
       // reset flags
-      this.listDataLoading = true;
-      this.loadFailed = false;
+      if (!this.articles?.[this.currentPage]) {
+        this.listDataLoading = true;
+        this.loadFailed = false;
+      }
       // list data var
       let listData;
       // check cached content
@@ -123,8 +139,10 @@ export default defineComponent({
           return;
         }
         if (!res.data || !Array.isArray(res.data)) {
-          this.listDataLoading = false;
-          this.loadFailed = true;
+          if (!this.articles?.[this.currentPage]) {
+            this.listDataLoading = false;
+            this.loadFailed = true;
+          }
           return;
         }
         listData = res.data;
@@ -309,8 +327,10 @@ export default defineComponent({
         return;
       }
       // reset flags
-      this.listDataLoading = true;
-      this.loadFailed = false;
+      if (!this.articles?.[this.currentPage]) {
+        this.listDataLoading = true;
+        this.loadFailed = false;
+      }
       // send request
       let res;
       try {
@@ -318,8 +338,10 @@ export default defineComponent({
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article list info.', err);
-        this.listDataLoading = false;
-        this.loadFailed = true;
+        if (!this.articles?.[this.currentPage]) {
+          this.listDataLoading = false;
+          this.loadFailed = true;
+        }
         return;
       }
       this.listDataLoading = false;
@@ -334,6 +356,8 @@ export default defineComponent({
         this.articles = res.data.listData;
       }
       this.lastFetchTime = Date.now();
+      setToCache('articles', this.articles);
+      // start prefetch for better experience
       if (this.$theme.article.prefetch) {
         this.$nextTick(() => {
           this.prefetchAricles();
@@ -373,6 +397,8 @@ export default defineComponent({
         this.articles[page] = res.data.listData;
         this.loadedPages[page] = true;
       });
+      // update persist cache
+      setToCache('articles', this.articles);
     },
     onPageChange(page) {
       this.currentPage = page;
@@ -407,6 +433,7 @@ export default defineComponent({
         }
         const res = await this.$http.get(`${this.$fragy.articles.feed}/${article.filename}`);
         const parsedArticle = this.$utils.parseArticle(res.data.trim());
+        // set to temp cache
         this.setCache({
           filename: article.filename,
           article: parsedArticle,
