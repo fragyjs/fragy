@@ -20,6 +20,8 @@ Install `fragy-cli` with `npm` (at least v7):
 npm install fragy-cli -g
 ```
 
+**Notice that you need at least Node.js `v14.5.0` to run the command line tool.**
+
 After that, use `fragy-cli` to initialize your site in an empty folder.
 
 ```bash
@@ -36,7 +38,21 @@ fragy create post
 
 You can find the post in `.fragy/posts`.
 
-Once everything is ready, you can use the `fragy build` command to build your site. The build product is in the `dist` folder and you can deploy it directly. You can also run `fragy serve` to preview your site locally.
+Once everything is ready, you can use the following command to build your site:
+
+```bash
+fragy build
+```
+
+The bundled files are in the `dist` folder, you can deploy them directly.
+
+You can also run the following command to preview your site locally:
+
+```bash
+fragy serve
+```
+
+For convenience, pages will auto reload it self when you changed any related files like articles or the configuration.
 
 #### 🚀 GitHub Mode
 
