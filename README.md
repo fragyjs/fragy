@@ -70,6 +70,53 @@ To use this mode, you need to be aware of these rules and restrictions:
 
 4. For users who living in Mainland of China, you need to set `proxy` in the options. The proxy server will receive a request, the request url similar to `https://proxyserver.com/https%3A%2F%2Fapi.github.com%2Frepos%2Ffragyjs%2Ffragy%2Fcontents%2Fsrc`
 
+#### MarkVue
+
+We used a library called [`MarkVue`](https://github.com/backrunner/markvue) to provide an ability which allows you write Vue 3 SFC.
+
+To enable this feature, you can set `markvue.enable` to `true` in `fragy.config.js`.
+
+You can wrap a SFC with `<vue-sfc></vue-sfc>`, here's an example:
+
+```markdown
+# This is an article with Vue SFC
+
+Hey, we can use Vue SFC here.
+
+## SFC Demo
+
+<vue-sfc>
+<template>
+  <div class="sfc-test">
+    <button @click="count++">{{ count }}</button>
+  </div>
+</template>
+<script setup>
+import { ref } from 'vue';
+
+const count = ref(0);
+</script>
+
+<style scoped>
+button {
+  padding: 18px 32px;
+  margin-bottom: 24px;
+  background: #3e3e3e;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+</style>
+</vue-sfc>
+```
+
+WARNING: Enable this feature will enlarge the size of bundled files, because we must add the compiler of Vue SFC to the bundle, it will make the loading slower.
+
 ## ✒ License
 
 MIT
