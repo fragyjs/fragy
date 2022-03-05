@@ -1,42 +1,47 @@
 // IMPORTANT: DO NOT DELETE ANY PROPERTY IN THE CONFIGURATION!!!
 export default {
   color: {
-    autoGenerate: true,
+    autoGenerate: true, // Generate and inject styles with specified color automatically
   },
-  fontFamily: 'Noto Sans SC',
+  fontFamily: 'Noto Sans SC', // Main font for your site
   articleList: {
-    prefetch: true,
+    prefetch: true, // Prefetch the article list before or after current page to improve user experience
     useJustifyAlign: true,
   },
   article: {
     title: '{articleTitle} - {siteTitle}',
-    prefetch: true,
+    prefetch: true, // Prefetch contents of all article at current page to improve user experience
     useJustifyAlign: true,
   },
   footer: {
     enable: true,
     beian: {
+      // China ISP record
       enable: false,
       text: '',
     },
     poweredby: {
+      // Show powered by
       enable: true,
       github: false,
     },
     themeSwitcher: {
+      // Show default / dark theme switcher
       enable: true,
     },
-    // cc-by-4.0
     license: {
-      enable: false,
+      enable: false, // Show cc-by-4.0 icon
     },
   },
   valine: {
     enable: false,
+    config: {}, // Configuration for valine
   },
   gfont: {
     enable: false,
-    family: 'Noto+Sans+SC:wght@100;300;400;500;700;900',
+    family: '',
+    googleApisHost: '', // default: fonts.googleapis.com
+    gstaticHost: '', // default: fonts.gstatic.com
   },
   vendors: {
     valine: 'https://cdnjs.cloudflare.com/ajax/libs/valine/1.4.16/Valine.min.js',
