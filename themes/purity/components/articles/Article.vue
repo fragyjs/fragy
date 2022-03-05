@@ -105,11 +105,11 @@ export default defineComponent({
       delete valineConfig.enable;
       const valine = new window.Valine({
         el: '#vcomments',
+        lang: this.$fragy.locale,
+        path: window.location.pathname,
         ...valineConfig,
       });
       this.valine = valine;
-      // due a stupid bug of valine, we must do this
-      this.valine.setPath(window.location.pathname);
     }
   },
   computed: {
