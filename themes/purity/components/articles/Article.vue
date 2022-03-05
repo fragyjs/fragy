@@ -108,6 +108,8 @@ export default defineComponent({
         ...valineConfig,
       });
       this.valine = valine;
+      // due a stupid bug of valine, we must do this
+      this.valine.setPath(window.location.pathname);
     }
   },
   computed: {
@@ -149,7 +151,7 @@ export default defineComponent({
       return !this.contentLoading && !this.loadFailed;
     },
     supportMarkVue() {
-      return !!this.$fragy.markVue?.enabled;
+      return !!this.$fragy.markVue?.enable;
     },
   },
   methods: {

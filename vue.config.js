@@ -73,7 +73,7 @@ const chainWebpack = (config) => {
   // theme flags
   config.plugin('fragy-flags').use(webpack.DefinePlugin, [
     {
-      __MARKVUE_ENABLED__: JSON.stringify(!!fragyConfig.markVue?.enabled),
+      __MARKVUE_ENABLED__: JSON.stringify(!!fragyConfig.markVue?.enable),
       __FAVICON_URL__: JSON.stringify(fragyConfig.icon),
       __FRAGY_TITLE__: JSON.stringify(context.siteTitle),
       __FRAGY_LOCALE__: JSON.stringify(context.fragyConfig.locale),
@@ -207,7 +207,7 @@ const chainWebpack = (config) => {
     },
   };
 
-  if (fragyConfig.markVue?.enabled) {
+  if (fragyConfig.markVue?.enable) {
     Object.assign(cacheGroups, {
       markVue: {
         name: 'chunk-markvue',
