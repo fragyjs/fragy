@@ -16,10 +16,6 @@ Then, use `npm` to install this theme package:
 npm install @fragy/purity
 ```
 
-## 📷 ScreenShot
-
-<img src="https://github.com/fragyjs/fragy/blob/main/themes/purity/assets/screenshot.png?raw=true" width="1200">
-
 ## ⚙ Configuration
 
 For full configuration, see [config.js](https://github.com/fragyjs/fragy/blob/main/themes/purity/config.js).
