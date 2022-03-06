@@ -48,14 +48,20 @@ const collectProcessors = () => {
     const actualPath = path.resolve(processorDir, fileName);
     const processor = require(actualPath);
     const { name, register } = processor;
+    if (typeof register !== 'function') {
+      logger.warn(`Internal rocessor [${name || fileName}] doesn't have a proper register method.`);
+      return;
+    }
     try {
-      register({
-        bus,
-        fragyConfig,
-        themeConfig,
-        logger: new Logger(name),
-        paths: Object.freeze(paths),
-      });
+      processors.push(
+        register({
+          bus,
+          fragyConfig,
+          themeConfig,
+          logger: new Logger(name),
+          paths: Object.freeze(paths),
+        }),
+      );
     } catch (err) {
       logger.error(`Failed to register internal processor [${name}].`, err);
       return;
@@ -93,6 +99,7 @@ const executePipeline = async () => {
   ];
   try {
     await Promise.all(pipeline);
+    logger.info('Generate pipeline completed.');
   } catch (err) {
     logger.error('Uncaught error.', err);
   }
