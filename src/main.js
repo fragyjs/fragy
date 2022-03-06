@@ -5,7 +5,7 @@ import merge from 'lodash-es/merge';
 import { createRouter } from './router';
 import { createStore } from './store';
 import { parseArticle } from './utils/article';
-import { formatConfig } from './utils/config';
+import { normalizeConfig } from './utils/config';
 import consts from './constants';
 
 const globalProperties = {};
@@ -21,7 +21,7 @@ const initialize = async () => {
   // import config
   // eslint-disable-next-line no-undef
   const { default: fragyConfig } = await import(__FRAGY_USER_CONFIG_PATH__);
-  globalProperties.$fragy = formatConfig(fragyConfig);
+  globalProperties.$fragy = normalizeConfig(fragyConfig);
   // import theme
   // eslint-disable-next-line no-undef
   const { default: theme } = await import(__FRAGY_THEME_PKG__);

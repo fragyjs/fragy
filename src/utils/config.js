@@ -38,7 +38,7 @@ const formatFeed = (feed) => {
   return feed;
 };
 
-export const formatConfig = (userConfig) => {
+export const normalizeConfig = (userConfig) => {
   const config = Object.assign(Object.create(null), DEFAULT_CONFIG);
   if (!userConfig.github) {
     Object.assign(config, DEFAULT_FEED_CONFIG);

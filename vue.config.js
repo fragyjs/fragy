@@ -22,8 +22,8 @@ if (!fs.existsSync(userConfigPath)) {
   throw new Error('Cannot locate user configuration (fragy.config.js), please check your project.');
 }
 
-const { formatConfig } = esmRequire('./src/utils/config');
-const fragyConfig = formatConfig(esmRequire(userConfigPath).default);
+const { normalizeConfig } = esmRequire('./src/utils/config');
+const fragyConfig = normalizeConfig(esmRequire(userConfigPath).default);
 const themeFuncs = {};
 let themeVueConfig = null;
 
