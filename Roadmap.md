@@ -1,9 +1,11 @@
 # Roadmap
 
-## Next version: v0.5.0
+## Next Version v0.5.0
 
-- [ ] Support generating tag meta and category meta.
+- [x] Support generating category meta.
+- [ ] Support generating tag meta.
 
 ## Future version
 
-- [ ] Support using a password to encrypt post.
+- [ ] Support encrypted posts.
+- [ ] Support generating sitemap.
