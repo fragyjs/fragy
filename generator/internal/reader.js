@@ -50,12 +50,12 @@ const readArticle = (articleRelativePath) => {
       const articleInfo = parseArticle(content);
       Object.assign(articleInfo, {
         path: articlePath,
-        filename: path.basename(articlePath),
+        fileName: path.basename(articlePath),
       });
       bus.emit('article', articleInfo);
     })
     .catch((err) => {
-      logger.error('Read article failed.', err);
+      logger.error('Read article failed.');
     });
 };
 
@@ -65,20 +65,20 @@ const collectArticles = async (base = null) => {
     throw new Error('Article and output path check failed, cannot generate meta files.');
   }
   const currentDir = base ? path.resolve(articlesDir, base) : articlesDir;
-  const filenames = await fsp.readdir(currentDir);
+  const fileNames = await fsp.readdir(currentDir);
   return await Promise.all(
-    filenames.map(async (filename) => {
-      const filePath = path.resolve(currentDir, filename);
-      const relativePath = base ? `${base}/${filename}` : filename;
+    fileNames.map(async (fileName) => {
+      const filePath = path.resolve(currentDir, fileName);
+      const relativePath = base ? `${base}/${fileName}` : fileName;
       await new Promise((resolve, reject) => {
         try {
           fsp.stat(filePath).then(async (stat) => {
             if (stat.isDirectory()) {
               logger.debug(`Detected folder: ${filePath}`);
               await collectArticles(relativePath);
-            } else if (filename.endsWith('.md')) {
+            } else if (fileName.endsWith('.md')) {
               logger.debug(`Collecting article: ${filePath}`);
-              readArticle(relativePath);
+              await readArticle(relativePath);
             }
             resolve();
           });

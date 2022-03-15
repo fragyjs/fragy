@@ -81,14 +81,20 @@ const executePipeline = async () => {
           bus,
         };
         try {
-          logger.info(`Start running processor [${run.name}]`);
+          logger.info(`Starting pipeline run [${run.name}]...`);
           bus.emit(`${run.name}-start`);
           const actions = Array.isArray(run.action)
             ? run.action.map((action) => action(context))
             : [run.action.call(null, context)];
           await Promise.all(actions);
-          bus.emit(`${run.name}-completed`);
-          logger.info(`Processor [${run.name}] completed`);
+          // use a delay to ensure all the actions in the processors are done.
+          await new Promise((resolve) => {
+            setImmediate(() => {
+              bus.emit(`${run.name}-completed`);
+              resolve();
+            });
+          });
+          logger.info(`Run [${run.name}] completed.`);
         } catch (err) {
           reject(err);
         }

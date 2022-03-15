@@ -76,7 +76,7 @@ export default defineComponent({
     };
   },
   watch: {
-    async filename(newValue) {
+    async fileName(newValue) {
       if (!newValue) {
         return;
       }
@@ -131,15 +131,15 @@ export default defineComponent({
       }
       return pangu.spacing(title);
     },
-    filename() {
+    fileName() {
       if (!this.$route.path.includes('article')) {
         return '';
       }
-      let filename = this.$route.params.name;
-      if (!filename.endsWith('.md')) {
-        filename = `${filename}.md`;
+      let fileName = this.$route.params.name;
+      if (!fileName.endsWith('.md')) {
+        fileName = `${fileName}.md`;
       }
-      return filename;
+      return fileName;
     },
     showMeta() {
       return !!this.meta;
@@ -158,8 +158,8 @@ export default defineComponent({
     ...mapMutations('article', ['setCache']),
     async fetchArticle() {
       // check cache
-      if (this.cacheExisted(this.filename)) {
-        this.afterParsed(this.getCachedContent(this.filename));
+      if (this.cacheExisted(this.fileName)) {
+        this.afterParsed(this.getCachedContent(this.fileName));
         return;
       }
       // if using github mode, fetch content from github
@@ -171,7 +171,7 @@ export default defineComponent({
       let res;
       try {
         res = await this.$http.get(
-          `${this.$fragy.articles.feed}/${encodeURIComponent(this.filename)}`,
+          `${this.$fragy.articles.feed}/${encodeURIComponent(this.fileName)}`,
         );
       } catch (err) {
         // eslint-disable-next-line no-console
@@ -185,7 +185,7 @@ export default defineComponent({
     async fetchContentFromGithub() {
       let res;
       try {
-        res = await this.$http.get(this.getGithubRawContentUrl(this.filename));
+        res = await this.$http.get(this.getGithubRawContentUrl(this.fileName));
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article content.', err);
@@ -203,7 +203,7 @@ export default defineComponent({
       }
       const parsedArticle = this.$utils.parseArticle(contentRes.data.trim());
       this.setCache({
-        filename: this.filename,
+        fileName: this.fileName,
         article: parsedArticle,
       });
       this.afterParsed(parsedArticle);

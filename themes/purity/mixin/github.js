@@ -25,14 +25,14 @@ export default {
       }
       return contentUrl;
     },
-    getGithubRawContentUrl(filename) {
+    getGithubRawContentUrl(fileName) {
       const { proxy, branch, repo, base } = this.$fragy.github;
       const formattedBase = base || '.fragy/posts';
       const formattedBranch = branch || 'main';
       const contentUrl = this.$consts.GITHUB_CONTENT_URL.replace('{repo}', repo)
         .replace('{branch}', formattedBranch)
         .replace('{base}', formattedBase)
-        .replace('{filename}', encodeURIComponent(filename));
+        .replace('{fileName}', encodeURIComponent(fileName));
       if (proxy) {
         const formattedProxy = proxy.endsWith('/') ? proxy : `${proxy}/`;
         return `${formattedProxy}${contentUrl}`;

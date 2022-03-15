@@ -1,6 +1,6 @@
 {
   "name": "fragy",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "author": {
     "name": "BackRunner",
     "email": "dev@backrunner.top"
@@ -15,14 +15,15 @@
     "url": "https://github.com/fragyjs/fragy/issues"
   },
   "scripts": {
-    "dev": "node ./scripts/generate.js && vue-cli-service serve",
-    "build": "node ./scripts/generate.js && vue-cli-service build",
-    "generate": "node ./scripts/generate.js",
+    "dev": "node ./generator/index.js && vue-cli-service serve",
+    "build": "node ./generator/index.js && vue-cli-service build",
+    "generate": "node ./generator/index.js",
     "analyze": "cross-env BUNDLE_ANALYZE=true vue-cli-service build",
     "lint": "eslint --ext .vue,.js ./src"
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.17.0",
+    "@fragy/purity": "file:themes/purity",
     "@vue/cli-plugin-babel": "^5.0.1",
     "@vue/cli-plugin-router": "^5.0.1",
     "@vue/cli-plugin-vuex": "~4.5.15",
@@ -38,7 +39,7 @@
     "esm": "^3.2.25",
     "less": "^4.1.2",
     "less-loader": "^10.2.0",
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.21",
     "markvue": "^0.2.4",
     "mitt": "^3.0.0",
     "moment": "^2.29.1",

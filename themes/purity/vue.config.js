@@ -34,7 +34,7 @@ module.exports = (context) => ({
     index: {
       entry: path.resolve(context.frameworkRoot, './src/main.js'),
       template: path.resolve(context.themeRoot, './public/index.html'),
-      filename: 'index.html',
+      fileName: 'index.html',
     },
   },
   chainWebpack: (config) => {

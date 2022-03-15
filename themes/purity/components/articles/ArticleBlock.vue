@@ -42,7 +42,7 @@ export default defineComponent({
     title: String,
     abstract: String,
     date: String,
-    filename: String,
+    fileName: String,
     abstractLoading: {
       type: Boolean,
       default: false,
@@ -62,7 +62,7 @@ export default defineComponent({
       return pangu.spacing(this.title);
     },
     fullUrl() {
-      return `//${window.location.host}/article/${this.filename}`;
+      return `//${window.location.host}/article/${this.fileName}`;
     },
   },
   watch: {
@@ -95,7 +95,7 @@ export default defineComponent({
     },
     toArticlePage() {
       this.setTitle(this.title);
-      this.$router.push(`/article/${this.filename}`);
+      this.$router.push(`/article/${this.fileName}`);
     },
   },
 });

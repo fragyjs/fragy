@@ -10,16 +10,16 @@ export default {
       setTitle(state, title) {
         state.title = title;
       },
-      setCache(state, { filename, article }) {
-        state.cache[filename] = article;
+      setCache(state, { fileName, article }) {
+        state.cache[fileName] = article;
       },
     },
     getters: {
-      getCachedContent: (state) => (filename) => {
-        return state.cache[filename] || null;
+      getCachedContent: (state) => (fileName) => {
+        return state.cache[fileName] || null;
       },
-      cacheExisted: (state) => (filename) => {
-        return !!state.cache[filename];
+      cacheExisted: (state) => (fileName) => {
+        return !!state.cache[fileName];
       },
     },
   },

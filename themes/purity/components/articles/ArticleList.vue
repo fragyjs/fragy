@@ -12,7 +12,7 @@
         :title="item.title"
         :abstract="item.abstract"
         :date="item.date"
-        :filename="item.filename"
+        :fileName="item.fileName"
         :metaLoadFailed="item.metaLoadFailed"
       />
     </div>
@@ -161,7 +161,7 @@ export default defineComponent({
             return null;
           }
           return {
-            filename: item.name,
+            fileName: item.name,
             title: item.name.replace('.md', ''),
             contentUrl: item.download_url,
           };
@@ -187,10 +187,10 @@ export default defineComponent({
       // prefetch all url content
       const metaMap = await this.fetchGithubContent(firstBatch);
       this.articles = articles.map((article) => {
-        if (metaMap[article.filename]) {
+        if (metaMap[article.fileName]) {
           return {
             ...article,
-            ...metaMap[article.filename],
+            ...metaMap[article.fileName],
           };
         }
         return {
@@ -216,12 +216,12 @@ export default defineComponent({
     batchFetchGithubContent(articles) {
       // parallel request
       articles.forEach(async (item) => {
-        const filename = decodeURIComponent(
+        const fileName = decodeURIComponent(
           item.contentUrl.substr(item.contentUrl.lastIndexOf('/') + 1),
         );
         // check cache
-        if (this.cacheExisted(filename)) {
-          return this.getCachedContent(filename);
+        if (this.cacheExisted(fileName)) {
+          return this.getCachedContent(fileName);
         }
         // no cache
         const res = await this.$http.get(this.getGithubContentUrl(item.contentUrl));
@@ -230,16 +230,16 @@ export default defineComponent({
         }
         const content = {
           ...this.$utils.parseArticle(res.data),
-          filename,
+          fileName,
         };
         this.setCache({
-          filename,
+          fileName,
           article: content,
         });
         // set to list
         for (let i = 0; i < articles.length; i++) {
           const article = this.articles[i];
-          if (article.filename === filename) {
+          if (article.fileName === fileName) {
             this.articles[i] = {
               ...article,
               ...content.meta,
@@ -254,13 +254,13 @@ export default defineComponent({
       const contents = (
         await Promise.allSettled(
           articles.map((article) => {
-            const filename = decodeURIComponent(
+            const fileName = decodeURIComponent(
               article.contentUrl.substr(article.contentUrl.lastIndexOf('/') + 1),
             );
-            if (this.cacheExisted(filename)) {
+            if (this.cacheExisted(fileName)) {
               return Promise.resolve({
                 parsed: true,
-                data: this.getCachedContent(filename),
+                data: this.getCachedContent(fileName),
               });
             }
             return this.$http.get(this.getGithubContentUrl(article.contentUrl));
@@ -284,19 +284,19 @@ export default defineComponent({
               metaLoadFailed: true,
             };
           }
-          // get filename from url
+          // get fileName from url
           const reqUrl = contentRes.config.url;
-          const filename = decodeURIComponent(reqUrl.substr(reqUrl.lastIndexOf('/') + 1));
+          const fileName = decodeURIComponent(reqUrl.substr(reqUrl.lastIndexOf('/') + 1));
           return {
             ...this.$utils.parseArticle(contentRes.data),
-            filename,
+            fileName,
           };
         })
         .filter((item) => {
           const notNull = !!item;
           if (notNull && !item.metaLoadFailed) {
             this.setCache({
-              filename: item.filename,
+              fileName: item.fileName,
               article: item,
             });
           }
@@ -304,7 +304,7 @@ export default defineComponent({
         });
       const metaMap = {};
       contents.forEach((article) => {
-        metaMap[article.filename] = {
+        metaMap[article.fileName] = {
           ...article.meta,
           abstract: article.abstract || '',
         };
@@ -428,14 +428,14 @@ export default defineComponent({
         return;
       }
       this.currentArticles.forEach(async (article) => {
-        if (this.cacheExisted(article.filename)) {
+        if (this.cacheExisted(article.fileName)) {
           return;
         }
-        const res = await this.$http.get(`${this.$fragy.articles.feed}/${article.filename}`);
+        const res = await this.$http.get(`${this.$fragy.articles.feed}/${article.fileName}`);
         const parsedArticle = this.$utils.parseArticle(res.data.trim());
         // set to temp cache
         this.setCache({
-          filename: article.filename,
+          fileName: article.fileName,
           article: parsedArticle,
         });
       });

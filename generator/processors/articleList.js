@@ -2,8 +2,7 @@ const moment = require('moment');
 const path = require('path');
 const fsp = require('fs/promises');
 const fs = require('fs');
-
-const moreTester = /<!-{2}\s?more\s?-{2}>/;
+const { getListInfo } = require('../utils/list');
 
 let listInfoList = [];
 let outputPath;
@@ -21,16 +20,22 @@ module.exports = {
         return false;
       }
       const articlesDir = path.resolve(userDataRoot, fragyConfig.articles.path);
-      if (!fragyConfig.articleList.output) {
-        logger.error('You have not specified list info output.');
-        return false;
-      }
-      outputPath = path.resolve(userDataRoot, fragyConfig.articleList.output);
-      outputDir = path.dirname(outputPath);
       if (!fs.existsSync(articlesDir)) {
         logger.error('Cannot locate the posts folder.');
         return false;
       }
+      if (!fragyConfig.articleList.output) {
+        logger.error('You have not specified list info output path.');
+        return false;
+      }
+
+      outputPath = path.resolve(userDataRoot, fragyConfig.articleList.output);
+      if (!fragyConfig.articleList.splitPage) {
+        outputDir = path.dirname(outputPath);
+      } else {
+        outputDir = outputPath;
+      }
+
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
       }
@@ -39,30 +44,10 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       bus.on('article', (article) => {
-        // build base info
-        const listInfo = {
-          filename: article.filename,
-          title: article.meta.title,
-          date: article.meta.date,
-        };
-        // generate abstract
-        let abstract = '';
-        const matches = moreTester.exec(article.content);
-        if (matches && matches.length) {
-          const moreFlag = matches[0];
-          const moreFlagIdx = article.content.indexOf(moreFlag);
-          abstract = article.content.substr(0, moreFlagIdx).trim();
-        } else if (article.content.length > (fragyConfig.articleList.abstractWords || 200)) {
-          abstract = `${article.content.substr(0, 200)}...`;
-        } else {
-          abstract = article.content;
-        }
-        if (abstract) {
-          Object.assign(listInfo, {
-            abstract,
-          });
-        }
-        logger.debug('List meta generated:', listInfo.title);
+        const listInfo = getListInfo(article, {
+          abstractWords: fragyConfig.articleList.abstractWords,
+        });
+        logger.debug('List meta generated:', article.meta.title);
         listInfoList.push(listInfo);
       });
       bus.on('read-completed', async () => {

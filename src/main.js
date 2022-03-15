@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import mitt from 'mitt';
 import axios from 'axios';
-import merge from 'lodash-es/merge';
+import merge from 'lodash/merge';
 import { createRouter } from './router';
 import { createStore } from './store';
 import { parseArticle } from './utils/article';

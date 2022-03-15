@@ -1,3 +1,5 @@
+import merge from 'lodash/merge';
+
 const DEFAULT_CONFIG = {
   title: 'Fragy',
   subtitle: 'Another fragy site.',
@@ -13,6 +15,13 @@ const DEFAULT_FEED_CONFIG = {
     output: 'listFeed',
     feed: '/data/listFeed',
     splitPage: true,
+    pageSize: 10,
+  },
+  category: {
+    output: 'categoryFeed',
+    feed: '/data/categoryFeed',
+    splitPage: true,
+    manifestDetails: true,
     pageSize: 10,
   },
 };
@@ -41,11 +50,11 @@ const formatFeed = (feed) => {
 export const normalizeConfig = (userConfig) => {
   const config = Object.assign(Object.create(null), DEFAULT_CONFIG);
   if (!userConfig.github) {
-    Object.assign(config, DEFAULT_FEED_CONFIG);
+    merge(config, DEFAULT_FEED_CONFIG);
   } else {
-    Object.assign(config, DEFAULT_GITHUB_CONFIG);
+    merge(config, DEFAULT_GITHUB_CONFIG);
   }
-  Object.assign(config, userConfig);
+  merge(config, userConfig);
   if (!config.github) {
     config.articles.feed = formatFeed(config.articles.feed);
     config.articleList.feed = formatFeed(config.articleList.feed);
