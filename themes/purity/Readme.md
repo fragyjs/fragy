@@ -1,7 +1,7 @@
 # Purity
 
 <div align="center">
- <img src="https://github.com/fragyjs/fragy/blob/main/themes/purity/assets/banner.png?raw=true" width="420">
+ <img src="./assets/banner.png" width="420">
 </div>
 
 `Purity` is the default theme for `Fragy`, it's light-weight, and customizable.
