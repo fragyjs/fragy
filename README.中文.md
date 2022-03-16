@@ -1,4 +1,5 @@
 <div align="center">
+<br>
  <img src="./assets/icon-text-dark.svg" width="280">
 </div>
 <br>
