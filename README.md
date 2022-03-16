@@ -1,6 +1,8 @@
 <div align="center">
-<br>
- <img src="./assets/icon-text-dark.svg" width="280">
+  <br>
+  <div align="center">
+    <img src="./assets/icon-text-dark.svg" width="280">
+  </div>
  <br>
  <a href="./README.中文.md">中文文档</a>
 </div>
