@@ -44,6 +44,9 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       bus.on('article', (article) => {
+        if (article.meta.private) {
+          return;
+        }
         const listInfo = getListInfo(article, {
           abstractWords: fragyConfig.articleList.abstractWords,
         });

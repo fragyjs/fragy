@@ -1,9 +1,12 @@
 # Roadmap
 
-## Future version
+## Next version v0.6.0
 
-- [ ] Support private posts.
 - [ ] Support custom components.
+
+## v0.5.1
+
+- [x] Support private posts.
 
 ## v0.5.0
 

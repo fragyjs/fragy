@@ -19,7 +19,7 @@ const parseArticle = (article) => {
     abstract = content.slice(0, 200);
   }
   return {
-    meta,
+    meta: meta || {},
     abstract,
     content: matches[4].trim(),
   };
