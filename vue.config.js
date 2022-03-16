@@ -16,6 +16,7 @@ const userDataPath = IS_IN_NODE_MODULES
 const userConfigPath = IS_IN_NODE_MODULES
   ? path.resolve(userProjectRoot, './fragy.config.js')
   : path.resolve(__dirname, './fragy.config.js');
+const customElementIndex = path.resolve(userDataPath, './components/index.js');
 
 // check user config path
 if (!fs.existsSync(userConfigPath)) {
@@ -57,6 +58,7 @@ const context = {
   themeRoot: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}`),
   themeConfigPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/config.js`),
   themeEntryPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/entry.vue`),
+  customComponentIndex: fs.existsSync(customElementIndex) ? customElementIndex : null,
   // config objs
   fragyConfig,
   themePkgInfo,
@@ -81,6 +83,7 @@ const chainWebpack = (config) => {
       __FRAGY_USER_CONFIG_PATH__: JSON.stringify(userConfigPath),
       __FRAGY_THEME_CONFIG_PATH__: JSON.stringify(context.themeConfigPath),
       __FRAGY_THEME_ENTRY_PATH__: JSON.stringify(context.themeEntryPath),
+      __FRAGY_CUSTOM_COMPONENT_INDEX__: JSON.stringify(context.customComponentIndex),
     },
   ]);
 

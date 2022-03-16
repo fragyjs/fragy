@@ -17,6 +17,15 @@ globalProperties.$utils = {
   parseArticle,
 };
 
+const registerCustomComps = (app, components) => {
+  if (typeof components !== 'object') {
+    return;
+  }
+  Object.keys(components).forEach((compName) => {
+    app.component(compName, components[compName]);
+  });
+};
+
 const initialize = async () => {
   // import config
   // eslint-disable-next-line no-undef
@@ -63,6 +72,13 @@ const initialize = async () => {
   if (__MARKVUE_ENABLED__) {
     const MarkVue = require('markvue').default;
     app.use(MarkVue);
+  }
+
+  // eslint-disable-next-line no-undef
+  if (__FRAGY_CUSTOM_COMPONENT_INDEX__) {
+    // eslint-disable-next-line no-undef
+    const exported = require(__FRAGY_CUSTOM_COMPONENT_INDEX__).default;
+    exported && registerCustomComps(app, exported);
   }
 
   // mount to dom

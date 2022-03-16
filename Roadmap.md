@@ -1,9 +1,12 @@
 # Roadmap
 
-## Next version v0.6.0
+## Next version v0.7.0
 
-- [ ] Support custom components.
 - [ ] Support encrypted posts.
+
+## v0.6.0
+
+- [x] Support custom components.
 
 ## v0.5.1
 
