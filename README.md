@@ -1,9 +1,6 @@
-# Fragy
-
 <div align="center">
- <img src="./assets/icon-text-dark.svg" width="240">
+ <img src="./assets/icon-text-dark.svg" width="280">
  <br>
- <p>Reborn with Vue 3</p>
  <a href="./README.中文.md">中文文档</a>
 </div>
 

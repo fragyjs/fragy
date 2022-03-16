@@ -1,9 +1,7 @@
-# Fragy
-
 <div align="center">
- <img src="https://github.com/fragyjs/fragy/blob/main/assets/logo.png?raw=true" width="88">
- <p>Reborn with Vue 3</p>
+ <img src="./assets/icon-text-dark.svg" width="280">
 </div>
+<br>
 
 ## 🔧 使用方法
 
