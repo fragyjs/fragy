@@ -3,6 +3,7 @@
 ## Next version v0.6.0
 
 - [ ] Support custom components.
+- [ ] Support encrypted posts.
 
 ## v0.5.1
 
