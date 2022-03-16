@@ -1,16 +1,14 @@
 const moment = require('moment');
 const path = require('path');
-const fsp = require('fs/promises');
 const fs = require('fs');
+const fsp = require('fs/promises');
 const { getListInfo } = require('../utils/list');
 
-let categoryInfoList = {
-  __default: [],
-};
+let tagInfoList = {};
 let outputDir;
 
 module.exports = {
-  name: 'category',
+  name: 'tag',
   register(context) {
     const { bus, fragyConfig, logger, paths } = context;
     const { userDataRoot } = paths;
@@ -25,12 +23,12 @@ module.exports = {
         logger.error('Cannot locate the posts folder.');
         return false;
       }
-      if (!fragyConfig.category.output) {
+      if (!fragyConfig.tag.output) {
         logger.error('You have not specified category info output path.');
         return false;
       }
 
-      outputDir = path.resolve(userDataRoot, fragyConfig.category.output);
+      outputDir = path.resolve(userDataRoot, fragyConfig.tag.output);
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
       }
@@ -39,36 +37,34 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       bus.on('article', (article) => {
-        const { category, categories } = article.meta;
+        const { tag, tags } = article.meta;
         const listInfo = getListInfo(article, {
           abstractWords: fragyConfig.articleList.abstractWords,
         });
-        const actualCategory = categories || category;
-        if (Array.isArray(actualCategory)) {
-          actualCategory.forEach((category) => {
-            if (!categoryInfoList[category]) {
-              categoryInfoList[category] = [];
+        const actualTag = tags || tag;
+        if (Array.isArray(actualTag)) {
+          // multi tags
+          actualTag.forEach((tag) => {
+            if (!tagInfoList[tag]) {
+              tagInfoList[tag] = [];
             }
-            categoryInfoList[category].push(listInfo);
+            tagInfoList[tag].push(listInfo);
           });
-        } else if (typeof actualCategory === 'string') {
-          if (!categoryInfoList[actualCategory]) {
-            categoryInfoList[actualCategory] = [];
+        } else if (actualTag) {
+          // single tag
+          if (!tagInfoList[tag]) {
+            tagInfoList[tag] = [];
           }
-          categoryInfoList[actualCategory].push(listInfo);
-        } else {
-          logger.warn(`Cannot parse the category for [${article.fileName}], assigned to default`);
-          categoryInfoList.__default.push(listInfo);
+          tagInfoList[tag].push(listInfo);
         }
       });
       bus.on('read-completed', async () => {
-        logger.debug('Checking categories meta path...');
         const checkPathRes = checkPath();
         if (!checkPathRes) {
           return reject(new Error('Path checking failed.'));
         }
-        const splitPage = fragyConfig.category.splitPage;
-        const categoryManifest = {};
+        const splitPage = fragyConfig.tag.splitPage;
+        const tagManifest = {};
         if (!splitPage) {
           // remove existed category files
           if (fs.existsSync(outputDir)) {
@@ -76,19 +72,17 @@ module.exports = {
             await fsp.mkdir(outputDir);
           }
         }
-        // generate list meta files
         await Promise.all(
-          Object.keys(categoryInfoList).map(async (categoryName) => {
+          Object.keys(tagInfoList).map(async (tagName) => {
             if (splitPage) {
-              // info list should be splitted into slices
-              const metaDir = path.resolve(outputDir, categoryName);
+              const metaDir = path.resolve(outputDir, tagName);
               if (fs.existsSync(metaDir)) {
                 await fsp.rm(metaDir, { recursive: true, force: true });
               }
               await fsp.mkdir(metaDir, { recursive: true });
               // generate slices
               const pageSize = fragyConfig.category.pageSize || 10;
-              const infoList = categoryInfoList[categoryName].sort((a, b) => {
+              const infoList = tagInfoList[tagName].sort((a, b) => {
                 const createTimeA = moment(a.date, 'YYYY-MM-DD HH:mm:ss');
                 const createTimeB = moment(b.date, 'YYYY-MM-DD HH:mm:ss');
                 return createTimeB.valueOf() - createTimeA.valueOf();
@@ -96,7 +90,7 @@ module.exports = {
               const slices = [];
               for (let i = 0; i < pageSize; i++) {
                 slices.push(infoList.slice(i * pageSize, (i + 1) * pageSize));
-                logger.debug('Category meta info generated:', `${categoryName} - P${i + 1}`);
+                logger.debug('Tag meta info generated:', `${tagName} - P${i + 1}`);
                 if ((i + 1) * pageSize > infoList.length) {
                   break;
                 }
@@ -106,7 +100,7 @@ module.exports = {
                   .filter((slice) => !!slice.length)
                   .map((slice, idx) => {
                     const slicePath = path.resolve(metaDir, `./page-${idx + 1}.json`);
-                    logger.debug('Writting category meta file:', slicePath);
+                    logger.debug('Writting tag meta file:', slicePath);
                     return fsp.writeFile(
                       slicePath,
                       JSON.stringify({
@@ -118,22 +112,22 @@ module.exports = {
                   }),
               );
             } else {
-              // one category one meta file
-              const outputPath = path.resolve(outputDir, `${categoryName}.json`);
+              // one tag one meta file
+              const outputPath = path.resolve(outputDir, `${tagName}.json`);
               if (fs.existsSync(outputPath)) {
                 await fsp.rm(outputPath, { force: true });
               }
-              const infoList = categoryInfoList[categoryName];
+              const infoList = tagInfoList[tagName];
               await fsp.writeFile(outputPath, JSON.stringify(infoList), { encoding: 'utf-8' });
-              logger.debug(`Category list meta file [${outputPath}] has been written to the disk.`);
+              logger.debug(`Tag list meta file [${outputPath}] has been written to the disk.`);
             }
             // push manifest info
-            categoryManifest[categoryName] = {
-              total: categoryInfoList[categoryName].length,
+            tagManifest[tagName] = {
+              total: tagInfoList[tagName].length,
             };
             if (fragyConfig.category.manifestDetails) {
-              Object.assign(categoryManifest[categoryName], {
-                details: categoryInfoList[categoryName].map((listInfo) => {
+              Object.assign(tagManifest[tagName], {
+                details: tagInfoList[tagName].map((listInfo) => {
                   const { title, fileName, date } = listInfo;
                   return {
                     title,
@@ -146,7 +140,7 @@ module.exports = {
           }),
         );
         // generate manifest
-        const manifestPath = path.resolve(userDataRoot, './manifest/category.json');
+        const manifestPath = path.resolve(userDataRoot, './manifest/tag.json');
         const manifestDir = path.dirname(manifestPath);
         if (!fs.existsSync(manifestDir)) {
           await fsp.mkdir(manifestDir, { recursive: true });
@@ -157,13 +151,13 @@ module.exports = {
         }
         try {
           // write manifest
-          await fsp.writeFile(manifestPath, JSON.stringify(categoryManifest), {
+          await fsp.writeFile(manifestPath, JSON.stringify(tagManifest), {
             encoding: 'utf-8',
           });
         } catch (err) {
-          logger.error('Failed to write category manifest.', err);
+          logger.error('Failed to write tag manifest.', err);
         }
-        logger.debug('Category manifest generated.');
+        logger.debug('Tag manifest generated.');
         resolve();
       });
     });

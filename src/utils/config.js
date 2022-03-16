@@ -4,6 +4,9 @@ const DEFAULT_CONFIG = {
   title: 'Fragy',
   subtitle: 'Another fragy site.',
   icon: '/favicon.ico',
+  build: {
+    integrity: false,
+  },
 };
 
 const DEFAULT_FEED_CONFIG = {
@@ -20,6 +23,13 @@ const DEFAULT_FEED_CONFIG = {
   category: {
     output: 'categoryFeed',
     feed: '/data/categoryFeed',
+    splitPage: true,
+    manifestDetails: true,
+    pageSize: 10,
+  },
+  tag: {
+    output: 'tagFeed',
+    feed: '/data/tagFeed',
     splitPage: true,
     manifestDetails: true,
     pageSize: 10,

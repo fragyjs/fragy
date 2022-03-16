@@ -1,6 +1,12 @@
 const moreTester = /<!-{2}\s?more\s?-{2}>/;
 
+const cache = {};
+
 const getListInfo = (parsedArticle, opts) => {
+  const cached = cache[parsedArticle.path];
+  if (cached) {
+    return cached;
+  }
   const article = parsedArticle;
   const { abstractWords } = opts;
   // build base info
@@ -26,6 +32,7 @@ const getListInfo = (parsedArticle, opts) => {
       abstract,
     });
   }
+  cache[parsedArticle.path] = listInfo;
   return listInfo;
 };
 

@@ -252,6 +252,7 @@ const vueConfig = {
   productionSourceMap: false,
   chainWebpack,
   configureWebpack,
+  integrity: fragyConfig.build.integrity,
 };
 
 // merge theme vue.config.js
