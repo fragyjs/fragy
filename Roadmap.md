@@ -2,8 +2,8 @@
 
 ## Future version
 
-- [ ] Support encrypted posts.
-- [ ] Support generating sitemap.
+- [ ] Support private posts.
+- [ ] Support custom components.
 
 ## v0.5.0
 
