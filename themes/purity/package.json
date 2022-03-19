@@ -1,6 +1,6 @@
 {
   "name": "@fragy/purity",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Default theme for fragy.",
   "main": "index.js",
   "author": "BackRunner",
