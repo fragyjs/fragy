@@ -1,0 +1,31 @@
+{
+  "name": "@fragy/orion",
+  "version": "0.1.0",
+  "description": "Make a fancy official site for your project with Fragy!",
+  "main": "index.js",
+  "author": "BackRunner",
+  "license": "MIT",
+  "homepage": "https://github.com/pwp-app/fragy/tree/main/themes/orion",
+  "dependencies": {
+    "@any-design/anyui": "^0.0.11",
+    "change-case": "^4.1.2",
+    "color": "^3.2.1",
+    "dexie": "^3.2.1",
+    "pangu.simple": "^1.0.5",
+    "vue-lazyload-next": "^0.0.2"
+  },
+  "fragy": {
+    "type": "theme",
+    "compatibility": {
+      "frameworkVersion": "0.6.0",
+      "githubMode": true,
+      "markvue": true
+    }
+  },
+  "peerDependencies": {
+    "vue": "^3.2.31"
+  },
+  "devDependencies": {
+    "@iconify/vue": "^3.2.0"
+  }
+}
