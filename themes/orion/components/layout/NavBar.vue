@@ -74,7 +74,9 @@ export default defineComponent({
         window.open(target, '_blank');
         return;
       }
-      this.$router.push(target);
+      if (target !== this.$route.path) {
+        this.$router.push(target);
+      }
     },
     goGitHub() {
       window.open(`https://github.com/${this.repo}`, '_blank');

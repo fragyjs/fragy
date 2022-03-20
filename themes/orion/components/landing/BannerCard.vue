@@ -1,0 +1,101 @@
+<template>
+  <div class="landing-banner-card" :style="cardStyle">
+    <div class="landing-banner-card__title">
+      {{ card.title || '' }}
+    </div>
+    <div class="landing-banner-card__desc">
+      {{ card.desc || '' }}
+    </div>
+    <div v-if="card.action" class="landing-banner-card__action" @click="cardAction(card.target)">
+      <span>{{ card.action.text }}</span>
+      <Icon v-if="card.action.icon" :icon="card.action.icon" width="1rem" />
+    </div>
+  </div>
+</template>
+
+<script>
+import { Icon } from '@iconify/vue';
+
+export default {
+  components: {
+    Icon,
+  },
+  props: {
+    card: {
+      type: Object,
+      default: () => ({}),
+    },
+    index: {
+      type: Number,
+    },
+    total: {
+      type: Number,
+    },
+  },
+  computed: {
+    cardStyle() {
+      return {
+        opacity: 1 - this.total * 0.125 + this.index * 0.125,
+      };
+    },
+  },
+  methods: {
+    cardAction(target) {
+      if (target.startsWith('http')) {
+        window.open(target, '_blank');
+        return;
+      }
+      if (target !== this.$route.path) {
+        this.$router.push(target);
+      }
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.landing-banner-card {
+  flex: 1;
+  margin-right: 1.5rem;
+  box-sizing: border-box;
+  padding: 1.5rem 1.75rem;
+  color: var(--banner-card-text);
+  background-color: var(--primary);
+  border-radius: 1rem;
+  box-shadow: 0 2px 16px rgba(0, 12, 7, 0.1);
+  user-select: none;
+  &__title {
+    font-size: 1.5rem;
+    margin-bottom: 0.875rem;
+    font-weight: 700;
+  }
+  &__desc {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  &__action {
+    background-color: var(--banner-card-action);
+    color: var(--primary);
+    box-sizing: border-box;
+    padding: 0.875rem 1rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem 0;
+    border-radius: 0.75rem;
+    box-shadow: 2px 2px 8px rgba(0, 12, 7, 0.05);
+    cursor: pointer;
+    transition: all 150ms ease-out;
+    display: flex;
+    align-items: center;
+    > span {
+      flex: 1;
+    }
+  }
+  &__action:hover {
+    opacity: 0.9;
+  }
+}
+.landing-banner-card:last-child {
+  margin-right: 0;
+}
+</style>

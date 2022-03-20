@@ -18,6 +18,9 @@ export default {
     };
   },
   computed: {
+    year() {
+      return new Date().getFullYear();
+    },
     showFooter() {
       const checkKeys = ['license', 'author'];
       return checkKeys.reduce((res, curr) => {
