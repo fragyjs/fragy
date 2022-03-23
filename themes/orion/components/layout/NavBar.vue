@@ -70,12 +70,12 @@ export default defineComponent({
       this.route(key);
     },
     route(target) {
-      if (target.startsWith('http')) {
+      if (target?.startsWith('http')) {
         window.open(target, '_blank');
         return;
       }
       if (target !== this.$route.path) {
-        this.$router.push(target);
+        target && this.$router.push(target);
       }
     },
     goGitHub() {
@@ -127,7 +127,7 @@ export default defineComponent({
       font-size: 1rem;
       font-weight: 500;
       padding-left: 0.5rem;
-      color: var(--nav-text);
+      color: var(--text-primary);
     }
   }
   .logo:hover {
@@ -148,11 +148,11 @@ export default defineComponent({
       box-sizing: border-box;
       line-height: @nav-height;
       height: @nav-height;
-      color: var(--nav-text);
+      color: var(--text-primary);
       &__inner {
         display: inline-flex;
         align-items: center;
-        color: var(--nav-text);
+        color: var(--text-primary);
         .icon-down {
           width: 1.25rem;
           height: 1.125rem;
@@ -198,7 +198,7 @@ export default defineComponent({
   .a-popup-menu__item {
     font-size: 0.875rem;
     font-weight: 400;
-    color: var(--nav-text);
+    color: var(--text-primary);
     cursor: pointer;
     padding: 0.5rem 0.875rem;
     user-select: none;

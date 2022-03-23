@@ -7,7 +7,7 @@
   "license": "MIT",
   "homepage": "https://github.com/pwp-app/fragy/tree/main/themes/orion",
   "dependencies": {
-    "@any-design/anyui": "^0.0.11",
+    "@any-design/anyui": "^0.0.14",
     "animejs": "^3.2.1",
     "change-case": "^4.1.2",
     "color": "^3.2.1",

@@ -1,4 +1,4 @@
-import { PopupMenu, Popper } from '@any-design/anyui';
+import { PopupMenu, Popper, GradientText } from '@any-design/anyui';
 import Landing from './pages/Landing.vue';
 import './styles/layout.less';
 
@@ -7,6 +7,7 @@ export default {
   setup(app) {
     app.use(Popper);
     app.use(PopupMenu);
+    app.use(GradientText);
   },
   routes: [
     {

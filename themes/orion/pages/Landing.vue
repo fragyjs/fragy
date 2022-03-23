@@ -7,7 +7,7 @@
         </div>
         <div class="landing-banner__content">
           <div class="landing-banner__title">
-            {{ projectName }}
+            <a-gradient-text>{{ projectName }}</a-gradient-text>
           </div>
           <div class="landing-banner__desc">A light weight blog framework, based on Vue 3.</div>
           <div class="landing-banner__cards">
@@ -83,6 +83,7 @@ export default {
       &__desc {
         font-size: 3.5rem;
         font-weight: 600;
+        color: var(--text-primary);
       }
       &__cards {
         padding: 4rem 0 2rem 0;

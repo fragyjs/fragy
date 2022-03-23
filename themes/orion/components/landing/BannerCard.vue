@@ -6,7 +6,11 @@
     <div class="landing-banner-card__desc">
       {{ card.desc || '' }}
     </div>
-    <div v-if="card.action" class="landing-banner-card__action" @click="cardAction(card.target)">
+    <div
+      v-if="card.action"
+      class="landing-banner-card__action"
+      @click="cardAction(card.action.target)"
+    >
       <span>{{ card.action.text }}</span>
       <Icon v-if="card.action.icon" :icon="card.action.icon" width="1rem" />
     </div>
@@ -41,12 +45,12 @@ export default {
   },
   methods: {
     cardAction(target) {
-      if (target.startsWith('http')) {
+      if (target?.startsWith('http')) {
         window.open(target, '_blank');
         return;
       }
       if (target !== this.$route.path) {
-        this.$router.push(target);
+        target && this.$router.push(target);
       }
     },
   },
