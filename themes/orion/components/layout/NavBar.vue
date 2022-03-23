@@ -13,6 +13,8 @@
           placement="bottom-end"
           menuClass="nav-item-popup"
           :items="getPopupItems(item.children)"
+          :appendToBody="false"
+          :hideDelay="300"
           @command="menuItemClicked"
         >
           <span class="nav-item__inner">
@@ -113,6 +115,7 @@ export default defineComponent({
   align-items: center;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   user-select: none;
+  z-index: 20;
   .logo {
     display: flex;
     align-items: center;
@@ -149,6 +152,7 @@ export default defineComponent({
       line-height: @nav-height;
       height: @nav-height;
       color: var(--text-primary);
+      transition: opacity 100ms ease;
       &__inner {
         display: inline-flex;
         align-items: center;
@@ -159,9 +163,33 @@ export default defineComponent({
           padding-left: 0.25rem;
         }
       }
+      .nav-item-popup {
+        opacity: 1 !important;
+        background-color: var(--page-background, #fcfdfa);
+        box-sizing: border-box;
+        padding: 0.5rem 0;
+        box-shadow: 0 -0.125rem 1rem rgba(0, 14, 10, 0.175);
+        border-radius: 0.75rem;
+        line-height: 1.75rem;
+        overflow: hidden;
+        .a-popup-menu__item {
+          font-size: 0.875rem;
+          font-weight: 400;
+          color: var(--text-primary);
+          cursor: pointer;
+          padding: 0.375rem 1rem;
+          user-select: none;
+        }
+        .a-popup-menu__item:hover {
+          background-color: rgba(0, 0, 0, 0.075);
+        }
+      }
     }
     &-item:last-child {
       margin-right: 0;
+    }
+    &-item:hover {
+      opacity: 0.8;
     }
   }
   .icons {
@@ -186,25 +214,6 @@ export default defineComponent({
     .icon:hover {
       opacity: 1;
     }
-  }
-}
-
-.nav-item-popup {
-  background-color: var(--page-background, #fcfdfa);
-  box-sizing: border-box;
-  padding: 0.75rem 0;
-  box-shadow: 0 0.125rem 0.375rem rgba(0, 14, 10, 0.1);
-  border-radius: 0.5rem;
-  .a-popup-menu__item {
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: var(--text-primary);
-    cursor: pointer;
-    padding: 0.5rem 0.875rem;
-    user-select: none;
-  }
-  .a-popup-menu__item:hover {
-    background-color: rgba(0, 0, 0, 0.075);
   }
 }
 </style>

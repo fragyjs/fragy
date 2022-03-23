@@ -72,6 +72,7 @@ export default {
         left: 0;
         top: 0;
         z-index: 0;
+        user-select: none;
       }
       &__title {
         font-size: 8rem;

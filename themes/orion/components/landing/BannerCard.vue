@@ -62,12 +62,14 @@ export default {
   flex: 1;
   margin-right: 1.5rem;
   box-sizing: border-box;
-  padding: 1.5rem 1.75rem;
+  padding: 1.625rem 1.75rem;
   color: var(--banner-card-text);
   background-color: var(--primary);
   border-radius: 1rem;
-  box-shadow: 0 2px 16px rgba(0, 12, 7, 0.1);
+  box-shadow: 0 0.125rem 1rem rgba(0, 12, 7, 0.1);
   user-select: none;
+  display: flex;
+  flex-direction: column;
   &__title {
     font-size: 1.5rem;
     margin-bottom: 0.875rem;
@@ -75,8 +77,9 @@ export default {
   }
   &__desc {
     font-size: 1rem;
-    line-height: 1.25rem;
+    line-height: 1.5rem;
     font-weight: 500;
+    flex: 1;
   }
   &__action {
     background-color: var(--banner-card-action);
@@ -84,9 +87,9 @@ export default {
     box-sizing: border-box;
     padding: 0.875rem 1rem;
     font-weight: 600;
-    margin: 1.5rem 0 0.5rem 0;
+    margin: 1.5rem 0 0.375rem 0;
     border-radius: 0.75rem;
-    box-shadow: 2px 2px 8px rgba(0, 12, 7, 0.05);
+    box-shadow: 0.125rem 0.125rem 0.5rem rgba(0, 12, 7, 0.05);
     cursor: pointer;
     transition: all 150ms ease-out;
     display: flex;
