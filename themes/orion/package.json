@@ -12,6 +12,7 @@
     "change-case": "^4.1.2",
     "color": "^3.2.1",
     "dexie": "^3.2.1",
+    "inter-ui": "^3.19.3",
     "pangu.simple": "^1.0.5",
     "vue-lazyload-next": "^0.0.2"
   },

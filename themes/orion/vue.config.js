@@ -10,16 +10,14 @@ module.exports = (context) => ({
     },
   },
   chainWebpack: (config) => {
-    const { project, font } = context.themeConfig;
+    const { project, font, vendors } = context.themeConfig;
     config.plugin('orion-theme-flags').use(webpack.DefinePlugin, [
       {
         __PROJECT_NAME__: JSON.stringify(project?.name || 'Project Name'),
-        __DEFAULT_FONT__:
-          !font || font === 'Inter'
-            ? JSON.stringify(
-                '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/inter-latin.min.css" integrity="sha512-58RUR8XeD+WGgOn7uHg/D30JgCn0zcioRd0SPaKPTdsOYx+wi+4Nk9hNuecwfzwEog1STaBswJuYZBzjd34LUQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />',
-              )
-            : '',
+        __IMPORT_INTER_FONT__: JSON.stringify(!font || font === 'Inter'),
+        __HIGHLIGHT_JS__: JSON.stringify(vendors.highlightjs.main),
+        __HIGHLIGHT_CSS_THEME__: JSON.stringify(vendors.highlightjs.theme),
+        __HIGHLIGHT_CSS_THEME_DARK__: JSON.stringify(vendors.highlightjs.themeDark),
       },
     ]);
   },

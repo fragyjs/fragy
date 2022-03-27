@@ -5,7 +5,7 @@
       <div class="page-inner">
         <slot></slot>
       </div>
-      <PageFooter />
+      <PageFooter v-if="showFooter" />
     </div>
   </div>
 </template>
@@ -20,6 +20,11 @@ export default defineComponent({
   components: {
     NavBar,
     PageFooter,
+  },
+  computed: {
+    showFooter() {
+      return this.$route.meta?.noFooter !== true;
+    },
   },
 });
 </script>
@@ -36,7 +41,10 @@ export default defineComponent({
     flex-direction: column;
     &-inner {
       flex: 1;
+      padding-top: 3.5rem;
+      box-sizing: border-box;
       position: relative;
+      z-index: 1;
     }
   }
 }

@@ -116,6 +116,9 @@ export default defineComponent({
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   user-select: none;
   z-index: 20;
+  position: fixed;
+  top: 0;
+  background: var(--page-background);
   .logo {
     display: flex;
     align-items: center;
