@@ -1,6 +1,11 @@
+:root {
+  --nav-height: 3.5rem;
+}
+
 html {
   transition: background-color 500ms ease-in-out;
   overflow-y: auto;
+  scroll-padding-top: calc(var(--nav-height) + 2rem);
 }
 
 body {
@@ -18,6 +23,11 @@ body,
   position: relative;
   overflow-x: hidden;
   background-color: var(--page-background, #fcfdfa);
+  -webkit-font-smoothing: antialiased;
+  font-synthesis: none;
+  direction: ltr;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
 }
 
 @import '@any-design/anyui/styles/components/gradientText.css';

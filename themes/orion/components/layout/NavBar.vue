@@ -88,8 +88,6 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@nav-height: 3.5rem;
-
 .nav-fade-enter-active,
 .nav-fade-leave-active {
   transition: all 125ms;
@@ -108,7 +106,7 @@ export default defineComponent({
 
 .nav-wrapper {
   width: 100%;
-  height: @nav-height;
+  height: var(--nav-height);
   padding: 0 2rem;
   box-sizing: border-box;
   display: flex;
@@ -141,7 +139,7 @@ export default defineComponent({
   }
   .nav {
     width: max-content;
-    height: @nav-height;
+    height: var(--nav-height);
     justify-self: flex-end;
     flex-shrink: 0;
     &-item {
@@ -152,8 +150,8 @@ export default defineComponent({
       text-decoration: none;
       cursor: pointer;
       box-sizing: border-box;
-      line-height: @nav-height;
-      height: @nav-height;
+      line-height: var(--nav-height);
+      height: var(--nav-height);
       color: var(--text-primary);
       transition: opacity 100ms ease;
       &__inner {
@@ -197,7 +195,7 @@ export default defineComponent({
   }
   .icons {
     justify-self: flex-end;
-    line-height: @nav-height;
+    line-height: var(--nav-height);
     display: flex;
     align-items: center;
     .icon {

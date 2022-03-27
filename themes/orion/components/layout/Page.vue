@@ -41,7 +41,7 @@ export default defineComponent({
     flex-direction: column;
     &-inner {
       flex: 1;
-      padding-top: 3.5rem;
+      margin-top: var(--nav-height);
       box-sizing: border-box;
       position: relative;
       z-index: 1;

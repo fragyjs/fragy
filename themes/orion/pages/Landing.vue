@@ -77,12 +77,12 @@ export default {
       &__title {
         font-size: 8rem;
         font-weight: 700;
-        padding: 3.5rem 0 3rem 0;
+        padding: var(--nav-height) 0 3rem 0;
         box-sizing: border-box;
         letter-spacing: 0.1rem;
       }
       &__desc {
-        font-size: 3.5rem;
+        font-size: var(--nav-height);
         font-weight: 600;
         color: var(--text-primary);
       }

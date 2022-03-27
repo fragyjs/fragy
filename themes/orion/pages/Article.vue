@@ -1,7 +1,7 @@
 <template>
   <a-layout class="article">
-    <a-side class="article-menu" width="16.5rem">
-      <span>menu</span>
+    <a-side class="article-menu-wrapper" width="16.5rem">
+      <ArticleMenu ref="menu" :menu="menu" />
     </a-side>
     <a-layout class="article-main">
       <a-content>
@@ -29,11 +29,17 @@
 <script>
 import { defineComponent } from 'vue';
 import { marked } from 'marked';
+import { getArticleMenu } from '../utils/article';
 import Renderer from '../utils/renderer';
+import Menu from '../components/article/Menu.vue';
 
 export default defineComponent({
+  components: {
+    ArticleMenu: Menu,
+  },
   data() {
     return {
+      menu: [],
       meta: null,
       articleContent: '',
       renderedContent: '',
@@ -54,6 +60,7 @@ export default defineComponent({
         return;
       }
       this.meta = null;
+      this.menu = [];
       this.articleContent = '';
       this.renderedContent = '';
       this.loading = true;
@@ -68,6 +75,9 @@ export default defineComponent({
   computed: {
     fileName() {
       let { article: fileName } = this.$route.params;
+      if (!fileName) {
+        return;
+      }
       if (!fileName.endsWith('.md')) {
         fileName = `${fileName}.md`;
       }
@@ -116,7 +126,9 @@ export default defineComponent({
       if (!this.supportMarkVue) {
         this.renderedContent = marked.parse(this.articleContent, this.markedOptions);
       }
-      this.$nextTick(() => {});
+      this.$nextTick(() => {
+        this.menu = getArticleMenu('article');
+      });
     },
     setTitle() {
       const template = this.$theme.article.title;
@@ -130,23 +142,52 @@ export default defineComponent({
 
 <style lang="less">
 .article {
-  &-menu {
+  &-menu-wrapper {
     position: fixed !important;
     bottom: 0;
     left: 0;
-    height: calc(100vh - 3.5rem);
+    height: calc(100vh - var(--nav-height));
     box-shadow: 0.125rem 0 0.125rem rgba(0, 0, 0, 0.01);
+    z-index: 10;
   }
   &-main {
     padding-left: 16.5rem;
     box-sizing: border-box;
     width: 100%;
+    z-index: 2;
   }
   &-content {
     max-width: 100rem;
     margin: 0 auto;
-    padding: 3.5rem 9rem 5rem 7.5rem;
+    padding: var(--nav-height) 9rem 5rem 7.5rem;
     box-sizing: border-box;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      a {
+        float: left;
+        margin-left: -0.925em;
+        margin-top: 0.115em;
+        opacity: 0;
+        text-decoration: none;
+        transition: opacity 100ms ease;
+        color: var(--primary);
+      }
+      a:hover {
+        opacity: 1;
+      }
+    }
+    h1:hover,
+    h2:hover,
+    h3:hover,
+    h4:hover,
+    h5:hover {
+      a {
+        opacity: 0.8;
+      }
+    }
     h1 {
       margin-top: 0;
       margin-bottom: 2.5rem;
@@ -154,6 +195,7 @@ export default defineComponent({
       font-family: var(--main-font);
       color: var(--text-primary);
       letter-spacing: 0.05rem;
+      text-decoration: none;
     }
     h2 {
       margin: 4rem 0 1.75rem;
@@ -162,12 +204,20 @@ export default defineComponent({
       font-size: 1.5rem;
       letter-spacing: 0.0375rem;
       color: var(--text-primary);
+      text-decoration: none;
     }
     h3 {
       margin: 3.25rem 0 1.75rem;
       font-size: 1.25rem;
       letter-spacing: 0.0375rem;
       color: var(--text-primary);
+      text-decoration: none;
+    }
+    h4,
+    h5 {
+      margin: 2.75rem 0 1.5rem;
+      color: var(--text-primary);
+      text-decoration: none;
     }
     p {
       margin: 0 0 1.25rem 0;
@@ -203,6 +253,14 @@ export default defineComponent({
     li {
       line-height: 2.5rem;
       color: var(--text-primary);
+      code {
+        background: var(--tag-background);
+        color: var(--text-secondary);
+        padding: 0.1rem 0.375rem;
+        border-radius: 0.25rem;
+        margin: 0 0.125rem;
+        box-sizing: border-box;
+      }
     }
   }
 }
