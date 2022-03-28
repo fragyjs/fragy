@@ -14,6 +14,27 @@ body {
     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+@scrollbar-width: 0.675rem;
+
+body::-webkit-scrollbar {
+  width: @scrollbar-width;
+  height: @scrollbar-width;
+}
+body::-webkit-scrollbar-button {
+  display: none;
+}
+body::-webkit-scrollbar-thumb {
+  width: @scrollbar-width;
+  border-radius: @scrollbar-width;
+  background: var(--primary);
+}
+body::-webkit-scrollbar-track {
+  background: var(--page-background);
+}
+body::-webkit-scrollbar-corner {
+  background: var(--page-background);
+}
+
 html,
 body,
 #app {

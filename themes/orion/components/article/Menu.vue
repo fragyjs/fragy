@@ -105,4 +105,23 @@ export default defineComponent({
     color: var(--primary);
   }
 }
+@scrollbar-width: 0.55rem;
+.article-menu::-webkit-scrollbar {
+  width: @scrollbar-width;
+  height: @scrollbar-width;
+}
+.article-menu::-webkit-scrollbar-button {
+  display: none;
+}
+.article-menu::-webkit-scrollbar-thumb {
+  width: @scrollbar-width;
+  border-radius: @scrollbar-width;
+  background: var(--primary);
+}
+.article-menu::-webkit-scrollbar-track {
+  background: var(--page-background);
+}
+.article-menu::-webkit-scrollbar-corner {
+  background: var(--page-background);
+}
 </style>
