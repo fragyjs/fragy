@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const merge = require('lodash/merge');
 const copyPlugin = require('copy-webpack-plugin');
 const esmRequire = require('esm')(module);
 
@@ -67,7 +68,7 @@ const context = {
 const themeConfig = esmRequire(context.themeConfigPath).default;
 const userThemeConfig = fragyConfig.theme.config;
 if (userThemeConfig) {
-  Object.assign(themeConfig, userThemeConfig);
+  merge(themeConfig, userThemeConfig);
 }
 context.themeConfig = themeConfig;
 
@@ -151,7 +152,7 @@ const chainWebpack = (config) => {
           'axios',
           'yaml',
           'mitt',
-          'lodash-es',
+          'lodash',
         ].reduce((res, curr) => {
           if (res) return res;
           return (
@@ -179,7 +180,7 @@ const chainWebpack = (config) => {
           'axios',
           'yaml',
           'mitt',
-          'lodash-es',
+          'lodash',
         ].reduce((res, curr) => {
           if (res) return res;
           return (
