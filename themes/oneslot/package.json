@@ -1,0 +1,29 @@
+{
+  "name": "@fragy/oneslot",
+  "version": "0.1.0",
+  "description": "A concise single column Fragy theme for individuals or organizations",
+  "main": "index.js",
+  "keywords": [
+    "theme",
+    "fragy",
+    "blog"
+  ],
+  "fragy": {
+    "type": "theme",
+    "compatibility": {
+      "frameworkVersion": "0.6.0",
+      "githubMode": true,
+      "markvue": true
+    }
+  },
+  "peerDependencies": {
+    "vue": "^3.2.31"
+  },
+  "author": "BackRunner",
+  "license": "MIT",
+  "dependencies": {
+    "animejs": "^3.2.1",
+    "change-case": "^4.1.2",
+    "marked": "^4.0.12"
+  }
+}
