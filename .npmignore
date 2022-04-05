@@ -7,3 +7,5 @@ dist
 node_modules
 docs
 packages
+fragy.config.js
+fragy.config.*.js
