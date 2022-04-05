@@ -24,3 +24,4 @@ pnpm-debug.log*
 .fragy
 posts
 fragy.config.js
+fragy.config.*.js
