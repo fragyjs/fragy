@@ -10,7 +10,7 @@ const getGoogleFontsDefine = (gfontOptions) => {
   const googleApisHost = gfontOptions.googleApisHost || 'fonts.googleapis.com';
   const gstatciHost = gfontOptions.gstaticHost || 'fonts.gstatic.com';
   return `
-  <link rel="preconnect" href="https://${googleApisHost}">
+  <link rel="preconnect" href="https://${googleApisHost}" crossorigin>
   <link rel="preconnect" href="https://${gstatciHost}" crossorigin>
   <link href="https://${googleApisHost}/css2?family=${gfontOptions.family}&display=swap" rel="stylesheet">
   `.trim();
