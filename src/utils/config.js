@@ -3,6 +3,7 @@ import merge from 'lodash/merge';
 const DEFAULT_CONFIG = {
   title: 'Fragy',
   subtitle: 'Another fragy site.',
+  locale: 'en',
   icon: '/favicon.ico',
   build: {
     integrity: false,

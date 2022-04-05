@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 88 20"><defs><linearGradient id="a" x1="68.48743" y1="136.98932" x2="77.3451" y2="145.84699" gradientTransform="translate(-14.41449 -145.18076) rotate(19.96113)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#83a473" stop-opacity="0.8"/><stop offset="1" stop-color="#93bc7f" stop-opacity="0.8"/></linearGradient><linearGradient id="b" x1="80.42369" y1="126.14346" x2="89.44997" y2="135.16974" xlink:href="#a"/></defs><path d="M8.8643,5.09894l-3.33921.8158A2.09688,2.09688,0,0,0,4.05182,7.23588L.35431,17.41616A2.0969,2.0969,0,0,0,2.82289,20.169l3.33921-.8158a2.09688,2.09688,0,0,0,1.47327-1.32114L11.33288,7.85177A2.0969,2.0969,0,0,0,8.8643,5.09894Z" style="fill:url(#a)"/><path d="M15.33937,3.986l-3.456,9.51541a2.384,2.384,0,0,0,1.22191,2.98242,2.13586,2.13586,0,0,0,2.6223-.7739L18.53312,11.745A9.1637,9.1637,0,0,1,26.57921,7.892l4.32536.26754A2.15287,2.15287,0,0,0,33.22332,6.2859a2.37307,2.37307,0,0,0-1.568-2.46186L22.67129.561A5.72222,5.72222,0,0,0,15.33937,3.986Z" style="fill:url(#b)"/><text transform="translate(40.43954 15.15009) scale(1.02 1.01)" style="font-size:18px;fill:#4d6d49;font-family:DengXian-Bold, DengXian;font-weight:700;letter-spacing:0.01361655798882757em">F<tspan x="9.28883" y="0" style="letter-spacing:0.02800436633249108em">r</tspan><tspan x="16.45508" y="0" style="letter-spacing:0.024786390714037685em">a</tspan><tspan x="26.29682" y="0" style="letter-spacing:0.03489242984637065em">g</tspan><tspan x="37.77047" y="0" style="letter-spacing:0.029998979319135737em">y</tspan></text></svg>
+<svg xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 88 20">
+  <defs>
+    <linearGradient id="a" x1="68.48743" y1="136.98932" x2="77.3451" y2="145.84699" gradientTransform="translate(-14.41449 -145.18076) rotate(19.96113)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#83a473" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#93bc7f" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="b" x1="80.42369" y1="126.14346" x2="89.44997" y2="135.16974" xlink:href="#a"/>
+  </defs>
+  <path d="M8.8643,5.09894l-3.33921.8158A2.09688,2.09688,0,0,0,4.05182,7.23588L.35431,17.41616A2.0969,2.0969,0,0,0,2.82289,20.169l3.33921-.8158a2.09688,2.09688,0,0,0,1.47327-1.32114L11.33288,7.85177A2.0969,2.0969,0,0,0,8.8643,5.09894Z" style="fill:url(#a)"/>
+  <path d="M15.33937,3.986l-3.456,9.51541a2.384,2.384,0,0,0,1.22191,2.98242,2.13586,2.13586,0,0,0,2.6223-.7739L18.53312,11.745A9.1637,9.1637,0,0,1,26.57921,7.892l4.32536.26754A2.15287,2.15287,0,0,0,33.22332,6.2859a2.37307,2.37307,0,0,0-1.568-2.46186L22.67129.561A5.72222,5.72222,0,0,0,15.33937,3.986Z" style="fill:url(#b)"/>
+  <text transform="translate(40.43954 15.15009) scale(1.02 1.01)" style="font-size:18px;fill:#4d6d49;font-family:DengXian-Bold, DengXian;Microsoft Yahei;PingFangSC-Bold;PingFangSC;font-weight:700;letter-spacing:0.01361655798882757em">F<tspan x="9.28883" y="0" style="letter-spacing:0.02800436633249108em">r</tspan>
+    <tspan x="16.45508" y="0" style="letter-spacing:0.024786390714037685em">a</tspan>
+    <tspan x="26.29682" y="0" style="letter-spacing:0.03489242984637065em">g</tspan>
+    <tspan x="37.77047" y="0" style="letter-spacing:0.029998979319135737em">y</tspan>
+  </text>
+</svg>
