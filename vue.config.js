@@ -48,7 +48,7 @@ if (themePkgInfo.compatibility) {
     themePkgInfo.compatibility.github === false &&
     fragyConfig.github
   ) {
-    throw new Error('The theme you used is not compatible with GitHub Mode.');
+    throw new Error('The theme you are using now is not compatible with GitHub Mode.');
   }
 }
 

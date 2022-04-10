@@ -98,6 +98,13 @@ All external vendors will be loaded from CDN, `Purity` uses `CDNJS` by default, 
 
 You can replace the default source urls with your owns, see more details on [`config.js`](https://github.com/fragyjs/fragy/blob/main/themes/purity/config.js).
 
+## Compatibility
+
+| Feature     | Compatibility |
+| ----------- | ------------- |
+| MarkVue     | ✔             |
+| GitHub Mode | ✔             |
+
 ## License
 
 MIT
