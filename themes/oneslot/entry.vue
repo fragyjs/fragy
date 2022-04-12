@@ -1,9 +1,16 @@
 <template>
-  <router-view></router-view>
+  <Page>
+    <router-view></router-view>
+  </Page>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import Page from './components/layout/Page.vue';
 
-export default defineComponent({});
+export default defineComponent({
+  components: {
+    Page,
+  },
+});
 </script>

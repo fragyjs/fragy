@@ -1,7 +1,9 @@
 export default {
   colors: {
     default: {
-      primary: '#636465',
+      primary: '#636462',
+      text: '#636462',
+      navText: '#929493',
       pageBackground: '#fafbfd',
     },
     dark: {
@@ -9,6 +11,9 @@ export default {
     },
   },
   fontFamily: 'Noto Sans SC', // Main font family for your site
+  article: {
+    title: '{articleTitle} - {siteTitle}',
+  },
   gfont: {
     enable: true,
     family: 'Noto+Sans+SC:wght@100;300;400;500;700;900',
