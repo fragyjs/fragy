@@ -20,16 +20,13 @@ export default {
   },
   computed: {
     bgComponent() {
-      if (!this.$theme.page?.bgComponent) {
-        return null;
-      }
       return this.$theme.page?.bgComponent;
     },
   },
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .page {
   width: 100%;
   max-width: 67rem;

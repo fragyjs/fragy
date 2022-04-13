@@ -5,6 +5,8 @@ export default {
       text: '#636462',
       navText: '#929493',
       pageBackground: '#fafbfd',
+      bannerBackground: '#d1d1d1',
+      textShadow: 'rgba(8, 12, 10, 0.08)',
     },
     dark: {
       pageBackground: '#232425',
