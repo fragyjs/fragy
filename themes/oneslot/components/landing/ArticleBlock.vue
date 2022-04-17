@@ -6,10 +6,11 @@
       </div>
       <div class="article-block__date">{{ articleDate }}</div>
     </div>
-    <div class="article-block__title">
+    <a :href="targetUrl" class="article-block__title" @click.prevent="toArticle">
       {{ articleTitle }}
-    </div>
-    <div ref="abstract" class="aritcle-block__abstract" v-html="renderedAbstract"></div>
+    </a>
+    <div ref="abstract" class="article-block__abstract" v-html="renderedAbstract"></div>
+    <a :href="targetUrl" class="article-block__more" @click.prevent="toArticle">Read more...</a>
   </div>
 </template>
 
@@ -35,7 +36,7 @@ export default defineComponent({
       return this.meta.title;
     },
     articleDate() {
-      return this.meta.date;
+      return this.meta.date?.split(' ')[0];
     },
     articleTags() {
       const { filterType } = this.$theme;
@@ -45,6 +46,9 @@ export default defineComponent({
         return this.meta.categories?.length ? this.meta.categories : null;
       }
     },
+    targetUrl() {
+      return `/article/${this.meta.fileName}`;
+    },
     supportMarkVue() {
       return !!this.$fragy.markVue?.enable;
     },
@@ -52,5 +56,70 @@ export default defineComponent({
   created() {
     this.renderedAbstract = marked.parse(this.meta.abstract);
   },
+  methods: {
+    toArticle() {
+      this.$router.push(this.targetUrl);
+    },
+  },
 });
 </script>
+
+<style lang="less">
+@import '../../styles/mixin/article.less';
+
+.article-block {
+  padding: 1.75rem 0 2.25rem 0;
+  box-sizing: border-box;
+  border-top: 1px solid var(--border);
+  &__meta {
+    user-select: none;
+  }
+  &__tags,
+  &__date {
+    font-size: 0.875rem;
+    color: var(--text);
+    opacity: 0.75;
+    margin-bottom: 0.175rem;
+  }
+  &__title {
+    font-size: 1.625rem;
+    font-weight: 600;
+    color: var(--text-highlight);
+    margin-top: 0.625rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.025rem;
+    transition: opacity 100ms ease;
+    display: block;
+    text-decoration: none;
+  }
+  &__title:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
+  &__abstract {
+    .article-content;
+    vue-sfc {
+      display: none;
+    }
+    vue-component {
+      display: none;
+    }
+  }
+  &__more {
+    font-size: 0.875rem;
+    color: var(--text);
+    margin-top: 2rem;
+    opacity: 0.75;
+    cursor: pointer;
+    display: block;
+    letter-spacing: 0.05rem;
+    text-decoration: none;
+  }
+  &__more:hover {
+    opacity: 1;
+  }
+}
+.article-block:first-child {
+  border-top: none;
+}
+</style>

@@ -65,3 +65,19 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="less" scoped>
+.article-list {
+  margin-top: 2rem;
+  color: var(--text);
+  &__title {
+    font-size: 1rem;
+    font-weight: 300;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    box-sizing: border-box;
+    user-select: none;
+    opacity: 0.875;
+  }
+}
+</style>

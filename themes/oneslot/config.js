@@ -3,10 +3,13 @@ export default {
     default: {
       primary: '#636462',
       text: '#636462',
+      textHighlight: '#464843',
+      link: '#828483',
       navText: '#929493',
       pageBackground: '#fafbfd',
       bannerBackground: '#d1d1d1',
       textShadow: 'rgba(8, 12, 10, 0.08)',
+      border: 'rgba(0, 0, 0, 0.06)',
     },
     dark: {
       pageBackground: '#232425',
