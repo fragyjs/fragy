@@ -93,7 +93,7 @@ export default defineComponent({
     text-decoration: none;
   }
   &__title:hover {
-    opacity: 0.9;
+    opacity: 0.8;
     cursor: pointer;
   }
   &__abstract {
