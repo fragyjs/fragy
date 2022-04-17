@@ -81,6 +81,13 @@ export default defineComponent({
     opacity: 0.75;
     margin-bottom: 0.175rem;
   }
+  &__tag::after {
+    content: '·';
+    margin: 0 0.125rem;
+  }
+  &__tag:last-child::after {
+    display: none;
+  }
   &__title {
     font-size: 1.625rem;
     font-weight: 600;
