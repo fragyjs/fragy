@@ -68,7 +68,7 @@ export default defineComponent({
 @import '../../styles/mixin/article.less';
 
 .article-block {
-  padding: 1.75rem 0 2.25rem 0;
+  padding: 1.75rem 0 2.5rem 0;
   box-sizing: border-box;
   border-top: 1px solid var(--border);
   &__meta {
@@ -106,6 +106,7 @@ export default defineComponent({
     }
   }
   &__more {
+    width: max-content;
     font-size: 0.875rem;
     color: var(--text);
     margin-top: 2rem;
