@@ -3,7 +3,7 @@
     <div class="article-list__title">Latest</div>
     <div class="article-list__content">
       <ArticleBlock v-for="meta in displayArticleList" :key="meta.title" :meta="meta" />
-      <ScrollLoader />
+      <ScrollLoader @load="onLoadTriggered" />
     </div>
   </div>
 </template>
@@ -21,16 +21,9 @@ export default defineComponent({
   },
   data() {
     return {
-      currentPage: 1,
+      currentPage: 0,
       articles: {},
     };
-  },
-  async created() {
-    try {
-      this.fetchArticleList(this.currentPage);
-    } catch (err) {
-      console.error(err);
-    }
   },
   computed: {
     isPageSplitted() {
@@ -58,9 +51,23 @@ export default defineComponent({
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to pre-fetch article list info.', err);
-        return;
+        throw err;
       }
       this.articles[page] = res.data.listData;
+      return res;
+    },
+    async onLoadTriggered(e) {
+      this.currentPage += 1;
+      try {
+        await this.fetchArticleList(this.currentPage);
+      } catch (err) {
+        this.currentPage -= 1;
+        if (err.message.includes('Request failed with status code 404')) {
+          e.noMore();
+        }
+      } finally {
+        e.complete();
+      }
     },
   },
 });
