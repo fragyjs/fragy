@@ -8,6 +8,7 @@
         <MarkVue
           v-if="articleContent && supportMarkVue"
           id="article"
+          v-lazy-container="{ selector: 'img' }"
           class="article-content"
           :content="articleContent"
           :markedOptions="markedOptions"
@@ -15,6 +16,7 @@
         <div
           v-if="articleContent && !supportMarkVue"
           id="article"
+          v-lazy-container="{ selector: 'img' }"
           class="article-content"
           v-html="renderedContent"
         ></div>
