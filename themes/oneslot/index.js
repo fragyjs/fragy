@@ -13,6 +13,7 @@ export default {
   routes: [
     {
       path: '/',
+      name: 'Landing',
       component: Landing,
       meta: {
         keepAlive: true,
@@ -20,6 +21,7 @@ export default {
     },
     {
       path: '/article/:article',
+      name: 'Article',
       component: Article,
     },
     {

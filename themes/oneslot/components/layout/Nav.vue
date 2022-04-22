@@ -1,7 +1,12 @@
 <template>
   <nav class="nav">
-    <div class="nav-title">
-      {{ title }}
+    <div
+      :class="{
+        'nav-title': true,
+        'nav-title--clickable': titleClickable,
+      }"
+    >
+      <a href="/" @click.prevent="toHome">{{ title }}</a>
     </div>
     <div class="nav-links">
       <a
@@ -27,6 +32,19 @@ export default defineComponent({
     navItems() {
       return this.$theme?.nav || [];
     },
+    titleClickable() {
+      return this.$route.path !== '/';
+    },
+  },
+  methods: {
+    toHome() {
+      if (this.$route.name === 'Landing') {
+        return;
+      }
+      this.$router.push({
+        name: 'Landing',
+      });
+    },
   },
 });
 </script>
@@ -39,10 +57,25 @@ export default defineComponent({
   justify-content: space-between;
   user-select: none;
   &-title {
-    font-weight: 600;
-    letter-spacing: 0.05rem;
-    font-size: 1.125rem;
-    color: var(--text);
+    a {
+      font-weight: 600;
+      letter-spacing: 0.05rem;
+      font-size: 1.125rem;
+      color: var(--text);
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity ease 200ms;
+      cursor: default;
+      user-select: none;
+    }
+  }
+  &-title--clickable {
+    a {
+      cursor: pointer;
+    }
+    a:hover {
+      opacity: 1;
+    }
   }
   &-links {
     &__item {

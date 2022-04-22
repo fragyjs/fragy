@@ -3,7 +3,9 @@
     <div class="article-banner">
       <div class="article-banner-meta">
         <div v-if="articleTags" class="article-banner-meta__tags">
-          {{ articleTags }}
+          <span v-for="tag in articleTags" :key="tag" class="article-banner-meta__tag">{{
+            tag
+          }}</span>
         </div>
         <div v-if="articleDate" class="article-banner-meta__date">
           {{ articleDate }}
@@ -175,7 +177,7 @@ export default defineComponent({
     font-size: 1.875rem;
     font-weight: 600;
     color: var(--text-highlight);
-    margin-top: 0.625rem;
+    margin-top: 1rem;
     margin-bottom: 1.5rem;
     letter-spacing: 0.0175rem;
     transition: opacity 100ms ease;
@@ -185,6 +187,8 @@ export default defineComponent({
     border-bottom: 1px solid var(--border);
   }
   &-content {
+    padding-bottom: 2rem;
+    box-sizing: border-box;
     &__text {
       .article-content-styles;
     }

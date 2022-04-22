@@ -28,7 +28,7 @@ export default {
 
 <style lang="less" scoped>
 .page {
-  width: 100%;
+  width: 100vw;
   max-width: 67rem;
   min-height: 100vh;
   margin: 0 auto;
@@ -43,6 +43,7 @@ export default {
     flex-shrink: 0;
   }
   &-content {
+    width: 100%;
     flex-grow: 1;
     display: flex;
     position: relative;

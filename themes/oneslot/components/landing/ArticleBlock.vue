@@ -105,6 +105,15 @@ export default defineComponent({
   }
   &__abstract {
     .article-content-styles;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      a {
+        display: none;
+      }
+    }
     vue-sfc {
       display: none;
     }
