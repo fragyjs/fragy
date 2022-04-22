@@ -2,11 +2,16 @@
   <div class="article">
     <div class="article-banner">
       <div class="article-banner-meta">
-        <div v-if="tags" class="article-banner-meta__tags"></div>
-        <div v-if="date" class="article-banner-meta__date">
-          {{ date }}
+        <div v-if="articleTags" class="article-banner-meta__tags">
+          {{ articleTags }}
+        </div>
+        <div v-if="articleDate" class="article-banner-meta__date">
+          {{ articleDate }}
         </div>
       </div>
+    </div>
+    <div class="article-title">
+      {{ articleTitle }}
     </div>
     <div class="article-content">
       <MarkVue
@@ -20,7 +25,7 @@
         v-if="renderedContent && !supportMarkVue"
         id="article"
         v-lazy-container="{ selector: 'img' }"
-        class="aritcle-content__text"
+        class="article-content__text"
         v-html="renderedContent"
       ></div>
     </div>
@@ -29,6 +34,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import marked from '../utils/markdown';
 
 const FAILED_FETCH_MESSAGE = 'Failed to fetch article content.';
 
@@ -64,21 +70,35 @@ export default defineComponent({
     },
   },
   computed: {
-    tags() {
-      if (!this.meta?.tags) {
-        return [];
-      }
-      return Array.isArray(this.meta.tags) ? this.meta.tags : [this.meta.tags];
+    articleTitle() {
+      return this.meta?.title;
     },
-    date() {
+    articleTags() {
+      const { filterType } = this.$theme;
+      if (filterType === 'tags') {
+        return this.meta?.tags?.length ? this.meta.tags : null;
+      } else {
+        return this.meta?.categories?.length ? this.meta.categories : null;
+      }
+    },
+    articleDate() {
       return this.meta?.date || '';
     },
     supportMarkVue() {
       return !!this.$fragy.markVue?.enable;
     },
+    fileName() {
+      return this.$route.params.article;
+    },
+  },
+  created() {
+    this.fetchArticle();
   },
   methods: {
     async fetchArticle() {
+      if (!this.fileName) {
+        return;
+      }
       let res;
       try {
         res = await this.$http.get(
@@ -88,18 +108,29 @@ export default defineComponent({
         // eslint-disable-next-line no-console
         console.error(FAILED_FETCH_MESSAGE, err);
         this.contentLoading = false;
-        this.loadFailed = true;
+        this.contentLoadFailed = true;
         return;
       }
       if (res.status !== 200 || !res.data) {
         console.error(FAILED_FETCH_MESSAGE, res);
         this.contentLoading = false;
-        this.loadFailed = true;
+        this.contentLoadFailed = true;
         return;
       }
-      this.parseArticle(res.data);
+      this.renderArticle(res.data);
     },
-    parseArticle() {},
+    renderArticle(article) {
+      if (!article) {
+        this.contentLoadFailed = true;
+        return;
+      }
+      const parsedArticle = this.$utils.parseArticle(article.trim());
+      this.meta = parsedArticle.meta;
+      this.articleContent = parsedArticle.content.trim();
+      if (!this.supportMarkVue) {
+        this.renderedContent = marked.parse(this.articleContent);
+      }
+    },
     setTitle() {
       const template = this.$theme.article.title;
       document.title = template
@@ -109,3 +140,54 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="less">
+@import '../styles/mixin/article.less';
+
+.article {
+  width: 100%;
+  border-radius: 1.5rem;
+  box-shadow: 3px 4px 18px var(--shadow);
+  margin: 0.5rem 0 3.75rem 0;
+  padding: 2rem 2.5rem;
+  box-sizing: border-box;
+  background: var(--article-background);
+  &-banner {
+    &-meta {
+      user-select: none;
+      &__tags,
+      &__date {
+        font-size: 0.875rem;
+        color: var(--text);
+        opacity: 0.75;
+        margin-bottom: 0.175rem;
+      }
+      &__tag::after {
+        content: '·';
+        margin: 0 0.125rem;
+      }
+      &__tag:last-child::after {
+        display: none;
+      }
+    }
+  }
+  &-title {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: var(--text-highlight);
+    margin-top: 0.625rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.0175rem;
+    transition: opacity 100ms ease;
+    display: block;
+    text-decoration: none;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  &-content {
+    &__text {
+      .article-content-styles;
+    }
+  }
+}
+</style>

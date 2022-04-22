@@ -104,7 +104,7 @@ export default defineComponent({
     cursor: pointer;
   }
   &__abstract {
-    .article-content;
+    .article-content-styles;
     vue-sfc {
       display: none;
     }

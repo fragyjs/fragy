@@ -43,7 +43,9 @@ export default {
     flex-shrink: 0;
   }
   &-content {
-    flex: 1;
+    flex-grow: 1;
+    display: flex;
+    position: relative;
   }
   .footer {
     flex-shrink: 0;
