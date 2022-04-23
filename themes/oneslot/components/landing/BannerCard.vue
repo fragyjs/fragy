@@ -124,4 +124,18 @@ export default defineComponent({
     }
   }
 }
+
+@media screen and (max-width: 767px) {
+  .landing-banner-wrapper {
+    .landing-banner {
+      &__avatar {
+        width: 25%;
+        padding-top: 25%;
+      }
+      &__subtitle {
+        display: none;
+      }
+    }
+  }
+}
 </style>

@@ -139,4 +139,12 @@ export default defineComponent({
 .article-block:first-child {
   border-top: none;
 }
+
+@media screen and (max-width: 767px) {
+  .article-block {
+    &__title {
+      font-size: 1.5rem;
+    }
+  }
+}
 </style>

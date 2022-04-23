@@ -65,4 +65,10 @@ export default {
     height: 100vh;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .page {
+    padding: 0 1.5rem;
+  }
+}
 </style>

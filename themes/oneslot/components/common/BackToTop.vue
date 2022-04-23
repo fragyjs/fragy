@@ -83,6 +83,7 @@ export default defineComponent({
   z-index: 10;
   cursor: pointer;
   transition: all 200ms ease;
+  user-select: none;
   svg {
     font-size: 1.5rem;
     path {
@@ -106,5 +107,17 @@ export default defineComponent({
 .back2top-leave-to {
   opacity: 0;
   transform: translateY(0.75rem);
+}
+
+@media screen and (max-width: 767px) {
+  .back2top {
+    bottom: 1rem;
+    right: 1rem;
+    opacity: 0.15;
+  }
+  .back2top-enter-to,
+  .back2top-leave-active {
+    opacity: 0.15;
+  }
 }
 </style>

@@ -194,4 +194,13 @@ export default defineComponent({
     }
   }
 }
+
+@media screen and (max-width: 767px) {
+  .article {
+    padding: 1.25rem;
+    &-title {
+      font-size: 1.375rem;
+    }
+  }
+}
 </style>
