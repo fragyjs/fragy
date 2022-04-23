@@ -36,6 +36,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import pangu from 'pangu.simple';
 import marked from '../utils/markdown';
 
 const FAILED_FETCH_MESSAGE = 'Failed to fetch article content.';
@@ -73,7 +74,10 @@ export default defineComponent({
   },
   computed: {
     articleTitle() {
-      return this.meta?.title;
+      if (typeof this.meta?.title !== 'string') {
+        return '';
+      }
+      return pangu.spacing(this.meta.title);
     },
     articleTags() {
       const { filterType } = this.$theme;

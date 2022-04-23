@@ -16,6 +16,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import pangu from 'pangu.simple';
 import marked from '../../utils/markdown';
 
 export default defineComponent({
@@ -33,7 +34,10 @@ export default defineComponent({
   },
   computed: {
     articleTitle() {
-      return this.meta.title;
+      if (typeof this.meta?.title !== 'string') {
+        return '';
+      }
+      return pangu.spacing(this.meta.title);
     },
     articleDate() {
       return this.meta.date?.split(' ')[0];
