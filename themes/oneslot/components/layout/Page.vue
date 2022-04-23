@@ -6,17 +6,20 @@
       <slot></slot>
     </div>
     <page-footer v-if="$route.meta.footer !== false" />
+    <back-to-top v-if="!!$route.meta.backToTop" />
   </div>
 </template>
 
 <script>
 import NavBar from './Nav.vue';
 import PageFooter from './Footer.vue';
+import BackToTop from '../common/BackToTop.vue';
 
 export default {
   components: {
     NavBar,
     PageFooter,
+    BackToTop,
   },
   computed: {
     bgComponent() {

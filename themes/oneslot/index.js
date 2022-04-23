@@ -17,12 +17,16 @@ export default {
       component: Landing,
       meta: {
         keepAlive: true,
+        backToTop: true,
       },
     },
     {
       path: '/article/:article',
       name: 'Article',
       component: Article,
+      meta: {
+        backToTop: true,
+      },
     },
     {
       path: '/:pathMatch(.*)',

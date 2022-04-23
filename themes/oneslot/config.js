@@ -20,6 +20,7 @@ export default {
       pageBackground: '#232425',
     },
   },
+  backToTop: true,
   filterType: 'category', // category or tags
   fontFamily: 'Noto Sans SC', // Main font family for your site
   footer: {
