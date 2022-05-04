@@ -38,6 +38,7 @@
 import { defineComponent } from 'vue';
 import pangu from 'pangu.simple';
 import marked from '../utils/markdown';
+import { getTagsFromMeta, getCategoriesFromMeta } from '../utils/article';
 
 const FAILED_FETCH_MESSAGE = 'Failed to fetch article content.';
 
@@ -82,9 +83,9 @@ export default defineComponent({
     articleTags() {
       const { filterType } = this.$theme;
       if (filterType === 'tags') {
-        return this.meta?.tags?.length ? this.meta.tags : null;
+        return getTagsFromMeta(this.meta);
       } else {
-        return this.meta?.categories?.length ? this.meta.categories : null;
+        return getCategoriesFromMeta(this.meta);
       }
     },
     articleDate() {
