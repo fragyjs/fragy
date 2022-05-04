@@ -12,7 +12,7 @@
     "type": "theme",
     "compatibility": {
       "frameworkVersion": "0.6.0",
-      "githubMode": true,
+      "githubMode": false,
       "markvue": true
     }
   },
@@ -22,8 +22,10 @@
   "author": "BackRunner",
   "license": "MIT",
   "dependencies": {
+    "@any-design/anyui": "^0.0.17",
     "animejs": "^3.2.1",
     "change-case": "^4.1.2",
-    "marked": "^4.0.12"
+    "marked": "^4.0.15",
+    "vue-lazyload-next": "^0.0.2"
   }
 }
