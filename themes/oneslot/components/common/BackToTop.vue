@@ -112,7 +112,7 @@ export default defineComponent({
 @media screen and (max-width: 767px) {
   .back2top {
     bottom: 1rem;
-    right: 1rem;
+    right: 1.475rem;
     opacity: 0.15;
   }
   .back2top-enter-to,

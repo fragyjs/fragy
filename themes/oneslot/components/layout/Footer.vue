@@ -3,6 +3,7 @@
     :class="{
       footer: true,
       'footer--article': isArticle,
+      'footer--has-back2top': hasBackToTop,
     }"
   >
     <div v-if="showPoweredBy" class="footer-text footer-poweredby">
@@ -51,6 +52,9 @@ export default defineComponent({
       const copyrightName = this.$theme.footer?.copyright?.name;
       return copyrightName.replace('{domain}', document.domain);
     },
+    hasBackToTop() {
+      return !!this.$theme.backToTop;
+    },
   },
 });
 </script>
@@ -74,6 +78,12 @@ export default defineComponent({
     a:hover {
       opacity: 1;
     }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .footer--has-back2top {
+    padding: 2.5rem 0 4rem 0;
   }
 }
 </style>
