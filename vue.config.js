@@ -235,6 +235,22 @@ const chainWebpack = (config) => {
     });
   }
 
+  const iconFormat = ['ico', 'png', 'jpg', 'jpeg', 'gif', 'webp'];
+  const favIconPaths = iconFormat.map((ext) =>
+    path.resolve(userDataPath, `./public/favicon.${ext}`),
+  );
+  const userFavIconExisted = favIconPaths.reduce((res, curr) => {
+    if (res) return res;
+    return res || fs.existsSync(curr);
+  }, false);
+
+  if (userFavIconExisted) {
+    config.plugin('copy').tap((options) => {
+      options[0].patterns[0].globOptions.ignore.push('**/favicon.ico');
+      return options;
+    });
+  }
+
   themeFuncs.chainWebpack?.(config);
 
   if (process.env.BUNDLE_ANALYZE === 'true') {
