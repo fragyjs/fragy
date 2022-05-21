@@ -151,23 +151,26 @@ module.exports = {
         // generate manifest
         const manifestPath = path.resolve(userDataRoot, './manifest/category.json');
         const manifestDir = path.dirname(manifestPath);
-        if (!fs.existsSync(manifestDir)) {
-          await fsp.mkdir(manifestDir, { recursive: true });
-        }
-        // remove the existed one
-        if (fs.existsSync(manifestPath)) {
-          await fsp.rm(manifestPath, { force: true });
-        }
-        try {
-          // write manifest
-          await fsp.writeFile(manifestPath, JSON.stringify(categoryManifest), {
-            encoding: 'utf-8',
-          });
-        } catch (err) {
-          logger.error('Failed to write category manifest.', err);
-        }
-        logger.debug('Category manifest generated.');
-        resolve();
+        process.nextTick(async () => {
+          if (!fs.existsSync(manifestDir)) {
+            await fsp.mkdir(manifestDir, { recursive: true });
+          }
+          // remove the existed one
+          if (fs.existsSync(manifestPath)) {
+            await fsp.rm(manifestPath, { force: true });
+          }
+          try {
+            // write manifest
+            await fsp.writeFile(manifestPath, JSON.stringify(categoryManifest), {
+              encoding: 'utf-8',
+            });
+          } catch (err) {
+            logger.error('Failed to write category manifest.', err);
+            reject(err);
+          }
+          logger.debug('Category manifest generated.');
+          resolve();
+        });
       });
     });
   },

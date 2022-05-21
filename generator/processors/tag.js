@@ -145,23 +145,27 @@ module.exports = {
         // generate manifest
         const manifestPath = path.resolve(userDataRoot, './manifest/tag.json');
         const manifestDir = path.dirname(manifestPath);
-        if (!fs.existsSync(manifestDir)) {
-          await fsp.mkdir(manifestDir, { recursive: true });
-        }
-        // remove the existed one
-        if (fs.existsSync(manifestPath)) {
-          await fsp.rm(manifestPath, { force: true });
-        }
-        try {
-          // write manifest
-          await fsp.writeFile(manifestPath, JSON.stringify(tagManifest), {
-            encoding: 'utf-8',
-          });
-        } catch (err) {
-          logger.error('Failed to write tag manifest.', err);
-        }
-        logger.debug('Tag manifest generated.');
-        resolve();
+        // wait for all previous tasks completed
+        process.nextTick(async () => {
+          if (!fs.existsSync(manifestDir)) {
+            await fsp.mkdir(manifestDir, { recursive: true });
+          }
+          // remove the existed one
+          if (fs.existsSync(manifestPath)) {
+            await fsp.rm(manifestPath, { force: true });
+          }
+          try {
+            // write manifest
+            await fsp.writeFile(manifestPath, JSON.stringify(tagManifest), {
+              encoding: 'utf-8',
+            });
+          } catch (err) {
+            logger.error('Failed to write tag manifest.', err);
+            reject(err);
+          }
+          logger.debug('Tag manifest generated.');
+          resolve();
+        });
       });
     });
   },

@@ -89,12 +89,14 @@ const executePipeline = async () => {
           await Promise.all(actions);
           // use a delay to ensure all the actions in the processors are done.
           await new Promise((resolve) => {
-            setImmediate(() => {
-              bus.emit(`${run.name}-completed`);
-              resolve();
+            process.nextTick(async () => {
+              setImmediate(() => {
+                bus.emit(`${run.name}-completed`);
+                resolve();
+              });
             });
+            logger.info(`Run [${run.name}] completed.`);
           });
-          logger.info(`Run [${run.name}] completed.`);
         } catch (err) {
           reject(err);
         }
