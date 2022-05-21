@@ -1,4 +1,5 @@
 import VueLazyload from 'vue-lazyload-next';
+import { Loading } from '@any-design/anyui';
 import Landing from './pages/Landing.vue';
 import Article from './pages/Article.vue';
 import './styles/layout.less';
@@ -9,6 +10,7 @@ export default {
     app.use(VueLazyload, {
       observer: true,
     });
+    app.use(Loading);
   },
   routes: [
     {

@@ -81,7 +81,7 @@ export default defineComponent({
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1138px) {
   .footer--has-back2top {
     padding: 2.5rem 0 4rem 0;
   }

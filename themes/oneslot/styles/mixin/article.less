@@ -1,3 +1,5 @@
+@code-scrollbar-width: 8px;
+
 .article-content-styles() {
   h1,
   h2,
@@ -81,14 +83,30 @@
     margin-bottom: 0;
   }
   pre {
+    width: 100%;
     margin: 0 0 1.5rem 0;
-    overflow-x: auto;
-    padding: 1.5rem 1.875rem;
     border-radius: 1rem;
     background: var(--code-background);
-    color: var(--text-secondary);
+    padding: 1.5rem 1.875rem;
     font-size: 0.875rem;
     line-height: 1.5rem;
+    overflow-x: auto;
+    color: var(--text-secondary);
+    box-sizing: border-box;
+  }
+  pre::-webkit-scrollbar {
+    width: @code-scrollbar-width;
+    height: @code-scrollbar-width;
+  }
+  pre::-webkit-scrollbar-button {
+    width: 0.75rem;
+    height: 4px;
+    background: transparent;
+  }
+  pre::-webkit-scrollbar-thumb {
+    width: @code-scrollbar-width;
+    border-radius: @code-scrollbar-width;
+    background: var(--primary);
   }
   ul {
     margin: 1.625rem 0;

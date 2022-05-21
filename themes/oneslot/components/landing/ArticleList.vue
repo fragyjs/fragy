@@ -49,6 +49,9 @@ export default defineComponent({
       try {
         res = await this.$http.get(this.getFeedUrl(page));
       } catch (err) {
+        if (err.message?.includes('status code 404')) {
+          return;
+        }
         // eslint-disable-next-line no-console
         console.error('Failed to pre-fetch article list info.', err);
         throw err;

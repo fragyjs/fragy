@@ -11,6 +11,7 @@ export default {
       bannerBackground: '#d1d1d1',
       articleBackground: '#fdfdfd',
       codeBackground: 'rgba(36, 38, 39, 0.9)',
+      codeBarBackground: 'rgba(62, 63, 66, 0.6)',
       tagBackground: 'rgba(92, 95, 93, 0.875)',
       shadow: 'rgba(16, 17, 15, 0.06)',
       textShadow: 'rgba(8, 12, 10, 0.08)',

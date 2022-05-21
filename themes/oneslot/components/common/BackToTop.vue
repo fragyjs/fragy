@@ -70,7 +70,7 @@ export default defineComponent({
 <style lang="less">
 .back2top {
   position: fixed;
-  bottom: 3.5rem;
+  bottom: 3.725rem;
   right: 3.5rem;
   width: 2.5rem;
   height: 2.5rem;
@@ -109,7 +109,7 @@ export default defineComponent({
   transform: translateY(0.75rem);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1138px) {
   .back2top {
     bottom: 1rem;
     right: 1.475rem;
