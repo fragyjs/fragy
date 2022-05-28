@@ -1,6 +1,6 @@
 {
   "name": "fragy",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "author": {
     "name": "BackRunner",
     "email": "dev@backrunner.top"
@@ -17,6 +17,7 @@
   "scripts": {
     "dev": "node ./generator/index.js && vue-cli-service serve",
     "build": "node ./generator/index.js && vue-cli-service build",
+    "build:bare": "vue-cli-service build",
     "generate": "node ./generator/index.js",
     "analyze": "cross-env BUNDLE_ANALYZE=true vue-cli-service build",
     "lint": "eslint --ext .vue,.js ./src"

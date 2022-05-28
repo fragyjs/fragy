@@ -130,14 +130,15 @@ const chainWebpack = (config) => {
     if (!sourcePath || /^https?\/\//.test(sourcePath)) {
       return;
     }
-    if (emptyDir.sync(sourcePath)) {
+    const copySource = path.resolve(userDataPath, sourcePath);
+    if (emptyDir.sync(copySource)) {
       return;
     }
     config.plugin(`fragy-feed-${propertyName}`).use(copyPlugin, [
       {
         patterns: [
           {
-            from: path.resolve(userDataPath, sourcePath),
+            from: copySource,
             to: targetPath.replace(/^\//, ''),
           },
         ],
