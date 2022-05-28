@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const emptyDir = require('empty-dir');
 const webpack = require('webpack');
 const merge = require('lodash/merge');
 const copyPlugin = require('copy-webpack-plugin');
@@ -126,18 +127,22 @@ const chainWebpack = (config) => {
       return;
     }
     const { output: sourcePath, feed: targetPath } = fragyConfig[propertyName];
-    if (sourcePath && !/^https?\/\//.test(sourcePath)) {
-      config.plugin(`fragy-feed-${propertyName}`).use(copyPlugin, [
-        {
-          patterns: [
-            {
-              from: path.resolve(userDataPath, sourcePath),
-              to: targetPath.replace(/^\//, ''),
-            },
-          ],
-        },
-      ]);
+    if (!sourcePath || /^https?\/\//.test(sourcePath)) {
+      return;
     }
+    if (emptyDir.sync(sourcePath)) {
+      return;
+    }
+    config.plugin(`fragy-feed-${propertyName}`).use(copyPlugin, [
+      {
+        patterns: [
+          {
+            from: path.resolve(userDataPath, sourcePath),
+            to: targetPath.replace(/^\//, ''),
+          },
+        ],
+      },
+    ]);
   });
 
   // copy manifest data

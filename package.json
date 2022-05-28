@@ -1,6 +1,6 @@
 {
   "name": "fragy",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "author": {
     "name": "BackRunner",
     "email": "dev@backrunner.top"
@@ -31,6 +31,7 @@
     "chalk": "^4.1.2",
     "copy-webpack-plugin": "^10.2.4",
     "core-js": "^3.22.7",
+    "empty-dir": "^2.0.0",
     "eslint": "^8.16.0",
     "eslint-config-alloy": "^4.5.1",
     "eslint-config-prettier": "^8.5.0",
