@@ -102,7 +102,7 @@ const chainWebpack = (config) => {
     ]);
   }
 
-  // copy posts and feed data
+  // copy posts
   if (fragyConfig.articles) {
     const { feed: articleFeed } = fragyConfig.articles;
     if (articleFeed && !/^https?\/\//.test(articleFeed)) {
@@ -118,20 +118,40 @@ const chainWebpack = (config) => {
         },
       ]);
     }
+  }
 
-    const { output: articleListPath, feed: articleListFeed } = fragyConfig.articleList;
-    if (articleListFeed && !/^https?\/\//.test(articleListFeed)) {
-      config.plugin('fragy-article-list').use(copyPlugin, [
+  // copy feed data
+  ['articleList', 'category', 'tag'].forEach((propertyName) => {
+    if (!fragyConfig[propertyName]) {
+      return;
+    }
+    const { output: sourcePath, feed: targetPath } = fragyConfig[propertyName];
+    if (sourcePath && !/^https?\/\//.test(sourcePath)) {
+      config.plugin(`fragy-feed-${propertyName}`).use(copyPlugin, [
         {
           patterns: [
             {
-              from: path.resolve(userDataPath, articleListPath),
-              to: articleListFeed.substr(1),
+              from: path.resolve(userDataPath, sourcePath),
+              to: targetPath.replace(/^\//, ''),
             },
           ],
         },
       ]);
     }
+  });
+
+  // copy manifest data
+  if (fragyConfig.category.manifestDetails || fragyConfig.tag.manifestDetails) {
+    config.plugin('fragy-manifest').use(copyPlugin, [
+      {
+        patterns: [
+          {
+            from: path.resolve(userDataPath, './manifest'),
+            to: 'data/manifest',
+          },
+        ],
+      },
+    ]);
   }
 
   const cacheGroups = {
