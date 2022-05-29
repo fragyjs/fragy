@@ -1,6 +1,6 @@
 {
   "name": "fragy",
-  "version": "0.6.8",
+  "version": "0.6.9",
   "author": {
     "name": "BackRunner",
     "email": "dev@backrunner.top"
@@ -54,7 +54,9 @@
     "yaml": "2.0.1"
   },
   "devDependencies": {
+    "camelcase": "^6.3.0",
     "cross-env": "^7.0.3",
+    "prepend-file": "^2.0.1",
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "browserslist": [

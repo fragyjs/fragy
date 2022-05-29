@@ -18,7 +18,7 @@ const userDataPath = IS_IN_NODE_MODULES
 const userConfigPath = IS_IN_NODE_MODULES
   ? path.resolve(userProjectRoot, './fragy.config.js')
   : path.resolve(__dirname, './fragy.config.js');
-const customElementIndex = path.resolve(userDataPath, './components/index.js');
+const customElementIndex = path.resolve(userDataPath, './components/fragy.entry.js');
 
 // check user config path
 if (!fs.existsSync(userConfigPath)) {
