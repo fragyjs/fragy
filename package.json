@@ -1,6 +1,6 @@
 {
   "name": "fragy",
-  "version": "0.6.9",
+  "version": "0.6.10",
   "author": {
     "name": "BackRunner",
     "email": "dev@backrunner.top"
@@ -51,12 +51,12 @@
     "vue-router": "^4.0.15",
     "vue-template-compiler": "^2.6.14",
     "vuex": "^4.0.2",
+    "camelcase": "^6.3.0",
+    "prepend-file": "^2.0.1",
     "yaml": "2.0.1"
   },
   "devDependencies": {
-    "camelcase": "^6.3.0",
     "cross-env": "^7.0.3",
-    "prepend-file": "^2.0.1",
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "browserslist": [
