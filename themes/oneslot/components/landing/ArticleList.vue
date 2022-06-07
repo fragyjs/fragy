@@ -49,11 +49,10 @@ export default defineComponent({
       try {
         res = await this.$http.get(this.getFeedUrl(page));
       } catch (err) {
-        if (err.message?.includes('status code 404')) {
-          return;
+        if (!err.message?.includes('status code 404')) {
+          console.error('Failed to pre-fetch article list info.', err);
         }
         // eslint-disable-next-line no-console
-        console.error('Failed to pre-fetch article list info.', err);
         throw err;
       }
       this.articles[page] = res.data.listData;
@@ -65,7 +64,7 @@ export default defineComponent({
         await this.fetchArticleList(this.currentPage);
       } catch (err) {
         this.currentPage -= 1;
-        if (err.message.includes('Request failed with status code 404')) {
+        if (err.message.includes('status code 404')) {
           e.noMore();
         }
       } finally {

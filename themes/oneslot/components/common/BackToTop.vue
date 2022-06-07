@@ -31,7 +31,7 @@ export default defineComponent({
   mounted() {
     this.lastOffset = window.scrollY;
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {

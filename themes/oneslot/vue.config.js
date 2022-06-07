@@ -13,7 +13,6 @@ const getGoogleFontsDefine = (gfontOptions) => {
   return `
   <link rel="preconnect" href="https://${googleApisHost}" crossorigin>
   <link rel="preconnect" href="https://${gstatciHost}" crossorigin>
-  <link href="https://${googleApisHost}/css2?family=${gfontOptions.family}&display=swap" rel="stylesheet">
   `.trim();
 };
 

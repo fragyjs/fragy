@@ -1,8 +1,10 @@
 <template>
-  <div ref="loader"
+  <div
+    ref="loader"
     :class="{
       'scroll-loader': true,
-    }">
+    }"
+  >
     <a-loading v-if="showLoadingComp" />
   </div>
 </template>
@@ -11,6 +13,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  emits: ['load'],
   data() {
     return {
       loading: false,
@@ -19,14 +22,7 @@ export default defineComponent({
       timer: null,
       observer: new IntersectionObserver((entries) => {
         const entry = entries?.[0];
-        if (entry?.intersectionRatio <= 0) {
-          return;
-        }
-        if (this.loading) {
-          return;
-        }
-        if (this.noMore) {
-          this.observer.unobserve(this.$refs.loader);
+        if (entry?.intersectionRatio <= 0 || this.loading || this.noMore) {
           return;
         }
         this.loading = true;
@@ -42,6 +38,7 @@ export default defineComponent({
           noMore: () => {
             this.loading = false;
             this.noMore = true;
+            this.observer.unobserve(this.$refs.loader);
             clearTimeout(this.timer);
           },
         });
@@ -51,7 +48,7 @@ export default defineComponent({
   mounted() {
     this.initLoader();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.observer.disconnect();
   },
   methods: {
