@@ -40,7 +40,7 @@ export default defineComponent({
     // trigger calculate when first enter
     this.handleScroll();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
