@@ -12,8 +12,8 @@
       </div>
       <div v-if="showThemeSwitcher" class="page-footer-text page-footer-theme">
         <span>
-          <Moon v-if="darkModeEnabled" @click.native="switchColorTheme" />
-          <Sun v-else @click.native="switchColorTheme" />
+          <Moon v-if="darkModeEnabled" @click="switchColorTheme" />
+          <Sun v-else @click="switchColorTheme" />
         </span>
       </div>
     </div>
