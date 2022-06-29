@@ -1,6 +1,6 @@
 {
   "name": "fragy",
-  "version": "0.6.12",
+  "version": "0.7.0",
   "author": {
     "name": "BackRunner",
     "email": "dev@backrunner.top"
@@ -23,7 +23,8 @@
     "lint": "eslint --ext .vue,.js ./src"
   },
   "workspaces": [
-    "themes/**"
+    "themes/**",
+    "packages/**"
   ],
   "dependencies": {
     "@babel/eslint-parser": "^7.18.2",
@@ -31,7 +32,6 @@
     "@vue/cli-plugin-router": "^5.0.6",
     "@vue/cli-plugin-vuex": "^5.0.6",
     "@vue/cli-service": "^5.0.6",
-    "axios": "^0.27.2",
     "camelcase": "^6.3.0",
     "chalk": "^4.1.2",
     "copy-webpack-plugin": "^10.2.4",

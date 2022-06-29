@@ -1,4 +1,5 @@
 import VueLazyload from 'vue-lazyload';
+import axios from 'axios';
 import { Loading } from '@any-design/anyui';
 import Landing from './pages/Landing.vue';
 import Article from './pages/Article.vue';
@@ -11,6 +12,7 @@ export default {
       observer: true,
     });
     app.use(Loading);
+    app.config.globalProperties.$http = axios;
   },
   routes: [
     {

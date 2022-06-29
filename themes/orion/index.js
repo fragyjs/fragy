@@ -1,4 +1,5 @@
 import VueLazyload from 'vue-lazyload';
+import axios from 'axios';
 import { PopupMenu, Popper, GradientText, Layout, Side, Content } from '@any-design/anyui';
 import Landing from './pages/Landing.vue';
 import Article from './pages/Article.vue';
@@ -21,6 +22,7 @@ export default {
     app.use(VueLazyload, {
       observer: true,
     });
+    app.config.globalProperties.$http = axios;
   },
   routes: [
     {

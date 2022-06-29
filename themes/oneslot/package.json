@@ -11,7 +11,7 @@
   "fragy": {
     "type": "theme",
     "compatibility": {
-      "frameworkVersion": "0.6.0",
+      "frameworkVersion": "0.7.0",
       "githubMode": false,
       "markvue": true
     }
@@ -23,7 +23,10 @@
   "license": "MIT",
   "dependencies": {
     "@any-design/anyui": "^0.0.17",
+    "@fragy/orion": "^0.1.0",
+    "@fragy/purity": "^0.5.7",
     "animejs": "^3.2.1",
+    "axios": "^0.27.2",
     "change-case": "^4.1.2",
     "lazyload-gfonts": "^0.1.1",
     "marked": "^4.0.17",
