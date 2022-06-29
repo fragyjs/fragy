@@ -1,4 +1,4 @@
-import VueLazyload from 'vue-lazyload-next';
+import VueLazyload from 'vue-lazyload';
 import Index from './pages/index.vue';
 import Article from './pages/article.vue';
 import NotFound from './pages/notFound.vue';

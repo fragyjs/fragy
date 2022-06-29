@@ -1,6 +1,6 @@
 {
   "name": "@fragy/oneslot",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A concise single column Fragy theme for individuals or organizations",
   "main": "index.js",
   "keywords": [
@@ -26,8 +26,8 @@
     "animejs": "^3.2.1",
     "change-case": "^4.1.2",
     "lazyload-gfonts": "^0.1.1",
-    "marked": "^4.0.16",
-    "pangu.simple": "^1.0.5",
-    "vue-lazyload-next": "^0.0.2"
+    "marked": "^4.0.17",
+    "pangu.simple": "^1.1.0",
+    "vue-lazyload": "^3.0.0-rc.2"
   }
 }

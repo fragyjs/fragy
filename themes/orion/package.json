@@ -13,8 +13,8 @@
     "color": "^3.2.1",
     "dexie": "^3.2.2",
     "inter-ui": "^3.19.3",
-    "pangu.simple": "^1.0.5",
-    "vue-lazyload-next": "^0.0.2"
+    "pangu.simple": "^1.1.0",
+    "vue-lazyload": "^3.0.0-rc.2"
   },
   "fragy": {
     "type": "theme",

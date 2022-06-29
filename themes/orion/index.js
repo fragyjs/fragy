@@ -1,4 +1,4 @@
-import VueLazyload from 'vue-lazyload-next';
+import VueLazyload from 'vue-lazyload';
 import { PopupMenu, Popper, GradientText, Layout, Side, Content } from '@any-design/anyui';
 import Landing from './pages/Landing.vue';
 import Article from './pages/Article.vue';
