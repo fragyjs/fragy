@@ -299,6 +299,10 @@ const vueConfig = {
   chainWebpack,
   configureWebpack,
   integrity: fragyConfig.build.integrity,
+  devServer: {
+    port: 9090,
+    server: 'https',
+  },
 };
 
 // merge theme vue.config.js
