@@ -3,7 +3,7 @@ export default {
   color: {
     autoGenerate: true, // Generate and inject styles with specified color automatically
   },
-  fontFamily: 'Noto Sans SC', // Main font for your site
+  fontFamily: '--apple-system, Microsoft YaHei', // Main family font for your site
   articleList: {
     prefetch: true, // Prefetch the article list before or after current page to improve user experience
     useJustifyAlign: true,

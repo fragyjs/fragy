@@ -1,4 +1,4 @@
-import YAML from 'yaml';
+import { parse as parseYAML } from 'yaml';
 
 const yamlExtractor = /^-{3}(\r?\n)+([\S\s]+?)\r?\n-{3}(\r?\n)+(.*)$/s;
 
@@ -9,7 +9,7 @@ const parseArticle = (article) => {
     throw new Error('[Fragy] Match content failed.');
   }
   if (matches && matches.length) {
-    meta = YAML.parse(matches[2].trim());
+    meta = parseYAML(matches[2].trim());
   }
   const content = matches[4].trim();
   let abstract;

@@ -27,6 +27,7 @@
 
 <script>
 import BannerCard from '../components/landing/BannerCard.vue';
+
 export default {
   components: {
     BannerCard,

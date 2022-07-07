@@ -1,4 +1,5 @@
-import VueLazyload from 'vue-lazyload-next';
+import VueLazyload from 'vue-lazyload';
+import axios from 'axios';
 import Index from './pages/index.vue';
 import Article from './pages/article.vue';
 import NotFound from './pages/notFound.vue';
@@ -14,6 +15,7 @@ export default {
       observer: true,
     });
     app.config.globalProperties.$t = getMessage;
+    app.config.globalProperties.$http = axios;
   },
   store,
   routes: [

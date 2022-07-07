@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import mitt from 'mitt';
-import axios from 'axios';
 import merge from 'lodash/merge';
 import { createRouter } from './router';
 import { createStore } from './store';
@@ -11,7 +10,6 @@ import consts from './constants';
 const globalProperties = {};
 
 globalProperties.$bus = mitt();
-globalProperties.$http = axios;
 globalProperties.$consts = consts;
 globalProperties.$utils = {
   parseArticle,

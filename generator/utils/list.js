@@ -2,6 +2,27 @@ const moreTester = /<!-{2}\s?more\s?-{2}>/;
 
 const cache = {};
 
+const getTags = (meta) => {
+  if (Array.isArray(meta.tags)) {
+    return meta.tags;
+  } else if (Array.isArray(meta.tag)) {
+    return meta.tag;
+  } else if (typeof meta.tag === 'string') {
+    return [meta.tag];
+  }
+  return null;
+};
+const getCategories = (meta) => {
+  if (Array.isArray(meta.categories)) {
+    return meta.categories;
+  } else if (Array.isArray(meta.category)) {
+    return meta.category;
+  } else if (typeof meta.category === 'string') {
+    return [meta.category];
+  }
+  return null;
+};
+
 const getListInfo = (parsedArticle, opts) => {
   const cached = cache[parsedArticle.path];
   if (cached) {
@@ -14,6 +35,8 @@ const getListInfo = (parsedArticle, opts) => {
     fileName: article.fileName,
     title: article.meta.title,
     date: article.meta.date,
+    categories: getCategories(article.meta) || [],
+    tags: getTags(article.meta) || [],
   };
   // generate abstract
   let abstract = '';

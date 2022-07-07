@@ -11,16 +11,16 @@
     "animejs": "^3.2.1",
     "change-case": "^4.1.2",
     "color": "^3.2.1",
-    "dexie": "^3.2.1",
+    "dexie": "^3.2.2",
     "inter-ui": "^3.19.3",
-    "pangu.simple": "^1.0.5",
-    "vue-lazyload-next": "^0.0.2"
+    "pangu.simple": "^1.1.0",
+    "vue-lazyload": "^3.0.0-rc.2"
   },
   "fragy": {
     "type": "theme",
     "compatibility": {
-      "frameworkVersion": "0.6.0",
-      "githubMode": true,
+      "frameworkVersion": "0.7.0",
+      "githubMode": false,
       "markvue": true
     }
   },
@@ -28,6 +28,6 @@
     "vue": "^3.2.31"
   },
   "devDependencies": {
-    "@iconify/vue": "^3.2.0"
+    "@iconify/vue": "^3.2.1"
   }
 }

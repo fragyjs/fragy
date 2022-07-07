@@ -33,7 +33,7 @@ const checkPath = () => {
   outputPath = path.resolve(userDataRoot, fragyConfig.articleList.output);
   outputDir = path.dirname(outputPath);
   if (!fs.existsSync(articlesDir)) {
-    logger.error('Cannot locate the posts folder.');
+    logger.error('Cannot locate the posts folder.', articlesDir);
     return false;
   }
   if (!fs.existsSync(outputDir)) {
@@ -55,7 +55,7 @@ const readArticle = (articleRelativePath) => {
       bus.emit('article', articleInfo);
     })
     .catch((err) => {
-      logger.error('Read article failed.');
+      logger.error('Read article failed.', err);
     });
 };
 
@@ -83,7 +83,7 @@ const collectArticles = async (base = null) => {
             resolve();
           });
         } catch (err) {
-          logger.error(`Cannot get stat info of file ${filePath}`);
+          logger.error(`Cannot get stat info of file.`, filePath);
           reject(err);
         }
       });

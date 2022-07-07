@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
+const emptyDir = require('empty-dir');
 const webpack = require('webpack');
+const merge = require('lodash/merge');
 const copyPlugin = require('copy-webpack-plugin');
 const esmRequire = require('esm')(module);
 
@@ -16,7 +18,7 @@ const userDataPath = IS_IN_NODE_MODULES
 const userConfigPath = IS_IN_NODE_MODULES
   ? path.resolve(userProjectRoot, './fragy.config.js')
   : path.resolve(__dirname, './fragy.config.js');
-const customElementIndex = path.resolve(userDataPath, './components/index.js');
+const customElementIndex = path.resolve(userDataPath, './components/fragy.entry.js');
 
 // check user config path
 if (!fs.existsSync(userConfigPath)) {
@@ -47,7 +49,7 @@ if (themePkgInfo.compatibility) {
     themePkgInfo.compatibility.github === false &&
     fragyConfig.github
   ) {
-    throw new Error('The theme you used is not compatible with GitHub Mode.');
+    throw new Error('The theme you are using now is not compatible with GitHub Mode.');
   }
 }
 
@@ -67,7 +69,7 @@ const context = {
 const themeConfig = esmRequire(context.themeConfigPath).default;
 const userThemeConfig = fragyConfig.theme.config;
 if (userThemeConfig) {
-  Object.assign(themeConfig, userThemeConfig);
+  merge(themeConfig, userThemeConfig);
 }
 context.themeConfig = themeConfig;
 
@@ -101,7 +103,7 @@ const chainWebpack = (config) => {
     ]);
   }
 
-  // copy posts and feed data
+  // copy posts
   if (fragyConfig.articles) {
     const { feed: articleFeed } = fragyConfig.articles;
     if (articleFeed && !/^https?\/\//.test(articleFeed)) {
@@ -117,20 +119,45 @@ const chainWebpack = (config) => {
         },
       ]);
     }
+  }
 
-    const { output: articleListPath, feed: articleListFeed } = fragyConfig.articleList;
-    if (articleListFeed && !/^https?\/\//.test(articleListFeed)) {
-      config.plugin('fragy-article-list').use(copyPlugin, [
-        {
-          patterns: [
-            {
-              from: path.resolve(userDataPath, articleListPath),
-              to: articleListFeed.substr(1),
-            },
-          ],
-        },
-      ]);
+  // copy feed data
+  ['articleList', 'category', 'tag'].forEach((propertyName) => {
+    if (!fragyConfig[propertyName]) {
+      return;
     }
+    const { output: sourcePath, feed: targetPath } = fragyConfig[propertyName];
+    if (!sourcePath || /^https?\/\//.test(sourcePath)) {
+      return;
+    }
+    const copySource = path.resolve(userDataPath, sourcePath);
+    if (emptyDir.sync(copySource)) {
+      return;
+    }
+    config.plugin(`fragy-feed-${propertyName}`).use(copyPlugin, [
+      {
+        patterns: [
+          {
+            from: copySource,
+            to: targetPath.replace(/^\//, ''),
+          },
+        ],
+      },
+    ]);
+  });
+
+  // copy manifest data
+  if (fragyConfig.category.manifestDetails || fragyConfig.tag.manifestDetails) {
+    config.plugin('fragy-manifest').use(copyPlugin, [
+      {
+        patterns: [
+          {
+            from: path.resolve(userDataPath, './manifest'),
+            to: 'data/manifest',
+          },
+        ],
+      },
+    ]);
   }
 
   const cacheGroups = {
@@ -151,7 +178,7 @@ const chainWebpack = (config) => {
           'axios',
           'yaml',
           'mitt',
-          'lodash-es',
+          'lodash',
         ].reduce((res, curr) => {
           if (res) return res;
           return (
@@ -179,7 +206,7 @@ const chainWebpack = (config) => {
           'axios',
           'yaml',
           'mitt',
-          'lodash-es',
+          'lodash',
         ].reduce((res, curr) => {
           if (res) return res;
           return (
@@ -234,6 +261,22 @@ const chainWebpack = (config) => {
     });
   }
 
+  const iconFormat = ['ico', 'png', 'jpg', 'jpeg', 'gif', 'webp'];
+  const favIconPaths = iconFormat.map((ext) =>
+    path.resolve(userDataPath, `./public/favicon.${ext}`),
+  );
+  const userFavIconExisted = favIconPaths.reduce((res, curr) => {
+    if (res) return res;
+    return res || fs.existsSync(curr);
+  }, false);
+
+  if (userFavIconExisted) {
+    config.plugin('copy').tap((options) => {
+      options[0].patterns[0].globOptions.ignore.push('**/favicon.ico');
+      return options;
+    });
+  }
+
   themeFuncs.chainWebpack?.(config);
 
   if (process.env.BUNDLE_ANALYZE === 'true') {
@@ -256,6 +299,10 @@ const vueConfig = {
   chainWebpack,
   configureWebpack,
   integrity: fragyConfig.build.integrity,
+  devServer: {
+    port: 9090,
+    server: 'https',
+  },
 };
 
 // merge theme vue.config.js

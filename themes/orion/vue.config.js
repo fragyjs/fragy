@@ -17,7 +17,6 @@ module.exports = (context) => ({
         __IMPORT_INTER_FONT__: JSON.stringify(!font || font === 'Inter'),
         __HIGHLIGHT_JS__: JSON.stringify(vendors.highlightjs.main),
         __HIGHLIGHT_CSS_THEME__: JSON.stringify(vendors.highlightjs.theme),
-        __HIGHLIGHT_CSS_THEME_DARK__: JSON.stringify(vendors.highlightjs.themeDark),
       },
     ]);
   },
