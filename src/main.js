@@ -20,7 +20,11 @@ const registerCustomComps = (app, components) => {
     return;
   }
   Object.keys(components).forEach((compName) => {
-    app.component(compName, components[compName]);
+    const component = components[compName];
+    if (!component) {
+      return;
+    }
+    app.component(component.name || compName, components[compName]);
   });
 };
 
