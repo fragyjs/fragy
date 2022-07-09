@@ -105,4 +105,15 @@ export default {
 .landing-banner-card:last-child {
   margin-right: 0;
 }
+
+@media screen and (max-width: 960px) {
+  .landing-banner-card {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1.5rem;
+  }
+  .landing-banner-card:last-child {
+    margin-bottom: 0;
+  }
+}
 </style>

@@ -314,6 +314,10 @@ const vueConfig = {
   devServer: {
     port: 9090,
     server: 'https',
+    allowedHosts: 'all',
+    client: {
+      webSocketURL: 'auto://localhost:9090/ws',
+    },
   },
 };
 
