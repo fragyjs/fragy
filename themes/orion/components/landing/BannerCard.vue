@@ -59,7 +59,7 @@ export default {
 
 <style lang="less" scoped>
 .landing-banner-card {
-  flex: 1;
+  width: calc((100% - 3rem) / 3);
   margin-right: 1.5rem;
   box-sizing: border-box;
   padding: 1.625rem 1.75rem;

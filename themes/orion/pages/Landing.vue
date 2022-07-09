@@ -53,7 +53,6 @@ export default {
     max-width: 70rem;
     margin: 0 auto;
     &-banner {
-      height: 48rem;
       position: relative;
       &__bg {
         position: absolute;
@@ -61,18 +60,17 @@ export default {
         height: 100%;
         left: 0;
         top: 0;
-        z-index: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
       }
       &__content {
         z-index: 5;
         padding: 0 4rem;
         box-sizing: border-box;
-        position: absolute;
         width: 100%;
         height: 100%;
-        left: 0;
-        top: 0;
-        z-index: 0;
+        z-index: 5;
         user-select: none;
       }
       &__title {
