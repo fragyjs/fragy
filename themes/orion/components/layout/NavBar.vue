@@ -40,7 +40,7 @@
       <template v-for="(item, index) in navItems">
         <div
           v-if="item.children"
-          :key="item.name || index"
+          :key="`${item.name || item.index}_sub`"
           class="nav-mobile-menu__item"
           @click="onMobileMenuSubTabClicked(item.name || `${index}`)"
         >
@@ -59,7 +59,7 @@
             </div>
           </a-collapse>
         </div>
-        <div v-else :key="item.name || index" class="nav-mobile-menu__item">
+        <div v-else :key="item.name || item.index" class="nav-mobile-menu__item">
           <div class="nav-mobile-menu__inner">
             <span>{{ item.name }}</span>
           </div>
