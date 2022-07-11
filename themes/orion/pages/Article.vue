@@ -1,6 +1,6 @@
 <template>
   <a-layout class="article">
-    <a-side class="article-menu-wrapper" width="16.5rem">
+    <a-side class="article-menu-wrapper" no-default>
       <ArticleMenu ref="menu" :menu="menu" />
     </a-side>
     <a-layout class="article-main">
@@ -25,6 +25,9 @@
         </div>
       </a-content>
     </a-layout>
+    <a-drawer v-model="mobileMenuVisible" appendToBody class="article-menu--mobile">
+      <ArticleMenu ref="menu" :menu="menu" />
+    </a-drawer>
   </a-layout>
 </template>
 
@@ -48,6 +51,7 @@ export default defineComponent({
       loading: false,
       loadFailed: false,
       notFound: false,
+      mobileMenuVisible: false,
       markedOptions: {
         renderer: Renderer,
         highlight: (code) => {
@@ -148,9 +152,11 @@ export default defineComponent({
     position: fixed !important;
     bottom: 0;
     left: 0;
+    width: 16.5rem;
     height: calc(100vh - var(--nav-height));
-    box-shadow: 0.125rem 0 0.125rem rgba(0, 0, 0, 0.01);
+    box-shadow: 0.125rem 0 0.5rem rgba(0, 0, 0, 0.02);
     z-index: 10;
+    border-right: 1px solid var(--menu-border);
   }
   &-main {
     padding-left: 16.5rem;
@@ -262,6 +268,68 @@ export default defineComponent({
         border-radius: 0.25rem;
         margin: 0 0.125rem;
         box-sizing: border-box;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .article {
+    &-menu-wrapper {
+      width: 14rem;
+    }
+    &-main {
+      padding-left: 14rem;
+    }
+    &-content {
+      padding: 2.5rem 3.25rem;
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .article {
+    &-menu-wrapper {
+      width: 13.75rem;
+    }
+    &-main {
+      padding-left: 13.75rem;
+    }
+    &-content {
+      padding: 2rem 2.75rem;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .article {
+    &-menu-wrapper {
+      display: none;
+    }
+    &-main {
+      padding-left: 0;
+    }
+    &-content {
+      padding: 2rem;
+      h1 {
+        font-size: 1.5rem;
+      }
+      h2 {
+        font-size: 1.375rem;
+        margin: 2rem 0 1.625rem;
+      }
+      h3 {
+        font-size: 1.2rem;
+      }
+      h4,
+      h5 {
+        font-size: 1.125rem;
+      }
+      ol {
+        padding-inline-start: 1.75rem;
+      }
+      pre {
+        padding: 1rem 1.375rem;
       }
     }
   }

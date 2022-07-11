@@ -1,6 +1,6 @@
 import VueLazyload from 'vue-lazyload';
 import axios from 'axios';
-import { PopupMenu, Popper, GradientText, Layout, Collapse } from '@any-design/anyui';
+import { PopupMenu, Popper, GradientText, Layout, Collapse, Drawer } from '@any-design/anyui';
 import Landing from './pages/Landing.vue';
 import Article from './pages/Article.vue';
 import './styles/layout.less';
@@ -18,6 +18,7 @@ export default {
     app.use(GradientText);
     app.use(Layout);
     app.use(Collapse);
+    app.use(Drawer);
     app.use(VueLazyload, {
       observer: true,
     });
