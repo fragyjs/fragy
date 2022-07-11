@@ -37,21 +37,19 @@
       </div>
     </div>
     <a-collapse :visible="mobileNavVisible" class="nav-mobile-menu">
-      <template v-for="(item, index) in navItems">
-        <div
-          v-if="item.children"
-          :key="`${item.name || item.index}_sub`"
-          class="nav-mobile-menu__item"
-          @click="onMobileMenuSubTabClicked(item.name || `${index}`)"
-        >
-          <div class="nav-mobile-menu__item-inner">
+      <template v-for="item in navItems">
+        <div v-if="item.children" :key="`${item.name}_sub`" class="nav-mobile-menu__item">
+          <div
+            class="nav-mobile-menu__item-inner"
+            @click.stop="onMobileMenuSubTabClicked(item.name)"
+          >
             <span>{{ item.name }}</span>
             <Icon class="icon-down" icon="ic:round-keyboard-arrow-down" />
           </div>
           <a-collapse class="nav-mobile-menu__sub" :visible="mobileSubMenuVisible[item.name]">
             <div
-              v-for="(child, childIdx) in item.children"
-              :key="child.name || childIdx"
+              v-for="child in item.children"
+              :key="child.name"
               class="nav-mobile-menu__sub-item"
               @click.stop="onMobileMenuSubItemClicked(child.target)"
             >
@@ -59,7 +57,12 @@
             </div>
           </a-collapse>
         </div>
-        <div v-else :key="item.name || item.index" class="nav-mobile-menu__item">
+        <div
+          v-else
+          :key="item.name"
+          class="nav-mobile-menu__item"
+          @click="onMobileMenuItemClicked(item.target)"
+        >
           <div class="nav-mobile-menu__inner">
             <span>{{ item.name }}</span>
           </div>
@@ -120,6 +123,10 @@ export default defineComponent({
     },
     onMenuItemClicked(target) {
       this.route(target);
+    },
+    onMobileMenuItemClicked(target) {
+      this.route(target);
+      this.mobileNavVisible = false;
     },
     onMobileMenuIconClicked() {
       this.mobileNavVisible = !this.mobileNavVisible;
@@ -280,6 +287,7 @@ export default defineComponent({
     width: calc(100vw - 3rem);
     padding: 0 1.5rem;
     &__item {
+      width: 100%;
       line-height: 2rem;
       font-size: 0.875rem;
       svg {
