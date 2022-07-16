@@ -1,6 +1,15 @@
 import VueLazyload from 'vue-lazyload';
 import axios from 'axios';
-import { PopupMenu, Popper, GradientText, Layout, Side, Content } from '@any-design/anyui';
+import {
+  Button,
+  PopupMenu,
+  Popper,
+  GradientText,
+  Layout,
+  Loading,
+  Collapse,
+  Drawer,
+} from '@any-design/anyui';
 import Landing from './pages/Landing.vue';
 import Article from './pages/Article.vue';
 import './styles/layout.less';
@@ -13,12 +22,14 @@ if (__IMPORT_INTER_FONT__) {
 export default {
   name: 'orion',
   setup(app) {
+    app.use(Button);
     app.use(Popper);
     app.use(PopupMenu);
     app.use(GradientText);
     app.use(Layout);
-    app.use(Side);
-    app.use(Content);
+    app.use(Loading);
+    app.use(Collapse);
+    app.use(Drawer);
     app.use(VueLazyload, {
       observer: true,
     });

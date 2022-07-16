@@ -53,7 +53,6 @@ export default {
     max-width: 70rem;
     margin: 0 auto;
     &-banner {
-      height: 48rem;
       position: relative;
       &__bg {
         position: absolute;
@@ -61,18 +60,17 @@ export default {
         height: 100%;
         left: 0;
         top: 0;
-        z-index: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
       }
       &__content {
         z-index: 5;
         padding: 0 4rem;
         box-sizing: border-box;
-        position: absolute;
         width: 100%;
         height: 100%;
-        left: 0;
-        top: 0;
-        z-index: 0;
+        z-index: 5;
         user-select: none;
       }
       &__title {
@@ -81,19 +79,77 @@ export default {
         padding: var(--nav-height) 0 3rem 0;
         box-sizing: border-box;
         letter-spacing: 0.1rem;
+        text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.02);
       }
       &__desc {
         font-size: var(--nav-height);
         font-weight: 600;
         color: var(--text-primary);
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.02);
       }
       &__cards {
-        padding: 4rem 0 2rem 0;
+        padding: 4rem 0 6rem 0;
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
         height: max-content;
         position: relative;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .landing-wrapper {
+    .landing {
+      &-banner {
+        &__title {
+          font-size: 6.5rem;
+          text-align: center;
+        }
+        &__desc {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .landing-wrapper {
+    .landing {
+      &-banner {
+        &__bg {
+          height: 50rem;
+        }
+        &__cards {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .landing-wrapper {
+    .landing {
+      &-banner {
+        &__bg {
+          height: 30rem;
+        }
+        &__content {
+          padding: 0 1.5rem;
+        }
+        &__title {
+          font-size: 4rem;
+          padding: 2.375rem 1.5rem 2.5rem 1.5rem;
+        }
+        &__desc {
+          font-size: 2rem;
+        }
+        &__cards {
+          padding: 4rem 0 5rem 0;
+        }
       }
     }
   }

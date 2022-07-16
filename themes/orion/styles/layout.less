@@ -1,11 +1,12 @@
-:root {
-  --nav-height: 3.5rem;
-}
+@import './vars.less';
 
 html {
   transition: background-color 500ms ease-in-out;
-  overflow-y: auto;
   scroll-padding-top: calc(var(--nav-height) + 2rem);
+  -webkit-font-smoothing: antialiased;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
 }
 
 body {
@@ -14,7 +15,7 @@ body {
     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-@scrollbar-width: 0.675rem;
+@scrollbar-width: 0.5rem;
 
 body::-webkit-scrollbar {
   width: @scrollbar-width;
@@ -51,5 +52,19 @@ body,
   scroll-behavior: smooth;
 }
 
+.a-scroll-locked {
+  overflow: hidden;
+}
+
+.a-scroll-locked::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+@import './button.less';
+@import '@any-design/anyui/styles/components/collapse.css';
+@import '@any-design/anyui/styles/components/drawer.css';
 @import '@any-design/anyui/styles/components/gradientText.css';
+@import '@any-design/anyui/styles/components/loading.css';
 @import '@any-design/anyui/styles/components/layout.css';

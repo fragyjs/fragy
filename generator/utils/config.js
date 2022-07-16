@@ -5,9 +5,19 @@ const { userProjectRoot, frameworkRoot, nodeModulesRoot } = require('../utils/pa
 
 const esmRequire = esm(module);
 
+require('dotenv').config({
+  path: path.resolve(
+    process.cwd(),
+    process.env.NODE_ENV !== 'production' ? './.env.local' : './.env',
+  ),
+});
+
+const { FRAGY_CONFIG: fragyConfigName } = process.env;
+const configFileName = `fragy.config${fragyConfigName ? `.${fragyConfigName}` : ''}.js`;
+
 const { normalizeConfig } = esmRequire(path.resolve(frameworkRoot, './src/utils/config.js'));
 const fragyConfig = normalizeConfig(
-  esmRequire(path.resolve(userProjectRoot, './fragy.config.js')).default,
+  esmRequire(path.resolve(userProjectRoot, `./${configFileName}`)).default,
 );
 
 let themeConfig;

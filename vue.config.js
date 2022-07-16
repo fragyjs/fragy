@@ -6,8 +6,18 @@ const merge = require('lodash/merge');
 const copyPlugin = require('copy-webpack-plugin');
 const esmRequire = require('esm')(module);
 
+require('dotenv').config({
+  path: path.resolve(
+    process.cwd(),
+    process.env.NODE_ENV !== 'production' ? './.env.local' : './.env',
+  ),
+});
+
 const IS_IN_NODE_MODULES = path.resolve(__dirname).includes('node_modules');
 
+// user can speicify which config file should be loaded.
+const { FRAGY_CONFIG: fragyConfigName } = process.env;
+const configFileName = `fragy.config${fragyConfigName ? `.${fragyConfigName}` : ''}.js`;
 const nodeModulesPath = IS_IN_NODE_MODULES
   ? path.resolve(__dirname, '../')
   : path.resolve(__dirname, './node_modules');
@@ -16,13 +26,15 @@ const userDataPath = IS_IN_NODE_MODULES
   ? path.resolve(userProjectRoot, './.fragy')
   : path.resolve(__dirname, './.fragy');
 const userConfigPath = IS_IN_NODE_MODULES
-  ? path.resolve(userProjectRoot, './fragy.config.js')
-  : path.resolve(__dirname, './fragy.config.js');
+  ? path.resolve(userProjectRoot, `./${configFileName}`)
+  : path.resolve(__dirname, `./${configFileName}`);
 const customElementIndex = path.resolve(userDataPath, './components/fragy.entry.js');
 
 // check user config path
 if (!fs.existsSync(userConfigPath)) {
-  throw new Error('Cannot locate user configuration (fragy.config.js), please check your project.');
+  throw new Error(
+    `Cannot locate user configuration (${configFileName}), please check your project.`,
+  );
 }
 
 const { normalizeConfig } = esmRequire('./src/utils/config');
@@ -302,6 +314,10 @@ const vueConfig = {
   devServer: {
     port: 9090,
     server: 'https',
+    allowedHosts: 'all',
+    client: {
+      webSocketURL: 'auto://localhost:9090/ws',
+    },
   },
 };
 

@@ -19,6 +19,7 @@ export default {
       divider: 'rgba(0, 21, 5, 0.2)',
       codeBackground: 'rgb(37, 39, 33)',
       tagBackground: 'rgb(102, 108, 98)',
+      menuBorder: 'rgba(0, 0, 0, 0.04)',
     },
   }, // define colors
   custom: {}, // define custom components
