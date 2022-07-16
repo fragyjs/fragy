@@ -1,0 +1,100 @@
+.a-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  height: 2.625rem;
+  line-height: 1.875rem;
+  padding: 0.375rem 1.5rem;
+  background: var(--page-background);
+  color: var(--primary);
+  border-radius: 0.42rem;
+  box-shadow: 0rem 0.375rem 0.75rem var(--a-shadow-5);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  border: 0.0625rem solid var(--primary);
+  user-select: none;
+  box-sizing: border-box;
+  white-space: nowrap;
+  transition: filter 100ms ease;
+}
+.a-button:hover {
+  filter: brightness(1.125);
+}
+.a-button:active {
+  filter: brightness(1.05);
+}
+.a-button.a-button--round {
+  border-radius: 1.5rem;
+}
+.a-button.a-button--large {
+  font-size: 1.125rem;
+  line-height: 2.5rem;
+  padding: 0.5rem 2rem;
+  height: 3.5rem;
+}
+.a-button.a-button--large.a-button--round {
+  border-radius: 1.875rem;
+}
+.a-button.a-button--small {
+  font-size: 0.8125rem;
+  line-height: 1.75rem;
+  padding: 0.25rem 1.25rem;
+  height: 2.25rem;
+}
+.a-button.a-button--small.a-button--round {
+  border-radius: 1.125rem;
+}
+.a-button.a-button--fill {
+  width: 100%;
+}
+.a-button.a-button--primary {
+  background: var(--primary);
+  color: var(--a-btn-text);
+  box-shadow: 0 0.25rem 0.625rem var(--a-shadow-20);
+  border: none;
+}
+.a-button.a-button--gradient {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  color: var(--a-btn-text);
+  box-shadow: 0 0.25rem 0.625rem var(--a-shadow-20);
+  border: none;
+}
+.a-button.a-button--primary:hover {
+  filter: brightness(1.1);
+}
+.a-button.a-button--primary:active {
+  filter: none;
+  filter: brightness(1.05);
+}
+.a-button.a-button--anim {
+  transition: all var(--a-anim-duration, 200ms) ease;
+}
+.a-button.a-button--anim:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.25rem 1rem var(--a-shadow-25);
+}
+.a-button.a-button--disabled {
+  transition: none;
+  border: none;
+  background: var(--a-disabled) !important;
+  color: var(--a-text-disabled) !important;
+  box-shadow: 0 0.125rem 0.625rem var(--a-shadow-5);
+  cursor: not-allowed;
+}
+.a-button--icon {
+  display: flex;
+  align-items: center;
+  svg {
+    font-size: 1.2em;
+    flex-shrink: 0;
+  }
+}
+.a-button--icon-text {
+  svg {
+    margin-right: 0.25rem;
+  }
+}

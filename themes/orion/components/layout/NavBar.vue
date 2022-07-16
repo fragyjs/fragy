@@ -28,7 +28,7 @@
     </div>
     <div class="nav--mobile">
       <div class="icon">
-        <Icon icon="mdi:menu" @click="onMobileMenuIconClicked" />
+        <Icon icon="mi:menu" @click="onMobileMenuIconClicked" />
       </div>
     </div>
     <div class="icons">

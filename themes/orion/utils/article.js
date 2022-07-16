@@ -1,5 +1,9 @@
 export const getArticleMenu = (id) => {
   const articleNode = document.querySelector(`#${id}`);
+  if (!articleNode) {
+    console.warn('Article node was not found.');
+    return;
+  }
   const titleNodes = articleNode.querySelectorAll('.article-heading-anchor');
   let menu = [];
   titleNodes.forEach((node) => {

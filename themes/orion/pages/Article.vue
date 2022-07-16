@@ -21,26 +21,48 @@
           v-html="renderedContent"
         ></div>
         <div v-if="!articleContent" class="article--no-content">
-          <span>loading</span>
+          <a-loading v-if="!loadFailed" />
+          <div v-else class="article-failed">
+            <Icon class="article-failed__icon" icon="ion:warning" />
+            <span class="article-failed__text">{{ notFoundText }}</span>
+            <a-button class="article-failed__button" type="primary" @click="fetchArticle"
+              >Reload</a-button
+            >
+          </div>
         </div>
       </a-content>
     </a-layout>
-    <a-drawer v-model="mobileMenuVisible" appendToBody class="article-menu--mobile">
+    <a-drawer
+      v-model="mobileMenuVisible"
+      appendToBody
+      drawerClass="article-menu--mobile"
+      width="60%"
+      lockTarget="html"
+    >
       <ArticleMenu ref="menu" :menu="menu" />
     </a-drawer>
+    <MenuSwitch @click="() => (mobileMenuVisible = !mobileMenuVisible)" />
   </a-layout>
 </template>
 
 <script>
+import { Icon } from '@iconify/vue';
 import { defineComponent } from 'vue';
 import { marked } from 'marked';
 import { getArticleMenu } from '../utils/article';
 import Renderer from '../utils/renderer';
 import Menu from '../components/article/Menu.vue';
+import MenuSwitch from '../components/article/MenuSwitch.vue';
+
+const DEFAULT_NOT_FOUND_TEXT = 'Oops, something was wrong';
+const DEFAULT_RELOAD_TEXT = 'Reload';
+const MIN_LOADING_TIME = 2 * 1000;
 
 export default defineComponent({
   components: {
     ArticleMenu: Menu,
+    MenuSwitch,
+    Icon,
   },
   data() {
     return {
@@ -50,6 +72,7 @@ export default defineComponent({
       renderedContent: '',
       loading: false,
       loadFailed: false,
+      lastFetchTime: 0,
       notFound: false,
       mobileMenuVisible: false,
       markedOptions: {
@@ -89,6 +112,12 @@ export default defineComponent({
       }
       return fileName;
     },
+    notFoundText() {
+      return this.$theme.article?.notFoundText || DEFAULT_NOT_FOUND_TEXT;
+    },
+    reloadText() {
+      return this.$theme.article?.reloadText || DEFAULT_RELOAD_TEXT;
+    },
     supportMarkVue() {
       return !!this.$fragy.markVue?.enable;
     },
@@ -101,17 +130,28 @@ export default defineComponent({
       let res;
       try {
         this.loading = true;
+        this.loadFailed = false;
+        this.lastFetchTime = Date.now();
         res = await this.$http.get(
           `${this.$fragy.articles.feed}/${encodeURIComponent(this.fileName)}`,
         );
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article content.', err);
+        const diffTime = Date.now() - this.lastFetchTime;
+        console.log(diffTime);
+        if (diffTime < MIN_LOADING_TIME) {
+          setTimeout(() => {
+            this.loadFailed = true;
+            this.loading = false;
+          }, MIN_LOADING_TIME - diffTime);
+          return;
+        }
         this.loadFailed = true;
-        return;
-      } finally {
         this.loading = false;
+        return;
       }
+      this.loading = false;
       if (res.status !== 200 || !res.data) {
         if (res.status === 404) {
           this.notFound = true;
@@ -310,7 +350,7 @@ export default defineComponent({
       padding-left: 0;
     }
     &-content {
-      padding: 2rem;
+      padding: 1.75rem 2rem;
       h1 {
         font-size: 1.5rem;
       }
@@ -331,6 +371,50 @@ export default defineComponent({
       pre {
         padding: 1rem 1.375rem;
       }
+    }
+  }
+  .article-menu--mobile {
+    .a-drawer__mask {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+    .a-drawer__body {
+      background-color: var(--page-background);
+      .article-menu::-webkit-scrollbar {
+        width: 0.375rem;
+      }
+    }
+  }
+}
+
+.article--no-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--nav-height));
+  .a-loading-wrapper {
+    transform: translateY(-100%);
+    .a-loading {
+      font-size: 0.75rem;
+    }
+  }
+  .article-failed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+    user-select: none;
+    &__text {
+      font-size: 1.5rem;
+      color: var(--primary);
+      line-height: 4.5rem;
+    }
+    &__icon {
+      font-size: 4.5rem;
+      color: var(--primary);
+    }
+    &__button {
+      margin-top: 0.75rem;
     }
   }
 }
