@@ -20,6 +20,7 @@ export default {
       codeBackground: 'rgb(37, 39, 33)',
       tagBackground: 'rgb(102, 108, 98)',
       menuBorder: 'rgba(0, 0, 0, 0.04)',
+      blockquoteText: '#bebebe',
     },
   }, // define colors
   custom: {}, // define custom components

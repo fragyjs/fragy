@@ -298,6 +298,25 @@ export default defineComponent({
       font-size: 0.875rem;
       line-height: 1.5rem;
     }
+    blockquote {
+      margin: 1rem 0 2rem 0;
+      border-left: 0.175rem solid var(--blockquote-text);
+      padding-left: 1.2rem;
+      p {
+        color: var(--blockquote-text);
+        line-height: 1.875rem;
+        margin-bottom: 0;
+      }
+      & > blockquote {
+        border-left: 0.175rem solid var(--blockquote-text);
+        padding-left: 1rem;
+        color: var(--blockquote-text);
+        margin-top: 0.5rem;
+        p {
+          color: var(--blockquote-text);
+        }
+      }
+    }
     li {
       line-height: 2.5rem;
       color: var(--text-primary);
