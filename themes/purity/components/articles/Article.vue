@@ -363,9 +363,26 @@ export default defineComponent({
       padding: 0.625rem 1rem;
       box-sizing: border-box;
       overflow-x: auto;
-      box-shadow: 2px 2px 8px var(--article-code-shadow);
+      box-shadow: 2px 2px 10px var(--article-code-shadow);
+      border: 1px solid var(--article-code-border);
+      margin: 0.25rem 0 1.5rem 0;
       code {
         color: var(--article-code-text);
+      }
+    }
+    blockquote {
+      margin: 1.25rem 0 1.625rem 0;
+      padding: 1.125rem 1.75rem;
+      box-sizing: border-box;
+      background-color: var(--blockquote-bg);
+      box-shadow: 2px 2px 8px var(--blockquote-code-shadow);
+      border: 1px solid var(--blockquote-border);
+      & > blockquote {
+        margin: 0.25rem 0;
+        padding: 0.875rem 1.5rem;
+        background-color: var(--blockquote-secondary-bg);
+        border: 1px solid var(--blockquote-secondary-border);
+        box-shadow: 1px 1px 4px var(--blockquote-code-shadow);
       }
     }
     ul {
@@ -409,6 +426,20 @@ export default defineComponent({
   .article {
     img {
       filter: brightness(0.875);
+    }
+    &-content {
+      pre {
+        border: none;
+        box-shadow: none;
+      }
+      blockquote {
+        box-shadow: none;
+        border: none;
+        & > blockquote {
+          box-shadow: none;
+          border: none;
+        }
+      }
     }
   }
 }

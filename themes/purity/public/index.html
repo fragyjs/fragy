@@ -8,18 +8,31 @@
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"
     />
     <link rel="icon" href="<%= __FAVICON_URL__ %>" />
-    <link id="hl-theme" href="<%= __HIGHLIGHT_CSS_THEME__ %>" rel="stylesheet" />
-    <link id="hl-theme" href="<%= __HIGHLIGHT_CSS_THEME_DARK__ %>" rel="prefetch" />
     <title><%= __FRAGY_TITLE__ %></title>
-    <script src="<%= __HIGHLIGHT_JS__ %>"></script>
-    <script src="<%= __MARKED_JS__ %>"></script>
-    <%= __GOOGLE_FONTS__ %>
     <style>
       .dark {
         background: var(--black-1, #1e1e1e);
       }
     </style>
+  </head>
+  <body>
+    <noscript>
+      <strong
+        >Sorry，Fragy doesn't work properly on your browser, you should enable JavaScript to browse
+        this site.</strong
+      >
+    </noscript>
+    <div id="app"></div>
+    <script src="<%= __HIGHLIGHT_JS__ %>"></script>
+    <script src="<%= __MARKED_JS__ %>"></script>
+    <link id="hl-theme" href="<%= __HIGHLIGHT_CSS_THEME__ %>" rel="stylesheet" />
+    <link id="hl-theme" href="<%= __HIGHLIGHT_CSS_THEME_DARK__ %>" rel="prefetch" />
+    <!-- prettier-ignore -->
+    <%= __GOOGLE_FONTS__ %>
+    <!-- prettier-ignore -->
     <%= __DEFAULT_FONTS__ %>
+    <!-- prettier-ignore -->
+    <%= __VALINE_SCRIPT_LINE__ %>
     <script>
       const darkModeEnabled = window.localStorage.getItem('fragy-purity-dark') === 'true';
       if (darkModeEnabled) {
@@ -34,16 +47,6 @@
         linkEl.setAttribute('href', '<%= __HIGHLIGHT_CSS_THEME__ %>');
       }
     </script>
-    <%= __VALINE_SCRIPT_LINE__ %>
-  </head>
-  <body>
-    <noscript>
-      <strong
-        >Sorry，Fragy doesn't work properly on your browser, you should enable JavaScript to browse
-        this site.</strong
-      >
-    </noscript>
-    <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
 </html>
