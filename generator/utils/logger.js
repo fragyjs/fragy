@@ -13,6 +13,9 @@ class Logger {
     if (this.logLevel >= 4) console.log(chalk.grey(`[${now()}][${this.moduleName}]`, ...content));
   }
   info(...content) {
+    if (this.logLevel >= 4) console.log(chalk.blue(`[${now()}][${this.moduleName}]`, ...content));
+  }
+  success(...content) {
     if (this.logLevel >= 3) console.log(chalk.green(`[${now()}][${this.moduleName}]`, ...content));
   }
   warn(...content) {

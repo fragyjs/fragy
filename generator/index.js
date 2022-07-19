@@ -82,7 +82,7 @@ const executePipeline = async () => {
           bus,
         };
         try {
-          logger.info(`Starting pipeline run [${run.name}]...`);
+          logger.success(`Starting pipeline run [${run.name}]...`);
           bus.emit(`${run.name}-start`);
           const actions = Array.isArray(run.action)
             ? run.action.map((action) => action(context))
@@ -96,7 +96,7 @@ const executePipeline = async () => {
                 resolve();
               });
             });
-            logger.info(`Run [${run.name}] completed.`);
+            logger.success(`Run [${run.name}] completed.`);
           });
         } catch (err) {
           reject(err);
@@ -108,7 +108,7 @@ const executePipeline = async () => {
   ];
   try {
     await Promise.all(pipeline);
-    logger.info('Generate pipeline completed.');
+    logger.success('Generate pipeline completed.');
   } catch (err) {
     logger.error('Uncaught error.', err);
   }
