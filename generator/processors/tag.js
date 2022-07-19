@@ -72,6 +72,8 @@ module.exports = {
           // remove existed category files
           if (fs.existsSync(outputDir)) {
             await fsp.rm(outputDir, { recursive: true, force: true });
+          }
+          if (!fs.existsSync(outputDir)) {
             await fsp.mkdir(outputDir);
           }
         }

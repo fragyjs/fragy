@@ -88,7 +88,9 @@ module.exports = {
               if (fs.existsSync(metaDir)) {
                 await fsp.rm(metaDir, { recursive: true, force: true });
               }
-              await fsp.mkdir(metaDir, { recursive: true });
+              if (!fs.existsSync(metaDir)) {
+                await fsp.mkdir(metaDir, { recursive: true });
+              }
               // generate slices
               const pageSize = fragyConfig.category.pageSize || 10;
               const infoList = categoryInfoList[categoryName].sort((a, b) => {
