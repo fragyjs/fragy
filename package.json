@@ -1,6 +1,6 @@
 {
   "name": "fragy",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "author": {
     "name": "BackRunner",
     "email": "dev@backrunner.top"
@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "vue-loader": "^16.8.3",
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "browserslist": [

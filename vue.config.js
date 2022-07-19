@@ -72,7 +72,7 @@ const context = {
   themeRoot: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}`),
   themeConfigPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/config.js`),
   themeEntryPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/entry.vue`),
-  customComponentIndex: fs.existsSync(customElementIndex) ? customElementIndex : null,
+  customComponentIndex: fs.existsSync(customElementIndex) ? customElementIndex : '',
   // config objs
   fragyConfig,
   themePkgInfo,
