@@ -1,12 +1,13 @@
 {
   "name": "@fragy/purity",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "Default theme for fragy.",
   "main": "index.js",
   "author": "BackRunner",
   "license": "MIT",
   "homepage": "https://github.com/pwp-app/fragy/tree/main/themes/purity",
   "dependencies": {
+    "axios": "^0.27.2",
     "color": "^3.2.1",
     "dexie": "^3.2.2",
     "pangu.simple": "^1.1.0",
