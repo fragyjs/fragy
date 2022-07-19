@@ -14,8 +14,13 @@ export default {
       codeBarBackground: 'rgba(62, 63, 66, 0.6)',
       tagBackground: 'rgba(92, 95, 93, 0.875)',
       shadow: 'rgba(16, 17, 15, 0.06)',
+      lightShadow: 'rgba(16, 17, 15, 0.02)',
       textShadow: 'rgba(8, 12, 10, 0.08)',
       border: 'rgba(0, 0, 0, 0.06)',
+      blockquoteBg: '#f7f6f9',
+      blockquoteBorder: '#f5f5f6',
+      blockquoteSecondaryBg: '#fbfcfc',
+      blockquoteSecondaryBorder: '#f3f4f4',
     },
     dark: {
       pageBackground: '#232425',

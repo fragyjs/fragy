@@ -1,8 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const esmRequire = require('esm')(module);
-
-const { generateColorStyles } = esmRequire('./utils/theme');
 
 const getGoogleFontsDefine = (gfontOptions) => {
   if (!gfontOptions.enable) {
@@ -38,11 +35,10 @@ module.exports = (context) => ({
     },
   },
   chainWebpack: (config) => {
-    const { gfont, colors, fontFamily, vendors } = context.themeConfig;
+    const { gfont, fontFamily, vendors } = context.themeConfig;
     config.plugin('oneslot-theme-flags').use(webpack.DefinePlugin, [
       {
         __GOOGLE_FONTS__: JSON.stringify(getGoogleFontsDefine(gfont)),
-        __COLOR_STYLES__: JSON.stringify(`<style>${generateColorStyles(colors)}</style>`),
         __DEFAULT_FONTS__: JSON.stringify(getDefaultFont(fontFamily)),
         __HIGHLIGHT_JS__: JSON.stringify(vendors.highlightjs.main),
         __HIGHLIGHT_CSS_THEME__: JSON.stringify(vendors.highlightjs.theme),

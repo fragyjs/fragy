@@ -311,7 +311,7 @@ export default defineComponent({
         border-left: 0.175rem solid var(--blockquote-text);
         padding-left: 1rem;
         color: var(--blockquote-text);
-        margin-top: 0.5rem;
+        margin: 0.5rem 0;
         p {
           color: var(--blockquote-text);
         }

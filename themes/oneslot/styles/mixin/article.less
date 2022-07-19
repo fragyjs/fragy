@@ -37,7 +37,7 @@
     text-decoration: none;
   }
   h2 {
-    margin: 1.5rem 0;
+    margin: 1.875rem 0 1.5rem 0;
     font-size: 1.5rem;
     letter-spacing: 0.0375rem;
     color: var(--text-primary);
@@ -107,6 +107,27 @@
     width: @code-scrollbar-width;
     border-radius: @code-scrollbar-width;
     background: var(--primary);
+  }
+  blockquote {
+    margin: 1rem 0 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    box-sizing: border-box;
+    background-color: var(--blockquote-bg);
+    border-radius: 1.25rem;
+    box-shadow: 4px 4px 10px var(--light-shadow);
+    border: 1px solid var(--blockquote-border);
+    p {
+      line-height: 1.875rem;
+      margin-bottom: 0;
+    }
+    & > blockquote {
+      border-radius: 1rem;
+      padding: 0.75rem 1rem;
+      background-color: var(--blockquote-secondary-bg);
+      color: var(--blockquote-text);
+      margin: 0.5rem 0;
+      line-height: 1.75rem;
+    }
   }
   ul {
     margin: 1.625rem 0;
