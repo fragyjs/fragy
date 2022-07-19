@@ -16,7 +16,7 @@
     }
   },
   "peerDependencies": {
-    "fragy": ">= 0.8.2",
+    "fragy": ">= 0.8.3",
     "vue": ">= 3.0.0"
   },
   "author": "BackRunner",
