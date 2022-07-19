@@ -1,6 +1,6 @@
 {
   "name": "@fragy/oneslot",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A concise single column Fragy theme for individuals or organizations",
   "main": "index.js",
   "keywords": [
@@ -17,7 +17,8 @@
     }
   },
   "peerDependencies": {
-    "vue": "^3.2.31"
+    "fragy": ">= 0.8.2",
+    "vue": ">= 3.0.0"
   },
   "author": "BackRunner",
   "license": "MIT",
