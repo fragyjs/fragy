@@ -11,7 +11,6 @@
   "fragy": {
     "type": "theme",
     "compatibility": {
-      "frameworkVersion": "0.8.0",
       "githubMode": false,
       "markvue": true
     }

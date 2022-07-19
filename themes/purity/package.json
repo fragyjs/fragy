@@ -12,10 +12,13 @@
     "pangu.simple": "^1.1.0",
     "vue-lazyload": "^3.0.0-rc.2"
   },
+  "peerDependencies": {
+    "fragy": ">= 0.8.3",
+    "vue": ">= 3.0.0"
+  },
   "fragy": {
     "type": "theme",
     "compatibility": {
-      "frameworkVersion": "0.8.0",
       "githubMode": true,
       "markvue": true
     }
