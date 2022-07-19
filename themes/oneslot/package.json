@@ -1,6 +1,6 @@
 {
   "name": "@fragy/oneslot",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A concise single column Fragy theme for individuals or organizations",
   "main": "index.js",
   "keywords": [

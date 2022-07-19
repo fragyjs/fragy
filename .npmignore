@@ -1,6 +1,8 @@
 .fragy
 .history
 .vscode
+.env
+.env.*
 assets
 themes
 dist
@@ -9,3 +11,4 @@ docs
 packages
 fragy.config.js
 fragy.config.*.js
+Roadmap.md
