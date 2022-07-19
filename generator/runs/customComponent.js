@@ -67,6 +67,10 @@ export default {
 };
 
 const generateIndex = async () => {
+  if (!fs.existsSync(customComponentsRoot) || !fs.statSync(customComponentsRoot).isDirectory()) {
+    logger.info('No custom components, skipped generating the entry.');
+    return;
+  }
   const customIndexPath = path.resolve(customComponentsRoot, './index.js');
   try {
     if (fs.existsSync(targetPath)) {
@@ -88,10 +92,6 @@ const generateIndex = async () => {
       if (!code) {
         logger.info('No custom components, skipped generating the entry.');
         return;
-      }
-      const targetDir = path.dirname(targetPath);
-      if (!fs.existsSync(targetDir)) {
-        await fsp.mkdir(targetDir, { recursive: true });
       }
       await fsp.writeFile(targetPath, code, { encoding: 'utf-8' });
     }
