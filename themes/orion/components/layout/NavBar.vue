@@ -1,8 +1,10 @@
 <template>
   <div class="nav-wrapper">
-    <div class="logo" @click="onLogoClicked">
-      <img :src="logoSrc" />
-      <span>{{ projectName }}</span>
+    <div class="nav-logo" @click="onLogoClicked">
+      <div class="nav-logo__inner">
+        <img v-if="logoSrc" :src="logoSrc" />
+        <span>{{ projectName }}</span>
+      </div>
     </div>
     <div v-if="Array.isArray(navItems) && navItems.length" class="nav">
       <template v-for="(item, index) in navItems" :key="item.name || index">
@@ -26,7 +28,7 @@
         <a v-else class="nav-item" :href="item.target" @click="navClicked">{{ item.name }}</a>
       </template>
     </div>
-    <div class="nav--mobile">
+    <div v-if="navItems.length" class="nav--mobile">
       <div class="icon">
         <Icon icon="mi:menu" @click="onMobileMenuIconClicked" />
       </div>
@@ -36,7 +38,7 @@
         <Icon v-if="showGitHubIcon" icon="mdi:github" @click="goGitHub" />
       </div>
     </div>
-    <a-collapse :visible="mobileNavVisible" class="nav-mobile-menu">
+    <a-collapse v-if="navItems.length" :visible="mobileNavVisible" class="nav-mobile-menu">
       <template v-for="item in navItems">
         <div v-if="item.children" :key="`${item.name}_sub`" class="nav-mobile-menu__item">
           <div
@@ -176,25 +178,28 @@ export default defineComponent({
   position: fixed;
   top: 0;
   background: var(--page-background);
-  .logo {
-    display: flex;
-    align-items: center;
+  .nav-logo {
     flex: 1;
-    cursor: pointer;
     transition: opacity 100ms ease;
-    img {
-      width: 2rem;
-      height: 2rem;
+    &__inner {
+      width: max-content;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      img {
+        width: 2rem;
+        height: 2rem;
+      }
+      span {
+        font-size: 1rem;
+        font-weight: 500;
+        padding-left: 0.5rem;
+        color: var(--text-primary);
+      }
     }
-    span {
-      font-size: 1rem;
-      font-weight: 500;
-      padding-left: 0.5rem;
-      color: var(--text-primary);
+    .nav-logo__inner:hover {
+      opacity: 0.7;
     }
-  }
-  .logo:hover {
-    opacity: 0.7;
   }
   .nav {
     width: max-content;
@@ -325,9 +330,6 @@ export default defineComponent({
     .icons {
       display: none;
     }
-    .logo {
-      flex-grow: 0;
-    }
     .nav {
       display: none;
     }
@@ -340,7 +342,6 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      flex-grow: 1;
       .icon {
         height: var(--nav-height);
         display: flex;

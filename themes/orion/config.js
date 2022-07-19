@@ -1,6 +1,7 @@
 export default {
   project: {
-    name: 'Project Name',
+    name: 'New Project',
+    desc: '',
   },
   nav: {
     icons: {

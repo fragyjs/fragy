@@ -1,6 +1,6 @@
 {
   "name": "@fragy/orion",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Make a fancy official site for your project with Fragy!",
   "main": "index.js",
   "author": "BackRunner",
@@ -19,13 +19,13 @@
     "vue-lazyload": "^3.0.0-rc.2"
   },
   "peerDependencies": {
-    "fragy": ">= 0.8.2",
+    "fragy": ">= 0.8.3",
     "vue": ">= 3.0.0"
   },
   "fragy": {
     "type": "theme",
     "compatibility": {
-      "frameworkVersion": "0.8.0",
+      "frameworkVersion": "0.8.3",
       "githubMode": false,
       "markvue": true
     }

@@ -9,7 +9,7 @@
           <div class="landing-banner__title">
             <a-gradient-text>{{ projectName }}</a-gradient-text>
           </div>
-          <div class="landing-banner__desc">A light weight blog framework, based on Vue 3.</div>
+          <div v-if="projectDesc" class="landing-banner__desc">{{ projectDesc }}</div>
           <div class="landing-banner__cards">
             <BannerCard
               v-for="(card, index) in bannerCards"
@@ -35,6 +35,7 @@ export default {
   data() {
     return {
       projectName: this.$theme.project?.name,
+      projectDesc: this.$theme.project?.desc,
       bannerBgComp: this.$theme.landing?.banner?.bgComponent || '',
       bannerCards: this.$theme.landing?.banner?.cards || [],
     };
@@ -109,6 +110,7 @@ export default {
         }
         &__desc {
           text-align: center;
+          line-height: 2.75rem;
         }
       }
     }
