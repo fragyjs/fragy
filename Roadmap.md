@@ -76,6 +76,14 @@
 - [ ] Chinese documentation for main framework.
 - [ ] Orion documentation in English.
 
+## Main routine to v1.2
+
+`v1.2` will mainly focus on imporving performance on first screen.
+
+### Framework
+
+- [ ] First screen pre-rendering support.
+
 ## Main routine to v2.0
 
 `v2.0` will mainly focus on improving performance, compilation and rendering.
