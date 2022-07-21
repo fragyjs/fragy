@@ -67,12 +67,21 @@
 - [ ] Search service integration.
 - [ ] Geo / IP blocking service integration.
 
+#### Orion
+
+- [ ] Multi language support.
+
+### Documentation
+
+- [ ] Chinese documentation for main framework.
+- [ ] Orion documentation in English.
+
 ## Main routine to v2.0
 
 `v2.0` will mainly focus on improving performance, compilation and rendering.
 
 ### Framework
 
-- [ ] Support SSG for framework and themes (articles are still dynamic).
+- [ ] Fully SSG support.
 - [ ] MarkVue pre-compilation.
 - [ ] Markdown pre-compilation.
