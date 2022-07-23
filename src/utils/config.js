@@ -1,4 +1,4 @@
-import merge from 'lodash/merge';
+import { merge } from './merge';
 
 const DEFAULT_CONFIG = {
   title: 'Fragy',

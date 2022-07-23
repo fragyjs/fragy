@@ -2,9 +2,9 @@ const path = require('path');
 const fs = require('fs');
 const emptyDir = require('empty-dir');
 const webpack = require('webpack');
-const merge = require('lodash/merge');
 const copyPlugin = require('copy-webpack-plugin');
 const esmRequire = require('esm')(module);
+const merge = require('./build/utils/merge');
 
 require('dotenv').config({
   path: path.resolve(
@@ -29,6 +29,7 @@ const userConfigPath = IS_IN_NODE_MODULES
   ? path.resolve(userProjectRoot, `./${configFileName}`)
   : path.resolve(__dirname, `./${configFileName}`);
 const customElementIndex = path.resolve(userDataPath, './components/fragy.entry.js');
+const customInjectionPath = path.resolve(userDataPath, './inject');
 
 // check user config path
 if (!fs.existsSync(userConfigPath)) {
@@ -302,6 +303,12 @@ const chainWebpack = (config) => {
 };
 
 const configureWebpack = (config) => {
+  if (!Array.isArray(config.plugins)) {
+    config.plugins = [];
+  }
+  if (customInjectionPath) {
+    config.plugins.push();
+  }
   themeFuncs.configureWebpack?.(config);
 };
 
