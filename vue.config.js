@@ -4,6 +4,8 @@ const emptyDir = require('empty-dir');
 const webpack = require('webpack');
 const copyPlugin = require('copy-webpack-plugin');
 const esmRequire = require('esm')(module);
+const { generateInjectConfig } = require('./build/inject/collect');
+const InjectHtmlWebpackPlugin = require('./build/inject/plugin');
 const merge = require('./build/utils/merge');
 
 require('dotenv').config({
@@ -306,8 +308,8 @@ const configureWebpack = (config) => {
   if (!Array.isArray(config.plugins)) {
     config.plugins = [];
   }
-  if (customInjectionPath) {
-    config.plugins.push();
+  if (customInjectionPath && fs.existsSync(customInjectionPath)) {
+    config.plugins.push(new InjectHtmlWebpackPlugin(generateInjectConfig(customInjectionPath)));
   }
   themeFuncs.configureWebpack?.(config);
 };
