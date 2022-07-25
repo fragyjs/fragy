@@ -1,10 +1,10 @@
 import { createApp } from 'vue';
 import mitt from 'mitt';
-import merge from 'lodash/merge';
 import { createRouter } from './router';
 import { createStore } from './store';
 import { parseArticle } from './utils/article';
 import { normalizeConfig } from './utils/config';
+import { merge } from './utils/merge';
 import consts from './constants';
 
 const globalProperties = {};
