@@ -7,8 +7,8 @@
 ### Main framework
 
 - [ ] Article transform pipeline.
-- [ ] Custom pages support.
-- [ ] User scripts and CSS injection.
+- [x] Custom pages support.
+- [x] User scripts and CSS injection.
 
 ### Theme
 
