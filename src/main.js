@@ -28,6 +28,19 @@ const registerCustomComps = (app, components) => {
   });
 };
 
+const registerCustomPages = (app, pages) => {
+  if (typeof pages !== 'object') {
+    return;
+  }
+  Object.keys(pages).forEach((pageName) => {
+    const page = pages[pageName];
+    if (!page) {
+      return;
+    }
+    app.component(pageName, pages[pageName]);
+  });
+};
+
 const initialize = async () => {
   // import config
   // eslint-disable-next-line no-undef
@@ -81,6 +94,13 @@ const initialize = async () => {
     // eslint-disable-next-line no-undef
     const exported = require(__FRAGY_CUSTOM_COMPONENT_INDEX__).default;
     exported && registerCustomComps(app, exported);
+  }
+
+  // eslint-disable-next-line no-undef
+  if (__FRAGY_CUSTOM_PAGE_INDEX__) {
+    // eslint-disable-next-line no-undef
+    const exported = require(__FRAGY_CUSTOM_PAGE_INDEX__).default;
+    exported && registerCustomPages(app, exported);
   }
 
   // mount to dom
