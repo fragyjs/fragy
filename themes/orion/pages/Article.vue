@@ -139,7 +139,6 @@ export default defineComponent({
         // eslint-disable-next-line no-console
         console.error('Failed to fetch article content.', err);
         const diffTime = Date.now() - this.lastFetchTime;
-        console.log(diffTime);
         if (diffTime < MIN_LOADING_TIME) {
           setTimeout(() => {
             this.loadFailed = true;
