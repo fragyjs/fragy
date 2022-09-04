@@ -3,10 +3,10 @@ import axios from 'axios';
 const FAILED_FETCH_MESSAGE = 'Failed to fetch article content.';
 
 /**
- * 获取文章数据
- * @param feedURL 文章数据基础地址
- * @param fileName 文章文件名
- * @returns 文章数据
+ * Get article data
+ * @param feedURL Article data feed base URL
+ * @param fileName Article file name
+ * @returns Raw article data
  */
 export const fetchArticle = async (feedURL: string, fileName: string) => {
   let res;
@@ -29,9 +29,9 @@ const getFeedUrl = (feedUrl: string, page?: number) => {
 };
 
 /**
- * 获取文章列表数据
- * @param feedUrl 文章列表数据基础地址
- * @param page 页数
+ * Get article list data
+ * @param feedUrl Article list feed base URL
+ * @param page Current list page
  */
 export const fetchArticleList = async (feedUrl: string, page?: number) => {
   let res;
@@ -44,11 +44,5 @@ export const fetchArticleList = async (feedUrl: string, page?: number) => {
     // eslint-disable-next-line no-console
     throw err;
   }
-  const articles: Record<number, unknown> | unknown[] = page ? {} : [];
-  if (page) {
-    articles[page] = res.data.listData;
-  } else {
-    (articles as unknown[]).push(...(res.data.listData || []));
-  }
-  return articles;
+  return res.data.listData;
 };
