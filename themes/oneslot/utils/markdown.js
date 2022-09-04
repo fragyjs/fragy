@@ -22,6 +22,19 @@ renderer.link = function (href, title, text) {
   `.trim();
 };
 
+renderer.image = function (href, title, text) {
+  const cleanedHref = decodeURIComponent(href);
+  let out = `<img data-src="${cleanedHref}"`;
+  if (text) {
+    out += ` alt="${text}"`;
+  }
+  if (title) {
+    out += ` title="${title}"`;
+  }
+  out += '/>';
+  return out;
+};
+
 export const markedOptions = {
   renderer,
   highlight: (code) => {
