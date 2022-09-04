@@ -1,10 +1,10 @@
 import { createApp } from 'vue';
 import mitt from 'mitt';
-import merge from 'lodash/merge';
 import { createRouter } from './router';
 import { createStore } from './store';
 import { parseArticle } from './utils/article';
 import { normalizeConfig } from './utils/config';
+import { merge } from './utils/merge';
 import consts from './constants';
 
 const globalProperties = {};
@@ -25,6 +25,19 @@ const registerCustomComps = (app, components) => {
       return;
     }
     app.component(component.name || compName, components[compName]);
+  });
+};
+
+const registerCustomPages = (app, pages) => {
+  if (typeof pages !== 'object') {
+    return;
+  }
+  Object.keys(pages).forEach((pageName) => {
+    const page = pages[pageName];
+    if (!page) {
+      return;
+    }
+    app.component(pageName, pages[pageName]);
   });
 };
 
@@ -81,6 +94,13 @@ const initialize = async () => {
     // eslint-disable-next-line no-undef
     const exported = require(__FRAGY_CUSTOM_COMPONENT_INDEX__).default;
     exported && registerCustomComps(app, exported);
+  }
+
+  // eslint-disable-next-line no-undef
+  if (__FRAGY_CUSTOM_PAGE_INDEX__) {
+    // eslint-disable-next-line no-undef
+    const exported = require(__FRAGY_CUSTOM_PAGE_INDEX__).default;
+    exported && registerCustomPages(app, exported);
   }
 
   // mount to dom

@@ -2,9 +2,11 @@ const path = require('path');
 const fs = require('fs');
 const emptyDir = require('empty-dir');
 const webpack = require('webpack');
-const merge = require('lodash/merge');
 const copyPlugin = require('copy-webpack-plugin');
 const esmRequire = require('esm')(module);
+const { generateInjectConfig } = require('./build/inject/collect');
+const InjectHtmlWebpackPlugin = require('./build/inject/plugin');
+const merge = require('./build/utils/merge');
 
 require('dotenv').config({
   path: path.resolve(
@@ -28,7 +30,9 @@ const userDataPath = IS_IN_NODE_MODULES
 const userConfigPath = IS_IN_NODE_MODULES
   ? path.resolve(userProjectRoot, `./${configFileName}`)
   : path.resolve(__dirname, `./${configFileName}`);
-const customElementIndex = path.resolve(userDataPath, './components/fragy.entry.js');
+const customComponentIndex = path.resolve(userDataPath, './components/fragy.entry.js');
+const customPageIndex = path.resolve(userDataPath, './pages/fragy.entry.js');
+const customInjectionPath = path.resolve(userDataPath, './inject');
 
 // check user config path
 if (!fs.existsSync(userConfigPath)) {
@@ -72,7 +76,8 @@ const context = {
   themeRoot: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}`),
   themeConfigPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/config.js`),
   themeEntryPath: path.resolve(nodeModulesPath, `./${fragyConfig.theme.package}/entry.vue`),
-  customComponentIndex: fs.existsSync(customElementIndex) ? customElementIndex : '',
+  customComponentIndex: fs.existsSync(customComponentIndex) ? customComponentIndex : '',
+  customPageIndex: fs.existsSync(customPageIndex) ? customPageIndex : '',
   // config objs
   fragyConfig,
   themePkgInfo,
@@ -98,6 +103,7 @@ const chainWebpack = (config) => {
       __FRAGY_THEME_CONFIG_PATH__: JSON.stringify(context.themeConfigPath),
       __FRAGY_THEME_ENTRY_PATH__: JSON.stringify(context.themeEntryPath),
       __FRAGY_CUSTOM_COMPONENT_INDEX__: JSON.stringify(context.customComponentIndex),
+      __FRAGY_CUSTOM_PAGE_INDEX__: JSON.stringify(context.customPageIndex),
     },
   ]);
 
@@ -302,6 +308,12 @@ const chainWebpack = (config) => {
 };
 
 const configureWebpack = (config) => {
+  if (!Array.isArray(config.plugins)) {
+    config.plugins = [];
+  }
+  if (customInjectionPath && fs.existsSync(customInjectionPath)) {
+    config.plugins.push(new InjectHtmlWebpackPlugin(generateInjectConfig(customInjectionPath)));
+  }
   themeFuncs.configureWebpack?.(config);
 };
 

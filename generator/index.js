@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const reader = require('./runs/reader');
 const customComponent = require('./runs/customComponent');
+const customPage = require('./runs/customPage');
 const bus = require('./utils/bus');
 const Logger = require('./utils/logger');
 const paths = require('./utils/path');
@@ -9,7 +10,7 @@ const { fragyConfig, themeConfig } = require('./utils/config');
 
 const logger = new Logger('core');
 
-const runs = [reader, customComponent];
+const runs = [reader, customComponent, customPage];
 const processors = [];
 
 const getThemeGenerator = () => {
